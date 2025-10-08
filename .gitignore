@@ -78,6 +78,20 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+
+# Game-specific additions
+*.db
+*.sqlite
+*.log
+
+# Vercel (if not already there)
+.vercel/
+
+# Frontend build files (if in same repo)
+dist/
+build/
+node_modules/
+
 # IPython
 profile_default/
 ipython_config.py
