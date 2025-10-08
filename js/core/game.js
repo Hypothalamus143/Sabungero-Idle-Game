@@ -54,7 +54,7 @@ class SabungeroGame {
         window.app.uiSystem.roosters.createRoosterContainers();
 
         window.app.uiSystem.updateUI();
-
+        alert('Press Ctrl+F5 to load updates');
         this.showScreen("main");
 
         console.log("🎮 Sabungero Idle Game initialized!");
@@ -91,7 +91,7 @@ class SabungeroGame {
             e.preventDefault();
         });
         window.addEventListener('beforeunload', () => {
-            BrowserDB.save();
+            BrowserDB.savePlayerData();
         });
     }
     
