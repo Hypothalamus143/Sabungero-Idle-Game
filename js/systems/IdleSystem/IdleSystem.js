@@ -37,6 +37,7 @@ class IdleSystem{
 
             console.log(`🎉 LEVEL UP! Now level ${this.playerStats.level}`);
             console.log(`📊 New XP threshold: ${this.playerStats.expNeeded}`);
+            window.app.uiSystem.roosters.updateRoosters();
         }
     }
     startIdleLoop() {
