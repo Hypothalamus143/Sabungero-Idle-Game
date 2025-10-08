@@ -6,8 +6,8 @@ from gemini_service import GeminiService
 from dummy_gemini_service import DummyGeminiService
 
 # Initialize services
-gemini_service = GeminiService()
-#gemini_service = DummyGeminiService()  # Instead of GeminiService()
+#gemini_service = GeminiService()
+gemini_service = DummyGeminiService()  # Instead of GeminiService()
 
 class AIGenerationRequest(BaseModel):
     topic: str
