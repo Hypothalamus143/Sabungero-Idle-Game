@@ -274,6 +274,7 @@ class ContentSearch{
     }
     async generateWithAI() {
         alert('finding cheap backend... coming soon...');
+        return;
         const topic = document.getElementById('topic-search').value.trim();
         
         // Check if any tab is active
