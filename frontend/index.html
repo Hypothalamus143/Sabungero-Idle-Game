@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabungero Idle Game</title>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- PixiJS canvas will be inserted here -->
+    </div>
+    
+    <div id="ui-overlay">
+        <div class="navbar">
+            <button id="nav-main" class="nav-btn active">🏠 Pugaran</button>
+            <button id="nav-quests" class="nav-btn"">📚 Skwelahan</button>
+            <button id="nav-arena" class="nav-btn" >⚔️ Sabongan</button>
+        </div>
+        <!-- Stats Panel -->
+        <div class="panel stats-panel">
+            <h3>Sabungero Stats</h3>
+            <div id="stats-content">
+                <p>Level: <span id="player-level">1</span></p>
+                <p>Multiplier: <span id="player-multiplier">1.0</span>x</p>
+                <p>Experience: <span id="player-exp">0</span>/<span id="exp-needed">100</span></p>
+                <div class="progress-bar">
+                    <div id="exp-bar" class="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Learning Panel -->
+        <div class="panel learning-panel">
+            <div class="learning-panel-header">
+                <h3>Learning Quests</h3>
+                <div class="content-tabs">
+                    <button id="tab-reading" class="tab-btn">📖 Reading</button>
+                    <button id="tab-flashcards" class="tab-btn">🎴 Flashcards</button>
+                    <button id="tab-quiz" class="tab-btn">❓ Quiz</button>
+                </div>
+                <div id="search-generate">
+                    <input type="text" id="topic-search" placeholder="Search topics...">
+                </div>
+            </div>
+            
+            <div class="learning-panel-content">
+                <div id="search-results" style="display: none;">
+                    <h4>Search Results for <span id="current-content-type">All</span>:</h4>
+                    <div id="results-container"></div>
+                </div>
+            </div>
+            
+            <!-- Fixed Bottom Section -->
+            <div class="learning-panel-bottom">
+                <!-- Pagination container -->
+                <div id="bottom-pagination" style="visibility: hidden; height: 20%"></div>
+                <div id="ai-suggestion">
+                    <p>Want something else? <button id="generate-similar">✨ Generate with AI</button></p>
+                </div>
+            </div>
+        </div>
+         <!-- Battle Panel -->
+        <div class="panel battle-panel">
+            <h3>Arena Battle</h3>
+            <div id="battle-info">
+                <p>Opponent: <span id="opponent-name">None</span></p>
+                <p>Hold keys to power up your rooster!</p>
+                <div id="key-indicators">
+                    <div class="key-count">Keys Pressed: <span id="active-keys-count">0</span>
+                    </div>
+                </div>
+                <button id="battle-btn">⚔️ Find Opponent</button>
+                <button id="fight-btn" style="display: none;">🥊 Fight!</button>
+                <div id="battle-result"></div>
+            </div>
+            <div id="battle-hp">
+                <div class="hp-bar">
+                    <label>Your HP:</label>
+                    <div class="progress-bar">
+                        <div id="player-hp-bar" class="progress-fill" style="width: 100%"></div>
+                    </div>
+                    <span id="player-hp-text">100/100</span>
+                </div>
+                <div class="hp-bar">
+                    <label>Opponent HP:</label>
+                    <div class="progress-bar">
+                        <div id="opponent-hp-bar" class="progress-fill" style="width: 100%"></div>
+                    </div>
+                    <span id="opponent-hp-text">100/100</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quest Modal -->
+        <div class="panel quest-modal" id="quest-modal">
+            <div id="quest-content"></div>
+            <button id="close-quest">Close</button>
+            <button id="submit-quest" style="display: none;">Submit Answers</button>
+        </div>
+    </div>
+    <!-- Add this before closing </body> tag -->
+    <div id="avatar-creation-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="avatar-creation">
+                <h2>Create Your Rooster!</h2>
+                
+                <!-- Combined Preview -->
+                <div class="combined-preview-section">
+                    <h3>Your Rooster</h3>
+                    <div class="combined-preview-circle"></div>
+                    <div class="preview-names">
+                        <div id="main-color-name">Red</div>
+                        <div id="border-color-name">Dark Red Border</div>
+                    </div>
+                </div>
+
+                <!-- Main Color Selection -->
+                <div class="creation-section">
+                    <h3>Main Color</h3>
+                    <div class="carousel">
+                        <button class="carousel-btn left-btn">◀</button>
+                        <div class="color-display main-display"></div>
+                        <button class="carousel-btn right-btn">▶</button>
+                    </div>
+                </div>
+
+                <!-- Border Color Selection -->
+                <div class="creation-section">
+                    <h3>Border Color</h3>
+                    <div class="carousel">
+                        <button class="carousel-btn left-btn">◀</button>
+                        <div class="color-display border-display"></div>
+                        <button class="carousel-btn right-btn">▶</button>
+                    </div>
+                </div>
+                
+                <button id="confirm-avatar" class="confirm-btn">Start Your Journey!</button>
+            </div>
+        </div>
+    </div>
+    <div id="tutorial-modal" class="modal" style="display: none;">
+        <div class="modal-content tutorial-content">
+            <div class="tutorial">
+                <h2>Welcome to Sabungero Idle Game! 🐓</h2>
+                
+                <div class="tutorial-step">
+                    <h3>🎯 Your Mission</h3>
+                    <p>Become the ultimate Sabungero by learning and battling!</p>
+                </div>
+                
+                <div class="tutorial-step">
+                    <h3>📚 Learn & Grow</h3>
+                    <p>• <strong>Reading</strong> - Study educational articles</p>
+                    <p>• <strong>Flashcards</strong> - Quick Q&A practice</p>
+                    <p>• <strong>Quizzes</strong> - Test your knowledge</p>
+                    <p>• Use AI to generate new learning content!</p>
+                </div>
+                
+                <div class="tutorial-step">
+                    <h3>⚔️ Battle Opponents</h3>
+                    <p>• Fight AI roosters in the Arena</p>
+                    <p>• Higher ranks = tougher opponents</p>
+                    <p>• Gain MMR and climb the ranks</p>
+                </div>
+                
+                <div class="tutorial-step">
+                    <h3>⌨️ Idle Progression</h3>
+                    <p>• Hold as many keys to gain as much experience</p>
+                    <p>• Become an Educated Sabungero</p>
+                    <p>• Unlock better multipliers</p>
+                    <p>• Defeat Stronger Enemies!</p>
+                </div>
+                
+                <div class="tutorial-step">
+                    <h3>🏆 Ranks</h3>
+                    <p>Novice → Bronze → Silver → Gold → Platinum → Diamond → Master → Grand Sabungero</p>
+                </div>
+                
+                <button id="start-playing" class="confirm-btn">Start Playing! 🚀</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+    <script>
+        window.addEventListener('load', async () => {
+            window.app = new PIXI.Application();
+            await window.app.init({
+                width: window.innerWidth,
+                height: window.innerHeight,
+                backgroundColor: 0x1a1a2e,
+                antialias: true
+            });
+            window.stageContainer = window.app.stage;
+        });
+    </script>
+    <script src="js/systems/UISystem/Roosters.js"></script>
+    <script src="js/systems/UISystem/UISystem.js"></script>
+    <script src="js/core/config.js"></script>
+    <script src="js/systems/BattleSystem/BattleEngine.js"></script>
+    <script src="js/systems/BattleSystem/BattleAnimationManager.js"></script>
+    <script src="js/systems/BattleSystem/BattleSystem.js"></script>
+    <script src="js/systems/LearningSystem/ReadingManager.js"></script>
+    <script src="js/systems/LearningSystem/FlashcardsManager.js"></script>
+    <script src="js/systems/LearningSystem/QuizManager.js"></script>
+    <script src="js/core/DefaultContent.js"></script>
+    <script src="js/systems/LearningSystem/ContentSearch.js"></script>
+    <script src="js/systems/LearningSystem/LearningSystem.js"></script>
+    <script src="js/systems/IdleSystem/IdleSystem.js"></script>
+    <script src="js/core/BrowserDB.js"></script>
+    <script src="js/core/game.js"></script>
+</body>
+</html>
