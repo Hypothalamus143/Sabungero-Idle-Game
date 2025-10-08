@@ -92,6 +92,10 @@ dist/
 build/
 node_modules/
 
+# Environment files
+.env.local
+.env.production
+
 # IPython
 profile_default/
 ipython_config.py
