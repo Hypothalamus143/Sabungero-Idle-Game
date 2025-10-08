@@ -10,7 +10,7 @@ class FlashcardsManager{
         let currentCard = 0;
         let showAnswer = false;
         let timerActive = true;
-        let timeRemaining = 8; // 8 seconds per card
+        let timeRemaining = 3; // 3 seconds per card
         let timerInterval;
 
         const updateFlashcard = () => {
@@ -94,7 +94,7 @@ class FlashcardsManager{
                     currentCard--;
                     showAnswer = false;
                     timerActive = true;
-                    timeRemaining = 8;
+                    timeRemaining = 3;
                     updateFlashcard();
                 };
             }
@@ -107,7 +107,7 @@ class FlashcardsManager{
                             currentCard++;
                             showAnswer = false;
                             timerActive = true;
-                            timeRemaining = 8;
+                            timeRemaining = 3;
                             updateFlashcard();
                         } else {
                             // Last card - show completion

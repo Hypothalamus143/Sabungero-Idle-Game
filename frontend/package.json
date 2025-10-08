@@ -1,9 +1,0 @@
-{
-  "name": "sabungero-game",
-  "version": "1.0.0",
-  "scripts": {
-    "build": "echo 'Building Sabungero game...'"
-  },
-  "devDependencies": {},
-  "type": "module"
-}
