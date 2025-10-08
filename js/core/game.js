@@ -91,7 +91,7 @@ class SabungeroGame {
             e.preventDefault();
         });
         window.addEventListener('beforeunload', () => {
-            BrowserDB.savePlayerStats();
+            BrowserDB.savePlayerStats(this.playerStats);
         });
     }
     
