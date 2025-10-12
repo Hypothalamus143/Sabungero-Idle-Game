@@ -1,4 +1,4 @@
 - [x] Add file input to index.html in learning-panel-header
 - [x] Add event listener in LearningSystem.js for file upload
 - [x] Add processUploadedFile method in ContentSearch.js to parse and save content
-- [ ] Test critical-path: Upload text file, verify content saved and appears in search
+- [x] Test critical-path: Upload text file, verify content saved and appears in search
