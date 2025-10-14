@@ -31,40 +31,6 @@ class BrowserDB {
         
         console.log('💾 Database exported as sabungero_database.sqlite');
     }
-    static async runTest() {
-        console.log('🧪 Testing SQL.js database...');
-        
-        try {
-            // Test 1: Insert a topic
-            BrowserDB.execute(
-                'INSERT INTO topics (title) VALUES (?)',
-                ['Test Mathematics']
-            );
-            console.log('✅ Insert test passed');
-            
-            // Test 2: Query the topic
-            const results = BrowserDB.execute(
-                'SELECT * FROM topics WHERE title = ?',
-                ['Test Mathematics']
-            );
-            console.log('✅ Query test passed:', results);
-            
-            // Test 3: Check content_types were created
-            const contentTypes = BrowserDB.execute('SELECT * FROM content_types');
-            console.log('✅ Content types:', contentTypes);
-            
-            // Test 4: Complex join query
-            const joinResults = BrowserDB.execute(`
-                SELECT t.title, ct.name 
-                FROM topics t
-                CROSS JOIN content_types ct
-            `);
-            console.log('✅ Join query test passed');
-            
-        } catch (error) {
-            console.error('❌ Test failed:', error);
-        }
-    }
 
     static async createTables() {
         // Your exact table schema from backend

@@ -1,0 +1,56 @@
+.key-count {
+    text-align: center;
+    font-size: 18px;
+    margin: 10px 0;
+    padding: 10px;
+    background: #34495e;
+    border-radius: 5px;
+}
+.hp-bar {
+    margin: 10px 0;
+}
+
+.hp-bar label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.ranking-reward {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.ranking-penalty {
+    color: #e74c3c;
+    font-weight: bold;
+}
+.opponent-info {
+    text-align: center;
+    background: #34495e;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.opponent-info p {
+    margin: 5px 0;
+}
+.opponent-info {
+    text-align: center;
+    background: #34495e;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+.battle-choice-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.battle-choice-buttons button {
+    flex: 1;
+    max-width: 200px;
+}

@@ -80,7 +80,7 @@ class Roosters{
         if (glowId > 0) { // Only add glow if not Novice (glowId 0)
             const glowContainer = new PIXI.Container();
             const glow = new PIXI.Graphics();
-            glow.label = 'glow';
+            glowContainer.name = 'glow';
             glow.circle(0, 0, size + (isPlayer ? 8 : 6));
             glow.fill({"color": glowColors[glowId], "alpha":0.4});
             glowContainer.addChild(glow);

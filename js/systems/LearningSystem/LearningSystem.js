@@ -5,12 +5,20 @@ class LearningSystem{
         this.readingManager = new ReadingManager(this.playerStats);
         this.flashcardsManager = new FlashcardsManager(this.playerStats);
         this.quizManager = new QuizManager(this.playerStats);
-        this.contentSearch = new ContentSearch(this.readingManager, this.flashcardsManager, this.quizManager);
+        this.aiGenerated = new AIGenerated();
+        this.contentSearch = new ContentSearch(this.readingManager, this.flashcardsManager, this.quizManager, this.aiGenerated);
         this.default_content = new DefaultContent();
         this.init();
     }
     
     async init(){
+        const savedKey = localStorage.getItem('gemini_api_key');
+            console.log(savedKey);
+            if (savedKey) {
+                window.GEMINI_API_KEY = savedKey;
+                document.getElementById('api-key-input-modal').value = '*'.repeat(savedKey.length); // mask it
+                console.log("✅ Gemini API key loaded from localStorage");
+            }
         this.initEventListeners();
     }
     async initializeDefaultContent(){
@@ -20,11 +28,11 @@ class LearningSystem{
             return;
         }
         const defaultReadingArticle = this.default_content.defaultArticles();
-        await this.contentSearch.saveToBrowserDB(defaultReadingArticle.content, defaultReadingArticle.topic, defaultReadingArticle.category);
+        await this.aiGenerated.saveToBrowserDB(defaultReadingArticle.content, defaultReadingArticle.topic, defaultReadingArticle.category);
         const defaultFlashcards = this.default_content.defaultFlashcards();
-        await this.contentSearch.saveToBrowserDB(defaultFlashcards.content, defaultFlashcards.topic, defaultFlashcards.category);
+        await this.aiGenerated.saveToBrowserDB(defaultFlashcards.content, defaultFlashcards.topic, defaultFlashcards.category);
         const defaultQuiz = this.default_content.defaultQuizzes();
-        await this.contentSearch.saveToBrowserDB(defaultQuiz.content, defaultQuiz.topic, defaultQuiz.category);
+        await this.aiGenerated.saveToBrowserDB(defaultQuiz.content, defaultQuiz.topic, defaultQuiz.category);
     }
     initEventListeners(){
         // Pause game key listening when input is focused
@@ -32,6 +40,12 @@ class LearningSystem{
             this.inputFocused = true;
         });
         document.getElementById('topic-search').addEventListener('blur', () => {
+            this.inputFocused = false;
+        });
+        document.getElementById('api-key-input-modal').addEventListener('focus', () => {
+            this.inputFocused = true;
+        });
+        document.getElementById('api-key-input-modal').addEventListener('blur', () => {
             this.inputFocused = false;
         });
         document.getElementById('topic-search').addEventListener('input', (e) => {
@@ -53,13 +67,40 @@ class LearningSystem{
         document.getElementById('tab-quiz').addEventListener('click', () => {
             this.toggleTab('quiz');
         });
-        
-        document.getElementById('generate-similar').addEventListener('click', () => {
-            this.contentSearch.generateWithAI();
+        // Open modal when user clicks Generate with AI (bottom of panel)
+        document.getElementById("generate-similar").addEventListener("click", () => {
+            document.getElementById("ai-options-modal").style.display = "flex";
+        });
+
+        // Close modal
+        document.getElementById("close-ai-options").addEventListener("click", () => {
+            document.getElementById("ai-options-modal").style.display = "none";
+        });
+        // Generate content trigger
+        document.getElementById("generate-ai-now").addEventListener("click", async () => {
+            // Close the modal first
+            document.getElementById("ai-options-modal").style.display = "none";
+            await this.aiGenerated.generateWithAI(this.currentContentType);
+            this.contentSearch.searchTopics(document.getElementById('topic-search').value.trim(), 1, this.currentContentType);
         });
         // Quest modal buttons
         document.getElementById('close-quest').addEventListener('click', () => {
             this.closeQuestModal();
+        });
+        document.getElementById('save-api-key-modal').addEventListener('click', () => {
+            const input = document.getElementById('api-key-input-modal');
+            const key = input.value.trim();
+
+            if (!key) {
+                alert("Please enter your Gemini API key!");
+                return;
+            }
+
+            // Store key locally
+            localStorage.setItem('gemini_api_key', key);
+            window.GEMINI_API_KEY = key;
+            input.value = '*'.repeat(key.length); // mask
+            alert("✅ Gemini API key saved!");
         });
     }
     showLearningMain() {

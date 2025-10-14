@@ -137,5 +137,4 @@ class ReadingManager{
         }
         throw new Error('Reading content not found in BrowserDB');
     }
-
 }

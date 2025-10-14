@@ -1,0 +1,22 @@
+.tutorial-content {
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.tutorial-step {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.tutorial-step h3 {
+    color: #ffd700;
+    margin-bottom: 0.5rem;
+}
+
+.tutorial-step p {
+    margin: 0.3rem 0;
+    line-height: 1.4;
+}

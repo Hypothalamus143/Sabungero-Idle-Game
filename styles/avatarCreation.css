@@ -1,0 +1,160 @@
+/* Add to your existing CSS */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 600px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.avatar-creation h2 {
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+}
+
+.avatar-creation p {
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.avatar-option {
+    cursor: pointer;
+    padding: 1rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.avatar-option:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.avatar-option.selected {
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid #ffd700;
+    transform: scale(1.05);
+}
+
+.avatar-preview {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 0.5rem;
+    background: #333;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.avatar-option span {
+    display: block;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.confirm-btn {
+    background: #ffd700;
+    color: #333;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.confirm-btn:hover {
+    background: #ffed4a;
+    transform: scale(1.05);
+}
+.carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.carousel-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid #fff;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.carousel-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.color-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #ffd700;
+    margin-top: 0.5rem;
+}
+.combined-preview-section {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.combined-preview-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 6px solid;
+    background: #e74c3c;
+    border-color: #c0392b;
+    margin: 0 auto 1rem;
+}
+
+.preview-names {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.color-display {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.main-display {
+    background: #e74c3c;
+}
+
+.border-display {
+    background: #c0392b;
+}
