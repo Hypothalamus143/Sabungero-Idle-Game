@@ -8,7 +8,7 @@ class BattleSystem{
         this.init();
     }
     async init() {
-        this.createArena();
+        this.battleAnimationManager.createArena();
         this.initEventListeners();
     }
     initEventListeners(){
@@ -19,25 +19,6 @@ class BattleSystem{
         document.getElementById('fight-btn').addEventListener('click', () => {
             this.fightOpponent();
         });
-    }
-    createArena() {
-        // Arena background (for battle screen)
-        const arenaBGContainer = new PIXI.Container();
-        this.arenaBg = new PIXI.Graphics();
-        arenaBGContainer.addChild(this.arenaBg);
-        this.arenaBg.rect(100, 100, window.app.screen.width - 200, window.app.screen.height - 200);
-        this.arenaBg.fill({"color":0x34495e}); // Arena color
-        this.arenaBg.visible = false; // Hidden by default
-        
-        // Arena center circle
-        const centerCircleContainer = new PIXI.Container();
-        this.centerCircle = new PIXI.Graphics();
-        centerCircleContainer.addChild(this.centerCircle);
-        this.centerCircle.circle(window.app.screen.width / 2, window.app.screen.height / 2, 50);
-        this.centerCircle.setStrokeStyle(3, 0xe74c3c);
-        this.centerCircle.visible = false; // Hidden by default
-        
-        window.app.stage.addChild(centerCircleContainer, arenaBGContainer);
     }
     async startBattle() {
         // Reset ALL battle states
@@ -207,7 +188,6 @@ class BattleSystem{
         
         // Ensure MMR doesn't go below minimum
         this.playerStats.ranking.mmr = Math.max(100, this.playerStats.ranking.mmr);
-        
         // Update rank
         this.updateRankFromMMR();
         

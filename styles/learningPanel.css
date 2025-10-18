@@ -555,4 +555,15 @@
     transition:ease 0.2s;
     
 }
+.blur-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(10px);
+    z-index: 9998;
+    pointer-events: none; /* Clicks pass through */
+    /* The hole will be cut via JavaScript */
+}
 

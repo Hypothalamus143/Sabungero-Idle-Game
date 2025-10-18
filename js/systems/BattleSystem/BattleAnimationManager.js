@@ -1,5 +1,8 @@
 class BattleAnimationManager{
     constructor(playerStats, currentOpponent, battleStates){
+        this.arenaBg = null;
+        this.centerSmokeScreen = null;
+        this.battleFormation = 0;
         this.playerStats = playerStats;
         this.currentOpponent = currentOpponent;
         this.battleStates = battleStates;
@@ -7,6 +10,44 @@ class BattleAnimationManager{
     }
     async init(){
 
+    }
+    createArena() {
+        // Arena background (for battle screen)
+        const arenaBGContainer = new PIXI.Container();
+        this.arenaBg = new PIXI.Graphics();
+        arenaBGContainer.addChild(this.arenaBg);
+        const arenaWidth = 1115;
+        const arenaHeight = 531;
+
+        const arenaX = (window.app.screen.width - arenaWidth) / 2;
+        const arenaY = (window.app.screen.height - arenaHeight) / 2;
+
+        this.arenaBg.rect(
+            arenaX,  // Center X
+            arenaY, // Center Y
+            arenaWidth,
+            arenaHeight
+        );
+        this.arenaBg.fill({"color":0x34495e}); // Arena color
+        this.arenaBg.visible = false; // Hidden by default
+        
+        // Add arena FIRST, then circle on top
+        window.app.stage.addChild(arenaBGContainer);
+        this.createSmokeScreen();
+    }
+
+    createSmokeScreen(){
+        // Arena center circle
+        const centerSmokeScreenContainer = new PIXI.Container();
+        this.centerSmokeScreen = new PIXI.Graphics();
+        centerSmokeScreenContainer.addChild(this.centerSmokeScreen);
+        this.centerSmokeScreen.circle(window.app.screen.width / 2, window.app.screen.height / 2, 50);
+        this.centerSmokeScreen.stroke({
+            width: 3,
+            color: 0xe74c3c
+        });
+        this.centerSmokeScreen.visible = false; // Hidden by default
+        window.app.stage.addChild(centerSmokeScreenContainer);
     }
     startJitterAnimation() {
         const jitterLoop = () => {
@@ -37,170 +78,105 @@ class BattleAnimationManager{
     async battleApproachAnimation() {
         this.battleStates.battleState = 'approaching';
         
-        // Default starting positions (far left/right)
-        const startPlayerX = window.app.screen.width * 0.1;
-        const startOpponentX = window.app.screen.width * 0.9;
-        const centerY = window.app.screen.height * 0.5;
-        
-        // Set initial far positions
-        window.app.uiSystem.roosters.playerRooster.x = startPlayerX;
-        window.app.uiSystem.roosters.playerRooster.y = centerY;
-        window.app.uiSystem.roosters.opponentRooster.x = startOpponentX;
-        window.app.uiSystem.roosters.opponentRooster.y = centerY;
-        
-        window.app.uiSystem.roosters.opponentRooster.visible = true;
-        
-        // Show battle starting message
-        document.getElementById('battle-result').innerHTML = `
-            <div class="battle-start">
-                <p>⚔️ BATTLE START!</p>
-                <p>Roosters approaching...</p>
-            </div>
-        `;
-        
-        // Calculate dynamic touch positions based on level
-        const centerX = window.app.screen.width * 0.5;
-        const baseSize = 80;
-        const growthFactor = 5;
-        const playerSize = baseSize + (this.playerStats.level * growthFactor);
-        const opponentSize = baseSize + (this.currentOpponent.level * growthFactor);
-        const totalSize = playerSize + opponentSize;
-        
-        const playerStopX = centerX - (totalSize * 0.25);
-        const opponentStopX = centerX + (totalSize * 0.25);
-        
         // Animate towards touch positions SIMULTANEOUSLY
-        await Promise.all([
-            this.moveToPosition(window.app.uiSystem.roosters.playerRooster, startPlayerX, centerY, playerStopX, centerY, 800),
-            this.moveToPosition(window.app.uiSystem.roosters.opponentRooster, startOpponentX, centerY, opponentStopX, centerY, 800)
-        ]);
-        
-        // Brief touch in center
-        this.battleStates.battleState = 'clashing';
-        document.getElementById('battle-result').innerHTML = `
-            <div class="battle-clash">
-                <p>👀 SIZING EACH OTHER UP!</p>
-                <p>Level ${this.playerStats.level} vs Level ${this.currentOpponent.level}</p>
-            </div>
-        `;
-        await this.delay(300);
-        
-        // Break apart to random positions
-        await this.breakApartAnimation();
-        
-        // Show battle ongoing message
-        document.getElementById('battle-result').innerHTML = `
-            <div class="battle-ongoing">
-                <p>🥊 BATTLE ONGOING!</p>
-                <p>Press keys to power up your attacks!</p>
-            </div>
-        `;
-    }
+        await this.attackAnimation(0,0);
 
-    async breakApartAnimation() {
+        // Break apart to random positions
         this.battleStates.battleState = 'separated';
-        // Re-enable when animation complete (in breakApartAnimation)
-        document.getElementById('fight-btn').disabled = false;
         document.getElementById('fight-btn').textContent = 'Fight!';
-        
-        // Random battle formation (your original idea)
-        
-        const formation = BATTLE_FORMATIONS[Math.floor(Math.random() * BATTLE_FORMATIONS.length)];
-        const playerTargetX = window.app.screen.width * formation.playerPos[0];
-        const playerTargetY = window.app.screen.height * formation.playerPos[1];
-        const opponentTargetX = window.app.screen.width * formation.opponentPos[0];
-        const opponentTargetY = window.app.screen.height * formation.opponentPos[1];
-        
-        const duration = 500;
-        const startTime = Date.now();
-        
-        const playerStartX = window.app.uiSystem.roosters.playerRooster.x;
-        const playerStartY = window.app.uiSystem.roosters.playerRooster.y;
-        const opponentStartX = window.app.uiSystem.roosters.opponentRooster.x;
-        const opponentStartY = window.app.uiSystem.roosters.opponentRooster.y;
-        return new Promise((resolve) => {
-            const animate = () => {
-                const elapsed = Date.now() - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                // Move to final positions
-                window.app.uiSystem.roosters.playerRooster.x = playerStartX + (playerTargetX - playerStartX) * progress;
-                window.app.uiSystem.roosters.playerRooster.y = playerStartY + (playerTargetY - playerStartY) * progress;
-                window.app.uiSystem.roosters.opponentRooster.x = opponentStartX + (opponentTargetX - opponentStartX) * progress;
-                window.app.uiSystem.roosters.opponentRooster.y = opponentStartY + (opponentTargetY - opponentStartY) * progress;
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                } else {
-                    this.battleStates.battleState = 'fighting';
-                    resolve();
-                }
-            };
-            animate();
-        });
     }
     async attackAnimation(playerDamage, opponentDamage) {
-        const attackDuration = 400;
+        const isBattleApproachAnimation = opponentDamage == 0 && playerDamage == 0;
+        let attackDuration;
+        if(isBattleApproachAnimation)
+            attackDuration = 800;
+        else{
+            attackDuration = 400;
+            //await this.delay(100 * (Math.floor(Math.random() * 10))); work in progress
+        } 
         // Store positions and start attack animation
-        const playerStartX = window.app.uiSystem.roosters.playerRooster.x;
-        const playerStartY = window.app.uiSystem.roosters.playerRooster.y;
-        const opponentStartX = window.app.uiSystem.roosters.opponentRooster.x;
-        const opponentStartY = window.app.uiSystem.roosters.opponentRooster.y;
+        const playerStartX = BATTLE_FORMATIONS[this.battleFormation].playerPos[0];
+        const playerStartY = BATTLE_FORMATIONS[this.battleFormation].playerPos[1];
+        const opponentStartX = BATTLE_FORMATIONS[this.battleFormation].opponentPos[0];
+        const opponentStartY = BATTLE_FORMATIONS[this.battleFormation].opponentPos[1];
 
-        // Calculate dynamic sizes based on level
-        const baseSize = 30;
-        const growthFactor = 5;
-        const playerSize = baseSize + (this.playerStats.level * growthFactor);
-        const opponentSize = baseSize + (this.currentOpponent.level * growthFactor);
-        const totalSize = playerSize + opponentSize;
-        
-        // Calculate meeting point based on their current positions
-        const meetingPointX = (playerStartX + opponentStartX) / 2;
-        const meetingPointY = (playerStartY + opponentStartY) / 2;
-        
-        // Calculate stopping positions where they just touch
-        // Use vector math to position them facing each other
-        const angle = Math.atan2(opponentStartY - playerStartY, opponentStartX - playerStartX);
-        
-        const playerStopX = meetingPointX - Math.cos(angle) * (totalSize * 0.25);
-        const playerStopY = meetingPointY - Math.sin(angle) * (totalSize * 0.25);
-        const opponentStopX = meetingPointX + Math.cos(angle) * (totalSize * 0.25);
-        const opponentStopY = meetingPointY + Math.sin(angle) * (totalSize * 0.25);
+        const playerStopX = 0.5;
+        const playerStopY = 0.5;
+        const opponentStopX = 0.5;
+        const opponentStopY = 0.5;
+
         // Phase 1: Fly to touch positions SIMULTANEOUSLY
+        this.stopJitterAnimation();
         await Promise.all([
             this.moveToPosition(window.app.uiSystem.roosters.playerRooster, playerStartX, playerStartY, playerStopX, playerStopY, attackDuration/2),
             this.moveToPosition(window.app.uiSystem.roosters.opponentRooster, opponentStartX, opponentStartY, opponentStopX, opponentStopY, attackDuration/2)
         ]);
         // Phase 2: Brief touch - show damage here
-        const resultDiv = document.getElementById('battle-result');
-        resultDiv.innerHTML = `
-            <div class="battle-attack">
-                <p>💥 ATTACK!</p>
-                <p>You dealt: ${playerDamage} damage</p>
-                <p>Opponent dealt: ${opponentDamage} damage</p>
+        if(isBattleApproachAnimation){
+            document.getElementById('battle-result').innerHTML = `
+            <div class="battle-clash">
+                <p>👀 SIZING EACH OTHER UP!</p>
+                <p>Level ${this.playerStats.level} vs Level ${this.currentOpponent.level}</p>
             </div>
         `;
+            await this.delay(500);
+        }
+        else{
+            this.centerSmokeScreen.visible = true;
+            window.app.uiSystem.roosters.playerRooster.visible = false;
+            window.app.uiSystem.roosters.opponentRooster.visible = false;
+             document.getElementById('battle-result').innerHTML = `
+                <div class="battle-attack">
+                    <p>💥 ATTACK!</p>
+                    <p>You dealt: ${playerDamage} damage</p>
+                    <p>Opponent dealt: ${opponentDamage} damage</p>
+                </div>
+            `;
+            await this.delay(200);
+            this.centerSmokeScreen.visible = false;
+            window.app.uiSystem.roosters.playerRooster.visible = true;
+            window.app.uiSystem.roosters.opponentRooster.visible = true;
+        }
         
-        await this.delay(100);
         
         // Phase 3: Return to battle positions (random for variety)
-        
-        const formation = BATTLE_FORMATIONS[Math.floor(Math.random() * BATTLE_FORMATIONS.length)];
-        const playerTargetX = window.app.screen.width * formation.playerPos[0];
-        const playerTargetY = window.app.screen.height * formation.playerPos[1];
-        const opponentTargetX = window.app.screen.width * formation.opponentPos[0];
-        const opponentTargetY = window.app.screen.height * formation.opponentPos[1];
+
+        this.battleFormation = Math.floor(Math.random() * 4);
+        const formation = BATTLE_FORMATIONS[this.battleFormation];
+        const playerTargetX = formation.playerPos[0];
+        const playerTargetY = formation.playerPos[1];
+        const opponentTargetX = formation.opponentPos[0];
+        const opponentTargetY = formation.opponentPos[1];
         
         // Phase 4: Return simultaneously
         await Promise.all([
             this.moveToPosition(window.app.uiSystem.roosters.playerRooster, playerStopX, playerStopY, playerTargetX, playerTargetY, attackDuration/2),
             this.moveToPosition(window.app.uiSystem.roosters.opponentRooster, opponentStopX, opponentStopY, opponentTargetX, opponentTargetY, attackDuration/2)
         ]);
+
+        if(isBattleApproachAnimation){
+            document.getElementById('battle-result').innerHTML = `
+            <div class="battle-ongoing">
+                <p>🥊 BATTLE ONGOING!</p>
+                <p>Press keys to power up your attacks!</p>
+            </div>
+        `;
+        }
+        this.startJitterAnimation();
     }
     moveToPosition(rooster, startX, startY, targetX, targetY, duration) {
+        
         return new Promise((resolve) => {
             const startTime = Date.now();
             const animate = () => {
+                const arenaX = (window.app.screen.width - this.arenaBg.width) / 2;
+                const arenaY = (window.app.screen.height - this.arenaBg.height) / 2;
+                const arenaWidth = this.arenaBg.width;
+                const arenaHeight = this.arenaBg.height;
+                const startXFinal = arenaX + (arenaWidth * startX);
+                const startYFinal = arenaY + (arenaHeight * startY);
+                const targetXFinal = arenaX + (arenaWidth * targetX);
+                const targetYFinal = arenaY + (arenaHeight * targetY);
                 const elapsed = Date.now() - startTime;
                 const progress = Math.min(elapsed / duration, 1);
                 
@@ -209,8 +185,8 @@ class BattleAnimationManager{
                     2 * progress * progress : 
                     1 - Math.pow(-2 * progress + 2, 2) / 2;
                 
-                rooster.x = startX + (targetX - startX) * easeProgress;
-                rooster.y = startY + (targetY - startY) * easeProgress;
+                rooster.x = startXFinal  + (targetXFinal - startXFinal) * easeProgress;
+                rooster.y = startYFinal + (targetYFinal - startYFinal) * easeProgress;
                 
                 if (progress < 1) {
                     requestAnimationFrame(animate);
@@ -224,5 +200,8 @@ class BattleAnimationManager{
     // Helper function
     delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    getBattleFormation(){
+        return this.battleFormation;
     }
 }

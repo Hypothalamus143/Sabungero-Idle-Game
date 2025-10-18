@@ -17,6 +17,7 @@ class ReadingManager{
         document.getElementById('close-quest').addEventListener('click', () => {
             clearInterval(timerInterval);
             document.getElementById('quest-modal').style.display = 'none';
+            document.getElementById('blur').classList.remove('blur-overlay');
         });
         const updateDisplay = () => {
             const start = currentPage * paragraphsPerPage;
@@ -46,7 +47,6 @@ class ReadingManager{
                     </div>
                 </div>
             `;
-            
             document.getElementById('quest-content').innerHTML = html;
             this.setupReadingEventListeners();
         };

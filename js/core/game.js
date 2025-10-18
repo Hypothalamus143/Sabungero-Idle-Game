@@ -1,16 +1,16 @@
 // Four possible battle formations
 const BATTLE_FORMATIONS = [
-            // Horizontal - Player Left, Opponent Right
-            { playerPos: [0.3, 0.5], opponentPos: [0.7, 0.5], name: "Horizontal Face-off" },
+            // Player Upper Left, Opponent Lower Right
+            { playerPos: [0.1, 0.1], opponentPos: [0.9, 0.9], name: "Horizontal Face-off" },
             
-            // Horizontal - Player Right, Opponent Left  
-            { playerPos: [0.7, 0.5], opponentPos: [0.3, 0.5], name: "Reverse Horizontal" },
+            // Player Lower Right, Opponent Upper Left  
+            { playerPos: [0.9, 0.9], opponentPos: [0.1, 0.1], name: "Reverse Horizontal" },
             
-            // Vertical - Player Top, Opponent Bottom
-            { playerPos: [0.5, 0.3], opponentPos: [0.5, 0.7], name: "Vertical Stand-off" },
+            // Player Lower Left , Opponent Upper Right
+            { playerPos: [0.1, 0.9], opponentPos: [0.9, 0.1], name: "Vertical Stand-off" },
             
-            // Vertical - Player Bottom, Opponent Top
-            { playerPos: [0.5, 0.7], opponentPos: [0.5, 0.3], name: "Reverse Vertical" }
+            // Player Upper Right, Lower Left
+            { playerPos: [0.9, 0.1], opponentPos: [0.1, 0.9], name: "Reverse Vertical" }
             ];
 
 class SabungeroGame {
@@ -92,6 +92,7 @@ class SabungeroGame {
         window.addEventListener('beforeunload', () => {
             BrowserDB.savePlayerStats(this.playerStats);
         });
+        window.addEventListener('resize', () => this.updateAllPositions());
     }
     
     showScreen(screenName) {
@@ -125,32 +126,28 @@ class SabungeroGame {
                 statsPanel.style.display = 'block';
                 learningPanel.style.display = 'none';
                 battlePanel.style.display = 'none';
-                this.battleSystem.arenaBg.visible = false;
-                this.battleSystem.centerCircle.visible = false;
+                this.battleSystem.battleAnimationManager.arenaBg.visible = false;
                 window.app.uiSystem.roosters.playerRooster.visible = true;
-                window.app.uiSystem.roosters.playerRooster.x = window.app.screen.width / 2; // Centered in coop
-                window.app.uiSystem.roosters.playerRooster.y = window.app.screen.height / 2;
                 window.app.uiSystem.roosters.opponentRooster.visible = false;
+                this.updateAllPositions();
                 this.idleSystem.startIdleLoop();
                 break;
             case 'quests':
                 statsPanel.style.display = 'none';
                 learningPanel.style.display = 'block';
                 battlePanel.style.display = 'none';
-                this.battleSystem.arenaBg.visible = false;
-                this.battleSystem.centerCircle.visible = false;
+                this.battleSystem.battleAnimationManager.arenaBg.visible = false;
                 window.app.uiSystem.roosters.playerRooster.visible = true;
-                window.app.uiSystem.roosters.playerRooster.x = window.app.screen.width / 2; // Centered in coop
-                window.app.uiSystem.roosters.playerRooster.y = window.app.screen.height / 2;
                 window.app.uiSystem.roosters.opponentRooster.visible = false;
+                this.updateAllPositions();
                 this.learningSystem.showLearningMain();
                 break;
             case 'arena':
                 statsPanel.style.display = 'block';
                 learningPanel.style.display = 'none';
                 battlePanel.style.display = 'block';
-                this.battleSystem.arenaBg.visible = true;
-                this.battleSystem.centerCircle.visible = true;
+                this.battleSystem.battleAnimationManager.arenaBg.visible = true;
+                
 
                 // Reset battle state when entering arena
                 if (this.battleSystem.battleStates.battleState !== 'fighting') {
@@ -162,15 +159,9 @@ class SabungeroGame {
                     this.battleSystem.battleStates.isBattleActive = false;
                     this.battleSystem.battleStates.battleState = 'idle';
                 }
+                this.updateAllPositions();
                 // Always ensure player is positioned correctly
                 window.app.uiSystem.roosters.playerRooster.visible = true;
-                window.app.uiSystem.roosters.playerRooster.x = window.app.screen.width * 0.3;
-                window.app.uiSystem.roosters.playerRooster.y = window.app.screen.height / 2;
-                
-                // Always ensure opponent is positioned correctly (even if not visible yet)
-                window.app.uiSystem.roosters.opponentRooster.x = window.app.screen.width * 0.7;
-                window.app.uiSystem.roosters.opponentRooster.y = window.app.screen.height / 2;
-                
                 // Update roosters to ensure they're drawn with current data
                 window.app.uiSystem.roosters.updateRoosters();
                 break;
@@ -300,6 +291,39 @@ class SabungeroGame {
         // ✅ Show tutorial instead of going straight to game
         this.showTutorial();
     }
+
+    updateAllPositions(){
+        app.renderer.resize(screen.width, screen.height);
+        if(document.getElementById('nav-arena').classList.contains('active')){
+            const arenaWidth = this.battleSystem.battleAnimationManager.arenaBg.width;
+            const arenaHeight = this.battleSystem.battleAnimationManager.arenaBg.height;
+            this.battleSystem.battleAnimationManager.arenaBg.clear();
+            const arenaX = (window.app.screen.width - arenaWidth) / 2;
+            const arenaY = (window.app.screen.height - arenaHeight) / 2;
+
+            this.battleSystem.battleAnimationManager.arenaBg.rect(arenaX, arenaY, arenaWidth, arenaHeight);
+            this.battleSystem.battleAnimationManager.arenaBg.fill({"color":0x34495e});
+
+            // Position roosters relative to arena
+            window.app.uiSystem.roosters.playerRooster.x = arenaX + (arenaWidth * BATTLE_FORMATIONS[this.battleSystem.battleAnimationManager.getBattleFormation()].playerPos[0]);    // 30% into arena
+            window.app.uiSystem.roosters.playerRooster.y = arenaY + (arenaHeight * BATTLE_FORMATIONS[this.battleSystem.battleAnimationManager.getBattleFormation()].playerPos[1]);     // Middle of arena
+
+            window.app.uiSystem.roosters.opponentRooster.x = arenaX + (arenaWidth * BATTLE_FORMATIONS[this.battleSystem.battleAnimationManager.getBattleFormation()].opponentPos[0]);  // 70% into arena
+            window.app.uiSystem.roosters.opponentRooster.y = arenaY + (arenaHeight * BATTLE_FORMATIONS[this.battleSystem.battleAnimationManager.getBattleFormation()].opponentPos[1]);   // Middle of arena
+
+            this.battleSystem.battleAnimationManager.centerSmokeScreen.clear(); 
+            this.battleSystem.battleAnimationManager.centerSmokeScreen.circle(window.app.screen.width / 2, window.app.screen.height / 2, 50);
+            this.battleSystem.battleAnimationManager.centerSmokeScreen.stroke({
+                width: 3,
+                color: 0xe74c3c
+            });
+        }
+        else{
+            window.app.uiSystem.roosters.playerRooster.x = window.app.screen.width / 2; // Centered in coop
+            window.app.uiSystem.roosters.playerRooster.y = window.app.screen.height / 2;
+        }
+    }
+
     showTutorial() {
         const modal = document.getElementById('tutorial-modal');
         modal.style.display = 'flex';

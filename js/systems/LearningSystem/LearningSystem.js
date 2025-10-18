@@ -86,6 +86,7 @@ class LearningSystem{
         // Quest modal buttons
         document.getElementById('close-quest').addEventListener('click', () => {
             this.closeQuestModal();
+            document.getElementById('blur').classList.remove('blur-overlay');
         });
         document.getElementById('save-api-key-modal').addEventListener('click', () => {
             const input = document.getElementById('api-key-input-modal');

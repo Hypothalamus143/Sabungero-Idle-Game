@@ -260,7 +260,7 @@ class ContentSearch{
             
             // Use BrowserDB to get the actual content
             const content = this.getContentFromBrowserDB(contentType, category);
-            
+            document.getElementById('blur').classList.add('blur-overlay');
             if (contentType === 'reading') {
                 this.readingManager.showReadingContent(content, category);
             } else if (contentType === 'flashcards') {
