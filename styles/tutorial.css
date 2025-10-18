@@ -1,22 +1,101 @@
 .tutorial-content {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #ffb94f transparent; /* thumb color + transparent track */
+    border-radius: 50px;
+    position: relative;
+    width: 90vw;
     max-width: 800px;
-    max-height: 80vh;
+    height: 90vh;
+    max-height: 650vh;
     overflow-y: auto;
+    background-color: rgba(5, 5, 1, 0.4);
+    padding: 1rem;
+    border-radius: 30px; /* optional */
+}
+
+.tutorial {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%; /* ensure it uses full container width */
 }
 
 .tutorial-step {
-    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
+    width: 100%; /* fills the container width */
+    box-sizing: border-box;
+}
+
+.tutorial hr {
+    border: none; /* removes the default 3D border */
+    height: 2px; /* line thickness */
+    background-color: #ffb94f; /* line color */
+    width: 80%; /* line width */
+    margin: 0.5rem auto; /* space and centering */
+    border-radius: 2px; /* smooth edges */
+}
+
+.tutorial h2 {
+    line-height: 1.5;
+    background-color: #fff9ea;
+    color: #ffb94f;
+    padding: 1rem 2rem;
+    font-size: 2rem;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 2px 2px 4px rgba(5, 5, 1, 1);
+    padding: 1em 2em;
+    box-shadow: inset 2px 2px 4px #ffbf5e, 2px 2px 0 #000, /* extra “pixel” edges */
+    4px 4px 0 #000;
 }
 
 .tutorial-step h3 {
-    color: #ffd700;
+    
+    color: #ffb94f;
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 2px 4px 4px rgba(10, 10, 1, 5);
+    font-size:25px;
     margin-bottom: 0.5rem;
 }
 
-.tutorial-step p {
-    margin: 0.3rem 0;
-    line-height: 1.4;
+    .tutorial-step p {
+        line-height: 1.4;
+        color: white;
+        text-align: center;
+        max-width: 700px;
+    }
+
+.confirm-btn-tutorial {
+    align-self: center; /* center horizontally */
+    padding: 1rem 2rem;
+    background: #a06041;
+    color: #ffb94f;
+    border: 3px solid #534a40;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 2px 2px 4px rgba(5, 5, 1, 1);
+    padding: 1em 2em;
+    box-shadow: inset 2px 2px 4px #ffbf5e, 2px 2px 0 #000, /* extra “pixel” edges */
+    4px 4px 0 #000;
+    font-size:1.3em;
 }
+
+.confirm-btn-tutorial:hover{
+    background:white;
+    
+}
+
+.tutorial-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+

@@ -1,4 +1,4 @@
-/* Add to your existing CSS */
+﻿/* Add to your existing CSS */
 .modal {
     position: fixed;
     top: 0;
@@ -9,28 +9,67 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow:hidden;
     z-index: 1000;
 }
 
 .modal-content {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    background-color: #a06041;
+    border: 0.8vh solid #534a40;
     padding: 2rem;
-    border-radius: 15px;
-    max-width: 600px;
+    width: 90vw;
+    max-width: 1300px;
+    height: 95vh;
+    max-height: 1300px;
     text-align: center;
     color: white;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box; 
+    overflow: auto; 
 }
 
-.avatar-creation h2 {
-    margin-bottom: 0.5rem;
-    font-size: 2rem;
+.yellow {
+    position: absolute;
+    top: 1.5%;
+    left: 0.8%;
+    width: 98.5%;
+    height: 97%;
+    background-color: #e2b740;
 }
+
+.white {
+    display: flex;
+    flex-direction:column;
+    align-items:center;
+    position: absolute;
+    top: 1.5%;
+    left: 0.8%;
+    width: 98.5%;
+    height: 96.5%;
+    background-color: #fff9ea;
+    gap:20px;
+    
+}
+
+
+.avatar-creation h2 {
+    flex: 0 0 10%; 
+    width: 100%;
+    height:auto;
+    color: #ffb94f;
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 2px 4px 4px rgba(10, 10, 1, 5);
+    margin-bottom: 0.5rem;
+    font-size: 3.3rem;
+}
+
 
 .avatar-creation p {
     margin-bottom: 2rem;
     opacity: 0.9;
 }
+
 
 .avatar-grid {
     display: grid;
@@ -47,16 +86,16 @@
     transition: all 0.3s ease;
 }
 
-.avatar-option:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-5px);
-}
+    .avatar-option:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-5px);
+    }
 
-.avatar-option.selected {
-    background: rgba(255, 255, 255, 0.3);
-    border: 2px solid #ffd700;
-    transform: scale(1.05);
-}
+    .avatar-option.selected {
+        background: rgba(255, 255, 255, 0.3);
+        border: 2px solid #ffd700;
+        transform: scale(1.05);
+    }
 
 .avatar-preview {
     width: 80px;
@@ -77,33 +116,48 @@
 }
 
 .confirm-btn {
-    background: #ffd700;
-    color: #333;
-    border: none;
+    margin-top:5%;
+    flex:0 0 10%;
+    flex-basis:1;
+    background: #a06041;
+    color: #ffb94f;
+    border: 3px solid #534a40;
     padding: 1rem 2rem;
     font-size: 1.2rem;
     border-radius: 25px;
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s ease;
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 2px 2px 4px rgba(5, 5, 1, 1);
+    padding: 1em 2em;
+    box-shadow: inset 2px 2px 4px #ffbf5e, 2px 2px 0 #000, /* extra �pixel� edges */
+    4px 4px 0 #000;
 }
 
-.confirm-btn:hover {
-    background: #ffed4a;
-    transform: scale(1.05);
-}
+
+    .confirm-btn:hover {
+        background: white;
+    }
+
 .carousel {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 40%;
+    left: 50%;
+    width: 80%;
+    height: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 8rem;
     margin: 1rem 0;
 }
 
 .carousel-btn {
     background: rgba(255, 255, 255, 0.2);
-    border: 2px solid #fff;
-    color: white;
+    border: 2px solid black;
+    color: black;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -112,10 +166,10 @@
     transition: all 0.3s ease;
 }
 
-.carousel-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.1);
-}
+    .carousel-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+    }
 
 .color-name {
     font-size: 1.1rem;
@@ -123,14 +177,115 @@
     color: #ffd700;
     margin-top: 0.5rem;
 }
+
+.showcase{ 
+    margin-top:2%;
+    gap: 20px;              /* spacing between sections */
+    width: 75%;            /* full width of parent */
+    display:flex;
+    flex:0 0 50%;
+    flex-direction:row; 
+}
+
+.creation-section {
+    flex:1;
+    display:flex;
+    position:relative;
+    width: 100%;
+    height:92%;
+    padding: 10px 20px;
+    color: black;
+}
+
+.creation-section-rooster {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 25%;
+    left: 50%;
+    width: 90%;
+    height: 40%;
+    margin: 1rem auto 0;
+}
+
+    .creation-section-rooster h3 {
+        position: absolute;
+        top: 10%;
+        font-family: 'Press Start 2P', monospace;
+        text-shadow: 2px 2px 3px rgba(10, 10, 1, 5);
+        color: #ffb94f;
+        position: absolute;
+        bottom: 10%;
+        left: 52%;
+        transform: translate(-50%, -50%);
+    }
+
+
+.color-display {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.creation-section-accessory {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 75%;
+    left: 50%;
+    width: 90%;
+    height: 40%;
+}
+
+    .creation-section-accessory h3 {
+        position: absolute;
+        top: 10%;
+        font-family: 'Press Start 2P', monospace;
+        text-shadow: 2px 2px 3px rgba(10, 10, 1, 5);
+        color: #ffb94f;
+        position: absolute;
+        bottom: 10%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
 .combined-preview-section {
+    flex:1;
+    position:relative;
+    background-size: cover; /* make it cover the div */
+    background-position: center; /* center the image */
+    background-repeat: no-repeat; /* don�t tile */
+    width: 100%;
+    height: 92%;
+    padding: 10px 20px;
+    color: black;
     text-align: center;
     margin-bottom: 2rem;
 }
 
+    .combined-preview-section h3 {
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        width: 200px;
+        height: 10px;
+        transform: translate(-50%, -50%);
+        color: #ffb94f;
+        padding: 1rem 2rem;
+        font-size: 0.9rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        font-family: 'Press Start 2P', monospace;
+        
+    }
+
 .combined-preview-circle {
-    width: 120px;
-    height: 120px;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     border: 6px solid;
     background: #e74c3c;
@@ -139,16 +294,13 @@
 }
 
 .preview-names {
+    position: absolute;
+    bottom: 7%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
     gap: 2rem;
-}
-
-.color-display {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid #fff;
 }
 
 .main-display {
@@ -158,3 +310,4 @@
 .border-display {
     background: #c0392b;
 }
+

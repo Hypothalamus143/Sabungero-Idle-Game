@@ -5,6 +5,7 @@ body {
     font-family: Arial, sans-serif;
     color: white;
     overflow: hidden;
+    overflow-y:auto;
 }
 
 #game-container {
@@ -15,6 +16,10 @@ body {
 
 #ui-overlay {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     top: 0;
     left: 0;
     width: 100%;
@@ -23,20 +28,89 @@ body {
     z-index: 0;
 }
 
+
 .panel {
-    background: rgba(45, 45, 45, 0.9);
-    border: 2px solid #555;
-    border-radius: 10px;
+    background-color: #a06041;
+    border: 0.5vh solid #534a40;
     padding: 20px;
     pointer-events: all;
 }
 
 .stats-panel {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 250px;
+    top:2%;
+    left:5%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 100;
+    width: 60vw;
+    max-width:370px;
+    height:70vh;
+    max-height: 250px;
 }
+
+.stats-panel .yellow{
+    position: absolute;
+    top: 2%;
+    left: 2%;
+    width: 96%;
+    height: 96%;
+    background-color: #e2b740;
+}
+
+.stats-panel .white{
+    position: absolute;
+    top: 2.5%;
+    left: 2.5%;
+    width: 95.5%;
+    height: 95.5%;
+    background-color: #fff9ea;
+}
+
+
+
+.stats-content{
+    position:absolute;
+    top:20%;
+    left:3%;
+    width:100%;
+}
+
+
+.stats-content p {
+    gap:3px;
+    left:10%;
+    display: inline;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    color: black;
+}
+
+.stats-content .progress-bar {
+    background-color:limegreen;
+    width:90%;
+}
+
+.stats-content .progress-fill{
+    background-color:lawngreen;
+}
+
+.stats-panel h3 {
+        font-size:1.4em;
+        position:absolute;
+        font-family: 'Press Start 2P', monospace;
+        text-shadow: 2px 2px 3px rgba(10, 10, 1, 5);
+        color: #ffb94f;
+        position: absolute;
+        bottom: 10%;
+        top:26.5%;
+        left: 52%;
+        width:100%;
+        transform: translate(-50%, -50%);
+    }
+
 .battle-panel {
     position: absolute;
     top: 20px;
@@ -45,7 +119,7 @@ body {
 }
 
 button {
-    background: #e74c3c;
+    background-color: #a06041;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -55,9 +129,9 @@ button {
     pointer-events: all;
 }
 
-button:hover {
-    background: #c0392b;
-}
+    button:hover {
+        background: #bf7856;
+    }
 
 .key-indicator {
     display: inline-block;
@@ -78,12 +152,15 @@ button:hover {
     border-color: #c0392b;
 }
 
+
+
+
 .progress-bar {
-    width: 100%;
     height: 20px;
     background: #34495e;
     border-radius: 10px;
     overflow: hidden;
+    width: 100%;
     margin: 10px 0;
 }
 
@@ -91,29 +168,55 @@ button:hover {
     height: 100%;
     background: #3498db;
     transition: width 0.3s ease;
+    width: 0%;
 }
 .navbar {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    margin-top:30px;
     display: flex;
-    gap: 10px;
-    background: rgba(45, 45, 45, 0.9);
+    width:60%;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
     padding: 10px;
     border-radius: 10px;
-    border: 2px solid #555;
-}
-.nav-btn {
-    background: #34495e;
-    padding: 10px 20px;
 }
 
-.nav-btn.active {
-    background: #e74c3c;  /* Red color to show it's active */
-    border: 2px solid #c0392b;
+.nav-btn {
+    flex: 1 1 200px;
+    color: #ffb94f;
+    background: #a06041;
+    padding: 10px 20px;
+    border: 3px solid #534a40;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 2px 2px 4px rgba(5, 5, 1, 1);
+    padding: 1em 2em;
+    box-shadow: inset 2px 2px 4px #ffbf5e, 2px 2px 0 #000, /* extra “pixel” edges */
+    4px 4px 0 #000;
 }
+
+    .nav-btn.active {
+        background-color:white; /* Red color to show it's active */
+    }
 
 .nav-btn:hover:not(.active) {
-    background: #2c3e50;
+        background: white;
 }
+
+.invisible-container {
+    display: flex;
+    justify-content: center; /* center horizontally */
+    align-items: center;
+    position: relative;
+    flex: 1;
+    width: 95%;
+    max-width: 100%;
+    height: 90%;
+    max-height: 85%;
+    min-height: 80%;
+}
+

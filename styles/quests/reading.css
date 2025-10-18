@@ -1,43 +1,89 @@
-.reading-quest {
-    width: 500px;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
+#quest-content {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
 }
 
+.reading-quest {
+    width: 750px;
+    height: 500px;
+    align-self:center;
+    display: flex;
+    flex-direction: column;
+    margin:0 auto;
+}
+
+    .reading-quest h3 {
+        font-family: 'Press Start 2P', monospace;
+        color: #a06041;
+        background-color: #fff9ea;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 2rem;
+        width:100%;
+        margin-top:6%;
+        margin-bottom:2%;
+    }
+
 .article-content {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #ffb94f transparent; /* thumb color + transparent track */
     flex: 1;
     overflow-y: auto;
-    padding: 20px;
-    background: #2d2d2d;
+    padding: 10px;
+    background: #fff9ea;
+    border: 2px solid #a06041;
     border-radius: 5px;
     margin: 15px 0;
     line-height: 1.6;
+    color: black;
 }
+
+
+
 .reading-controls {
     display: flex;
     gap: 10px;
     justify-content: center;
     padding: 15px 0;
-    border-top: 2px solid #555;
+    border-top: 2px solid #a06041;
 }
 
 .completion-message {
+    width: 100%;
+    height: 100%;
     text-align: center;
     padding: 30px;
+    box-sizing: border-box;
 }
 
+
 .completion-message h3 {
+    margin:5%;
     color: #27ae60;
-    margin-bottom: 15px;
+    font-size:50px;
+    margin-bottom: 12%;
 }
+
+.completion-message p{
+    color:black;
+}
+
+.completion-message #close-completion{
+    margin-top:20%;
+}
+
 .timer-display {
     text-align: center;
     padding: 10px;
-    background: #34495e;
+    background: #e2b740;
     border-radius: 5px;
     margin: 10px 0;
     font-weight: bold;
+    box-shadow: 5px 5px 10px rgba(160, 96, 65, 0.4);
+    color: black;
 }
 
 .page-controls {
@@ -45,10 +91,32 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px 0;
-    border-top: 1px solid #555;
+    border-top: 1px solid #a06041;
+}
+
+
+#prev-page {
+    background-color: #a06041;
+}
+#next-page {
+    background-color: #a06041;
+}
+
+#prev-page:hover {
+    background-color: #bf7856;
+}
+
+#next-page:hover {
+    background-color: #bf7856;
 }
 
 .page-controls button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+.page-controls span {
+    color: #754833;
+
+}
+

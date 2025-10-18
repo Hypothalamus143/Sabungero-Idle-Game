@@ -9,217 +9,342 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <link rel="stylesheet" type="text/css" href="styles/avatarCreation.css">
+
+    <!--PIXEL FONT-->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+
     <link rel="stylesheet" type="text/css" href="styles/tutorial.css">
     <link rel="stylesheet" type="text/css" href="styles/battlePanel.css">
     <link rel="stylesheet" type="text/css" href="styles/learningPanel.css">
     <link rel="stylesheet" type="text/css" href="styles/quests/reading.css">
     <link rel="stylesheet" type="text/css" href="styles/quests/flashcard.css">
     <link rel="stylesheet" type="text/css" href="styles/quests/quiz.css">
+
+    <!-- NEW: ADDED ARTICLE.CSS-->
+    <link rel="stylesheet" type="text/css" href="styles/quests/article.css">
 </head>
 <body>
+
     <div id="game-container">
         <!-- PixiJS canvas will be inserted here -->
     </div>
-    
+
+    <!--NEW!!!: UI CHANGES: added invisible container for responsiveness (ata T.T)-->
+
+    <!--NAVBAR CHANGES:
+        - capslock ra ang words
+        -->
+
     <div id="ui-overlay">
         <div class="navbar">
-            <button id="nav-main" class="nav-btn active">🏠 Pugaran</button>
-            <button id="nav-quests" class="nav-btn"">📚 Skwelahan</button>
-            <button id="nav-arena" class="nav-btn" >⚔️ Sabongan</button>
+            <button id="nav-main" class="nav-btn active">🏠 PUGARAN</button>
+            <button id="nav-quests" class="nav-btn" ">📚 SKWELAHAN</button>
+            <button id="nav-arena" class="nav-btn">⚔️ SABUNGAN</button>
         </div>
-        <!-- Stats Panel -->
-        <div class="panel stats-panel">
-            <h3>Sabungero Stats</h3>
-            <div id="stats-content">
-                <p>Level: <span id="player-level">1</span></p>
-                <p>Multiplier: <span id="player-multiplier">1.0</span>x</p>
-                <p>Experience: <span id="player-exp">0</span>/<span id="exp-needed">100</span></p>
-                <div class="progress-bar">
-                    <div id="exp-bar" class="progress-fill" style="width: 0%"></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Learning Panel -->
-        <div class="panel learning-panel">
-            <div class="learning-panel-header">
-                <h3>Learning Quests</h3>
-                <div class="content-tabs">
-                    <button id="tab-reading" class="tab-btn">📖 Reading</button>
-                    <button id="tab-flashcards" class="tab-btn">🎴 Flashcards</button>
-                    <button id="tab-quiz" class="tab-btn">❓ Quiz</button>
-                </div>
-                <div id="search-generate">
-                    <input type="text" id="topic-search" placeholder="Search topics...">
-                </div>
-            </div>
-            
-            <div class="learning-panel-content">
-                <div id="search-results" style="display: none;">
-                    <h4>Search Results for <span id="current-content-type">All</span>:</h4>
-                    <div id="results-container"></div>
-                </div>
-            </div>
-            
-            <!-- Fixed Bottom Section -->
-            <div class="learning-panel-bottom">
-                <!-- Pagination container -->
-                <div id="bottom-pagination" style="visibility: hidden; height: 10%"></div>
-                <div id="ai-suggestion">
-                    <p>Want something else? <button id="generate-similar">✨ Generate with AI</button></p>
-                </div>
-            </div>
-        </div>
-         <!-- Battle Panel -->
-        <div class="panel battle-panel">
-            <h3>Arena Battle</h3>
-            <div id="battle-info">
-                <p>Opponent: <span id="opponent-name">None</span></p>
-                <p>Hold keys to power up your rooster!</p>
-                <div id="key-indicators">
-                    <div class="key-count">Keys Pressed: <span id="active-keys-count">0</span>
+
+        <div class="invisible-container">
+
+
+            <!--STATS PANEL CHANGES:
+            - font color change
+            - made stats-content class
+            - added classes yellow, white for background
+            -->
+            <!-- Stats Panel -->
+
+            <div class="panel stats-panel">
+
+                <div class="yellow">
+                    <div class="white">
+
+                        <h3>SABUNGERO STATS</h3>
+                        <div id="stats-content" class="stats-content">
+                            <p>Level: <span id="player-level">1</span></p>
+                            <p>Multiplier: <span id="player-multiplier">1.0</span>x</p>
+                            <p>Experience: <span id="player-exp">0</span>/<span id="exp-needed">100</span></p>
+                            <div class="progress-bar">
+                                <div id="exp-bar" class="progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <button id="battle-btn">⚔️ Find Opponent</button>
-                <button id="fight-btn" style="display: none;">🥊 Fight!</button>
-                <div id="battle-result"></div>
             </div>
-            <div id="battle-hp">
-                <div class="hp-bar">
-                    <label>Your HP:</label>
-                    <div class="progress-bar">
-                        <div id="player-hp-bar" class="progress-fill" style="width: 100%"></div>
+
+
+        <!--CHANGES:
+               NEW - capslocked words
+               NEW - added yellow and white classes
+               NEW - added learning-panel-content-container
+               NEW - 
+            -->
+
+            <!-- Learning Panel -->
+
+            <div class="panel learning-panel">
+                <div class="yellow">
+                    <div class="white">
+
+                        <div class="learning-panel-header">
+
+                            <h3>LEARNING QUESTS</h3>
+                            <div class="content-tabs">
+                                <button id="tab-reading" class="tab-btn">📖 READING</button>
+                                <button id="tab-flashcards" class="tab-btn">🎴 FLASHCARDS</button>
+                                <button id="tab-quiz" class="tab-btn">❓ QUIZ</button>
+                            </div>
+
+                            <div id="search-generate">
+                                <input type="text" id="topic-search" placeholder="Search topics...">
+                            </div>
+
+                        </div>
+
+
+                        <div class="learning-panel-content-container">
+                            <div class="learning-panel-content">
+                                <div id="search-results" style="display: none;">
+                                    </br>
+                                    <h4>Search Results for <span id="current-content-type">All</span>:</h4>
+                                   
+                                    <div id="results-container"></div>
+                                </div>
+                            </div>
+                            </div>
+                        
+    
+                            <!-- Fixed Bottom Section -->
+                            <div class="learning-panel-bottom">
+                                <!-- Pagination container -->
+                                <div id="bottom-pagination" style="visibility: hidden; height: 10%"></div>
+                                <div id="ai-suggestion">
+                                    <p>WANT SOMETHING ELSE? <button id="generate-similar">✨ Generate with AI</button></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <span id="player-hp-text">100/100</span>
-                </div>
-                <div class="hp-bar">
-                    <label>Opponent HP:</label>
-                    <div class="progress-bar">
-                        <div id="opponent-hp-bar" class="progress-fill" style="width: 100%"></div>
+            </div>
+
+
+            <!-- Battle Panel -->
+            <div class="panel battle-panel">
+                <h3>Arena Battle</h3>
+                <div id="battle-info">
+                    <p>Opponent: <span id="opponent-name">None</span></p>
+                    <p>Hold keys to power up your rooster!</p>
+                    <div id="key-indicators">
+                        <div class="key-count">
+                            Keys Pressed: <span id="active-keys-count">0</span>
+                        </div>
                     </div>
-                    <span id="opponent-hp-text">100/100</span>
+                    <button id="battle-btn">⚔️ Find Opponent</button>
+                    <button id="fight-btn" style="display: none;">🥊 Fight!</button>
+                    <div id="battle-result"></div>
+                </div>
+                <div id="battle-hp">
+                    <div class="hp-bar">
+                        <label>Your HP:</label>
+                        <div class="progress-bar">
+                            <div id="player-hp-bar" class="progress-fill" style="width: 100%"></div>
+                        </div>
+                        <span id="player-hp-text">100/100</span>
+                    </div>
+                    <div class="hp-bar">
+                        <label>Opponent HP:</label>
+                        <div class="progress-bar">
+                            <div id="opponent-hp-bar" class="progress-fill" style="width: 100%"></div>
+                        </div>
+                        <span id="opponent-hp-text">100/100</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- AI Options Modal -->
-        <div id="ai-options-modal" class="modal" style="display: none;">
-            <div class="ai-options-content">
-                <button id="close-ai-options" class="close-btn">✖</button>
-                <h2>🤖 AI Tools & Settings</h2>
 
-                <!-- API Key Section -->
-                <div class="option-section">
-                <label for="api-key-input-modal">🔑 Gemini API Key</label>
-                <input type="password" id="api-key-input-modal" placeholder="Enter your Gemini API key">
-                <button id="save-api-key-modal">Save Key</button>
-                </div>
 
-                <!-- Generate Content -->
-                <div class="option-section">
-                <label>✨ Generate AI Content</label>
-                <button id="generate-ai-now">Generate with AI</button>
-                </div>
+            <!-- CHANGES FOR AI OPTIONS MODAL
+                   
+                 NEW - added yellow class
+                 NEW - changed letter casing
+                 NEW - removed some emojis
 
-                <!-- File Upload (for future use) -->
-                <div class="option-section">
-                <label>📂 Add Source File (Optional)</label>
-                <input type="file" id="file-input" accept=".txt,.pdf,.docx">
-                <p class="note">Supported: TXT, PDF, DOCX</p>
+                -->
+            <!-- AI Options Modal -->
+            <div id="ai-options-modal" class="modal" style="display: none;">
+                <div class="ai-options-content">
+                    <div class="yellow">
+                        <button id="close-ai-options" class="close-btn">✖</button>
+                        <div class="ai-name-container">
+                            <h2>AI TOOLS & SETTINGS</h2>
+                        </div>
+                        <!-- API Key Section -->
+                        <div class="option-section">
+                            <label for="api-key-input-modal"> Gemini API Key</label>
+                            <input type="password" id="api-key-input-modal" placeholder="Enter your Gemini API key">
+                            <button id="save-api-key-modal">Save Key</button>
+                        </div>
+
+                        <!-- Generate Content -->
+                        <div class="option-section">
+                            <label>Generate AI Content</label>
+                            <button id="generate-ai-now">Generate with AI</button>
+                        </div>
+
+                        <!-- File Upload (for future use) -->
+                        <div class="option-section">
+                            <label>Add Source File (Optional)</label>
+                            <input type="file" id="file-input" accept=".txt,.pdf,.docx">
+                            <p class="note">Supported: TXT, PDF, DOCX</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
 
-        <!-- Quest Modal -->
-        <div class="panel quest-modal" id="quest-modal">
-            <div id="quest-content"></div>
-            <button id="close-quest">Close</button>
-            <button id="submit-quest" style="display: none;">Submit Answers</button>
-        </div>
+        <!-- CHANGES FOR QUEST MODAL
+             NEW - added yellow,white class
+             NEW - changed close -> x in <button id="close-quset">
+            -->
+            <!-- Quest Modal -->
+
+            <div class="panel quest-modal" id="quest-modal">
+                <div class="yellow">
+                    <div class="white">
+                        <div id="quest-content"></div>
+                        <button id="close-quest">X</button>
+                        <button id="submit-quest" style="display: none;">Submit Answers</button>
+                    </div>
+                </div>
+            </div>
+        </div> <!--invisible container-->
     </div>
+    
+
+    <!--CHANGES FOR CREATEAVATAR:
+        - added class: yellow, white (for background)
+        - made individual class for rooster (creation-section-rooster), and accessory section(creation-section-accessory) but still in one class <creation-section>
+    NEW - wrapped combined-preview-section and creation-section in "showcase" so it'll flexbox, makes the site a bit responsive
+            -->
     <!-- Add this before closing </body> tag -->
     <div id="avatar-creation-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="avatar-creation">
-                <h2>Create Your Rooster!</h2>
-                
-                <!-- Combined Preview -->
-                <div class="combined-preview-section">
-                    <h3>Your Rooster</h3>
-                    <div class="combined-preview-circle"></div>
-                    <div class="preview-names">
-                        <div id="main-color-name">Red</div>
-                        <div id="border-color-name">Dark Red Border</div>
-                    </div>
-                </div>
 
-                <!-- Main Color Selection -->
-                <div class="creation-section">
-                    <h3>Main Color</h3>
-                    <div class="carousel">
-                        <button class="carousel-btn left-btn">◀</button>
-                        <div class="color-display main-display"></div>
-                        <button class="carousel-btn right-btn">▶</button>
-                    </div>
-                </div>
+                <div class="yellow">
+                    <div class="white">
 
-                <!-- Border Color Selection -->
-                <div class="creation-section">
-                    <h3>Border Color</h3>
-                    <div class="carousel">
-                        <button class="carousel-btn left-btn">◀</button>
-                        <div class="color-display border-display"></div>
-                        <button class="carousel-btn right-btn">▶</button>
+
+                        <h2>CREATE YOUR ROOSTER!</h2>
+
+                        <div class="showcase">
+
+                            <div class="combined-preview-section">
+
+                                <!--<h3>Your Rooster</h3>-->
+
+                                <div class="combined-preview-circle"></div>
+
+                                <div class="preview-names">
+                                    <div id="main-color-name">Red</div>
+                                    <div id="border-color-name">Dark Red Border</div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- Main Color Selection -->
+                            <div class="creation-section">
+                                <div class="creation-section-rooster">
+                                    <h3>Rooster</h3>
+                                    <div class="carousel">
+                                        <button class="carousel-btn left-btn">◀</button>
+                                        <div class="color-display main-display"></div>
+                                        <button class="carousel-btn right-btn">▶</button>
+                                    </div>
+                                </div>
+
+                                <div class="creation-section-accessory">
+                                    <h3>Accessory</h3>
+                                    <div class="carousel">
+                                        <button class="carousel-btn left-btn">◀</button>
+                                        <div class="color-display border-display"></div>
+                                        <button class="carousel-btn right-btn">▶</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <button id="confirm-avatar" class="confirm-btn">START YOUR JOURNEY!</button>
                     </div>
                 </div>
-                
-                <button id="confirm-avatar" class="confirm-btn">Start Your Journey!</button>
             </div>
         </div>
     </div>
+    </div>
+
+
+    <!--CHANGES FOR TUTORIAL:
+    - changed class: confirm-btn -> confirm-btn-tutorial
+    - removed emojis sa <p>-->
+
     <div id="tutorial-modal" class="modal" style="display: none;">
         <div class="modal-content tutorial-content">
+
             <div class="tutorial">
-                <h2>Welcome to Sabungero Idle Game! 🐓</h2>
-                
+                <h2>WELCOME TO SABUNGERO IDLE GAME!</h2>
                 <div class="tutorial-step">
-                    <h3>🎯 Your Mission</h3>
-                    <p>Become the ultimate Sabungero by learning and battling!</p>
+                    <h3> YOUR MISSION</h3>
+                    <hr />
+                    <p>▶ Become the ultimate Sabungero by learning and battling!</p>
                 </div>
-                
+
                 <div class="tutorial-step">
-                    <h3>📚 Learn & Grow</h3>
-                    <p>• <strong>Reading</strong> - Study educational articles</p>
-                    <p>• <strong>Flashcards</strong> - Quick Q&A practice</p>
-                    <p>• <strong>Quizzes</strong> - Test your knowledge</p>
-                    <p>• Use AI to generate new learning content!</p>
+                    <h3> LEARN & GROW</h3>
+                    <hr />
+                    <p>▶ Use AI to generate new learning content!</p>
+                    <p>▶ <strong>Reading</strong> - Study educational articles</p>
+                    <p>▶ <strong>Flashcards</strong> - Quick Q&A practice</p>
+                    <p>▶ <strong>Quizzes</strong> - Test your knowledge</p>
+
                 </div>
-                
+
                 <div class="tutorial-step">
-                    <h3>⚔️ Battle Opponents</h3>
-                    <p>• Fight AI roosters in the Arena</p>
-                    <p>• Higher ranks = tougher opponents</p>
-                    <p>• Gain MMR and climb the ranks</p>
+                    <h3>  BATTLE OPPONENTS</h3>
+                    <hr />
+                    <p>▶ Higher ranks = tougher opponents</p>
+                    <p>▶ Gain MMR and climb the ranks</p>
+                    <p>▶ Fight AI roosters in the Arena</p>
+
                 </div>
-                
+
                 <div class="tutorial-step">
-                    <h3>⌨️ Idle Progression</h3>
-                    <p>• Hold as many keys to gain as much experience</p>
-                    <p>• Become an Educated Sabungero</p>
-                    <p>• Unlock better multipliers</p>
-                    <p>• Defeat Stronger Enemies!</p>
+                    <h3>  IDLE PROGRESSION</h3>
+                    <hr />
+                    <p>▶ Hold as many keys to gain as much experience</p>
+                    <p>▶ Become an Educated Sabungero</p>
+                    <p>▶ Defeat Stronger Enemies!</p>
+                    <p>▶ Unlock better multipliers</p>
+
                 </div>
-                
+
                 <div class="tutorial-step">
-                    <h3>🏆 Ranks</h3>
+                    <h3> RANKS</h3>
+                    <hr />
                     <p>Novice → Bronze → Silver → Gold → Platinum → Diamond → Master → Grand Sabungero</p>
                 </div>
-                
-                <button id="start-playing" class="confirm-btn">Start Playing! 🚀</button>
+
+                <button id="start-playing" class="confirm-btn-tutorial">Start Playing! </button>
+
             </div>
+
         </div>
     </div>
+
+
+
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
     <script>
         window.addEventListener('load', async () => {
@@ -231,7 +356,7 @@
                 antialias: true
             });
             window.stageContainer = window.app.stage;
-            document.getElementById("file-input").value="";
+            document.getElementById("file-input").value = "";
         });
     </script>
     <script src="js/systems/UISystem/Roosters.js"></script>
@@ -252,3 +377,4 @@
     <script src="js/core/game.js"></script>
 </body>
 </html>
+
