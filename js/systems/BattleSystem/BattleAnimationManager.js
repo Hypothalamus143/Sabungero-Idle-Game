@@ -100,10 +100,10 @@ class BattleAnimationManager{
         const opponentStartX = BATTLE_FORMATIONS[this.battleFormation].opponentPos[0];
         const opponentStartY = BATTLE_FORMATIONS[this.battleFormation].opponentPos[1];
 
-        const playerStopX = 0.5 - isBattleApproachAnimation*0.1;
-        const playerStopY = 0.5 - isBattleApproachAnimation*0.1;
-        const opponentStopX = 0.5 + isBattleApproachAnimation*0.1;
-        const opponentStopY = 0.5 + isBattleApproachAnimation*0.1;
+        const playerStopX = 0.5 + isBattleApproachAnimation*0.1*BATTLE_FORMATIONS[this.battleFormation].playerPos[2];
+        const playerStopY = 0.5 + isBattleApproachAnimation*0.1*BATTLE_FORMATIONS[this.battleFormation].playerPos[2];
+        const opponentStopX = 0.5 + isBattleApproachAnimation*0.1*BATTLE_FORMATIONS[this.battleFormation].opponentPos[2];
+        const opponentStopY = 0.5 + isBattleApproachAnimation*0.1*BATTLE_FORMATIONS[this.battleFormation].opponentPos[2];
 
         window.app.uiSystem.roosters.playerRooster.scale.x = -BATTLE_FORMATIONS[this.battleFormation].playerPos[2];
         window.app.uiSystem.roosters.opponentRooster.scale.x = -BATTLE_FORMATIONS[this.battleFormation].opponentPos[2];
