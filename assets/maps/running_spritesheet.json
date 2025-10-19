@@ -1,0 +1,6 @@
+[   
+    {"name":"frame1","x":641,"y":641,"width":640,"height":640},
+    {"name":"frame2","x":0,"y":0,"width":640,"height":640},
+    {"name":"frame3","x":0,"y":641,"width":640,"height":640},
+    {"name":"frame4","x":641,"y":0,"width":640,"height":640}
+]

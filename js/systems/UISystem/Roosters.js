@@ -2,12 +2,20 @@ class Roosters{
     constructor(playerStats, currentOpponent){
         this.playerStats = playerStats;
         this.currentOpponent = currentOpponent;
+        this.roostersIdle = [];
+        this.accessoriesIdle = [];
+        this.roostersRunning = [];
+        this.accessoriesRunning = [];
+        this.playerAvatarIdle = null;
+        this.playerAccessoryIdle = null;
+        this.playerAvatarRunning = null;
+        this.playerAccessoryRuning = null;
         this.init();
     }
     async init(){
     }
 
-    createRoosterContainers() {
+    async createRoosterContainers() {
         // Just create empty containers at positions
         const playerRoosterContainer = new PIXI.Container();
         this.playerRooster = new PIXI.Graphics();
@@ -22,69 +30,253 @@ class Roosters{
         this.opponentRooster.y = window.app.screen.height / 2;
         this.opponentRooster.visible = false;
         window.stageContainer.addChild(playerRoosterContainer, opponentRoosterContainer);
+        
+        await this.preLoadAnimatedSprites();
     }
 
-    updateRoosters() {
+    updateRoosters(isBattleActive=false) {
         console.log('🔄 Updating all roosters');
         // Update player rooster
         if (this.playerStats && this.playerStats.appearance) {
-            this.updateSingleRooster(this.playerRooster, this.playerStats, true);
+            this.updateSingleAvatar(true, isBattleActive);
         } else {
             console.warn('❌ Player stats not loaded yet', 'player: ',this.playerStats, ' opponent:',this.currentOpponent);
         }
         
         // Update opponent rooster if we have one
         if (this.currentOpponent && this.currentOpponent.appearance) {
-            this.updateSingleRooster(this.opponentRooster, this.currentOpponent, false);
+            this.updateSingleAvatar(false, isBattleActive);
         } else {
             console.warn('❌ Opponent stats not loaded yet', ' opponent:',this.currentOpponent);
         }
     }
     
-    updateSingleRooster(rooster, stats, isPlayer) { 
-        rooster.clear();
-        
+    async preLoadAnimatedSprites(){
+        const roostersIdlePngPaths = [
+            "assets/roosters/idle/rooster1_spritesheet.png",
+            "assets/roosters/idle/rooster2_spritesheet.png",
+            "assets/roosters/idle/rooster3_spritesheet.png",
+            "assets/roosters/idle/rooster4_spritesheet.png"
+        ];
+        const accessoriesIdlePngPaths = [
+            "assets/accessories/idle/accessory1_spritesheet.png",
+            "assets/accessories/idle/accessory2_spritesheet.png",
+            "assets/accessories/idle/accessory3_spritesheet.png",
+            "assets/accessories/idle/accessory4_spritesheet.png"
+        ];
+        const roostersRunningPngPaths = [
+            "assets/roosters/running/rooster1_spritesheet.png",
+            "assets/roosters/running/rooster2_spritesheet.png",
+            "assets/roosters/running/rooster3_spritesheet.png",
+            "assets/roosters/running/rooster4_spritesheet.png"
+        ];
+        const jsonIdlePath = "assets/maps/idle_spritesheet.json";
+        const jsonRunningPath = "assets/maps/running_spritesheet.json";
+        this.roostersIdle = await this.loadAnimatedSprites(roostersIdlePngPaths, jsonIdlePath);
+        this.accessoriesIdle = await this.loadAnimatedSprites(accessoriesIdlePngPaths, jsonIdlePath);
+        this.roostersRunning = await this.loadAnimatedSprites(roostersRunningPngPaths, jsonRunningPath);
+        this.playerAvatarIdle = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(roostersIdlePngPaths[this.playerStats.appearance.avatarId-1], jsonIdlePath));
+        this.playerAccessoryIdle = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(accessoriesIdlePngPaths[this.playerStats.appearance.accessoryId], jsonIdlePath));
+        this.playerAvatarRunning = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(roostersRunningPngPaths[this.playerStats.appearance.avatarId-1], jsonRunningPath));
+    }
+
+    async updateSingleAvatar(isPlayer, isBattleActive=false) {
+        this.roostersIdle?.forEach(sprite => sprite?.stop());
+        this.roostersRunning?.forEach(sprite => sprite?.stop());
+        this.accessoriesIdle?.forEach(sprite => sprite?.stop());
+        let rooster;
+        let stats;
+        let avatarSprite;
+        let accessorySprite;    
+        if(isPlayer){
+            rooster = this.playerRooster;
+            stats = this.playerStats;
+            if(isBattleActive){
+                avatarSprite = this.playerAvatarRunning;
+                accessorySprite = null;
+            }
+            else{
+                avatarSprite = this.playerAvatarIdle;
+                accessorySprite = this.playerAccessoryIdle;
+            }
+        }
+        else{
+            rooster = this.opponentRooster;
+            stats = this.currentOpponent;
+            if(isBattleActive){
+                avatarSprite = this.roostersRunning[stats.appearance.avatarId-1];
+                accessorySprite = null;
+            }
+            else{
+                avatarSprite = this.roostersIdle[stats.appearance.avatarId-1];
+                accessorySprite = this.accessoriesIdle[stats.appearance.accessoryId];
+            }
+            
+        }
         const level = stats.level;
         const appearance = stats.appearance;
-        const baseSize = 30;
+        const baseSize = 100;
         const growthFactor = 5;
         const size = baseSize + (level * growthFactor);
+        const animationSpeed = 0.12;
+        // Remove old avatar sprite if it exists
+        rooster.removeChildren();
         
-        // Remove old glow
-        const oldGlow = rooster.getChildByName('glow');
-        if (oldGlow) {
-            rooster.removeChild(oldGlow);
+        avatarSprite.anchor.set(0.5);
+        avatarSprite.width = size * 2;
+        avatarSprite.height = size * 2;
+        avatarSprite.animationSpeed = animationSpeed;
+        console.log(stats);
+        
+        if(accessorySprite){
+            accessorySprite.anchor.set(0.5);
+            accessorySprite.width = size * 2;
+            accessorySprite.height = size * 2;
+            accessorySprite.animationSpeed = animationSpeed;
+            accessorySprite.gotoAndPlay(0);
         }
         
-        // Main circle - color based on avatarId
-        const avatarColors = [0xe74c3c, 0x3498db, 0x2ecc71, 0xf39c12, 0x9b59b6, 0x1abc9c, 0xe67e22, 0x34495e];
-        const mainColor = avatarColors[appearance.avatarId - 1];
+
+        //Play and Add Simultaneously
+         
+        avatarSprite.gotoAndPlay(0); // Reset to frame 0 and play
+        rooster.addChild(avatarSprite);
+        if(accessorySprite)
+            rooster.addChild(accessorySprite);    
+    }
+
+    async loadCustomSpritesheet(spritesheetImagePath, jsonDataPath) {
+        // Load the JSON frame data
+        const response = await fetch(jsonDataPath);
+        const frameData = await response.json();
         
-        rooster.circle(0, 0, size);
-        rooster.fill({"color":mainColor});
+        // Load the baseTexture
+        const baseTexture = await PIXI.Assets.load(spritesheetImagePath);
         
-        // Border - color based on accessoryId  
-        const borderColors = [0xc0392b, 0x2980b9, 0x27ae60, 0xd35400, 0x8e44ad, 0x16a085, 0xc0392b, 0x2c3e50];
-        const borderColor = borderColors[appearance.accessoryId];
-        const borderWidth = isPlayer ? 3 : 2;
+        // Create spritesheet data with simple indexed names
+        const pixiSheetData = {
+            frames: {},
+            meta: {
+                image: spritesheetImagePath,
+                format: "RGBA8888",
+                size: { w: 0, h: 0 },
+                scale: 1
+            }
+        };
         
-        rooster.stroke({
-            width: borderWidth,
-            color: borderColor
+        // Use simple index-based names to avoid conflicts
+        frameData.forEach((frame, index) => {
+            pixiSheetData.frames[`frame${index}`] = {
+                frame: { x: frame.x, y: frame.y, w: frame.width, h: frame.height },
+                rotated: false,
+                trimmed: false,
+                spriteSourceSize: { x: 0, y: 0, w: frame.width, h: frame.height },
+                sourceSize: { w: frame.width, h: frame.height }
+            };
         });
         
-        // Glow effect based on glowId (index-based)
-        const glowColors = [0x000000, 0xcd7f32, 0xc0c0c0, 0xffd700, 0xe5e4e2, 0xb9f2ff, 0xff00ff, 0xff0000];
-        const glowId = appearance.glowId || 0;
+        const sheet = new PIXI.Spritesheet(baseTexture, pixiSheetData);
+        await sheet.parse();
         
-        if (glowId > 0) { // Only add glow if not Novice (glowId 0)
-            const glowContainer = new PIXI.Container();
-            const glow = new PIXI.Graphics();
-            glowContainer.name = 'glow';
-            glow.circle(0, 0, size + (isPlayer ? 8 : 6));
-            glow.fill({"color": glowColors[glowId], "alpha":0.4});
-            glowContainer.addChild(glow);
-            rooster.addChild(glowContainer);
-        }
+        // Return the textures in the correct order
+        const textures = Object.values(sheet.textures);
+        return textures;
+    }
+    async loadAnimatedSprites(pngPaths, jsonPath) {
+        const sprites = [];
+        
+        const loadPromises = pngPaths.map(async (pngPath, index) => {
+            try {
+                const textures = await this.loadCustomSpritesheet(pngPath, jsonPath);
+                const animatedSprite = new PIXI.AnimatedSprite(textures);
+                animatedSprite.name = `sprite${index}`;
+                animatedSprite.anchor.set(0.5);
+                animatedSprite.width = 100 * 2; // Default size
+                animatedSprite.height = 100 * 2;
+                animatedSprite.animationSpeed = 0.12;
+                
+                sprites[index] = animatedSprite;
+                console.log(`✅ Loaded sprite ${index}: ${pngPath}`);
+            } catch (error) {
+                console.error(`❌ Failed to load sprite ${index}:`, error);
+            }
+        });
+
+        await Promise.all(loadPromises);
+        console.log('🎉 All animated sprites loaded:', sprites.length);
+        
+        return sprites;
+    }
+
+    async loadPreviews(pngPaths, jsonPath) {
+        let previews = [];
+        const loadPromises = pngPaths.map(async (pngPath, index) => {
+            try {
+                const spriteData = await this.loadSingleSprite(pngPath, jsonPath);
+                
+                // Create a canvas element for this sprite
+                const canvas = document.createElement('canvas');
+                canvas.width = 100;
+                canvas.height = 100;
+                canvas.style.visibility = 'visible';
+                
+                const ctx = canvas.getContext('2d');
+                
+                // Check if frame data structure matches your JSON
+                // If your JSON is an array, spriteData.frame should be the first element
+                ctx.drawImage(
+                    spriteData.image,
+                    spriteData.frame.x, spriteData.frame.y, 
+                    spriteData.frame.width || spriteData.frame.w, // Use width if w doesn't exist
+                    spriteData.frame.height || spriteData.frame.h, // Use height if h doesn't exist
+                    0, 0, 100, 100
+                );
+                
+                // Store with index-based key
+                previews[index] = canvas;
+                
+            } catch (error) {
+                console.error(`❌ Failed to load rooster ${index}:`, error);
+                // Create a fallback colored canvas
+                const fallbackCanvas = document.createElement('canvas');
+                fallbackCanvas.width = 100;
+                fallbackCanvas.height = 100;
+                const ctx = fallbackCanvas.getContext('2d');
+                ctx.fillStyle = '#ff0000';
+                ctx.fillRect(0, 0, 100, 100);
+                previews[index] = fallbackCanvas;
+            }
+        });
+        
+        await Promise.all(loadPromises);
+        console.log('🎉 All preview roosters loaded:', previews.length);
+        return previews;
+    }
+
+    async loadSingleSprite(spritesheetImagePath, jsonDataPath) {
+        // Load the JSON frame data
+        const response = await fetch(jsonDataPath);
+        const frameData = await response.json();
+        
+        // Load the image
+        const image = await this.loadImage(spritesheetImagePath);
+        
+        // Get the first frame only - EXACTLY like your original PIXI function
+        const firstFrame = frameData[0]; // ← This gets the first array element
+        
+        return {
+            image: image,
+            frame: firstFrame // ← This should have x, y, width, height properties
+        };
+    }
+
+    // Helper function to load images
+    loadImage(src) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = src;
+        });
     }
 }

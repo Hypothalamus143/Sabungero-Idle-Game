@@ -1,16 +1,16 @@
 // Four possible battle formations
 const BATTLE_FORMATIONS = [
             // Player Upper Left, Opponent Lower Right
-            { playerPos: [0.1, 0.1], opponentPos: [0.9, 0.9], name: "Horizontal Face-off" },
+            { playerPos: [0.1, 0.1, -1], opponentPos: [0.9, 0.9, 1], name: "Horizontal Face-off" },
             
             // Player Lower Right, Opponent Upper Left  
-            { playerPos: [0.9, 0.9], opponentPos: [0.1, 0.1], name: "Reverse Horizontal" },
+            { playerPos: [0.9, 0.9, 1], opponentPos: [0.1, 0.1, -1], name: "Reverse Horizontal" },
             
             // Player Lower Left , Opponent Upper Right
-            { playerPos: [0.1, 0.9], opponentPos: [0.9, 0.1], name: "Vertical Stand-off" },
+            { playerPos: [0.1, 0.9, -1], opponentPos: [0.9, 0.1, 1], name: "Vertical Stand-off" },
             
             // Player Upper Right, Lower Left
-            { playerPos: [0.9, 0.1], opponentPos: [0.1, 0.9], name: "Reverse Vertical" }
+            { playerPos: [0.9, 0.1, 1], opponentPos: [0.1, 0.9, -1], name: "Reverse Vertical" }
             ];
 
 class SabungeroGame {
@@ -48,10 +48,9 @@ class SabungeroGame {
         
         // Initialize event listeners first
         this.initEventListeners();
-
         // Create empty rooster containers
 
-        window.app.uiSystem.roosters.createRoosterContainers();
+        await window.app.uiSystem.roosters.createRoosterContainers();
 
         window.app.uiSystem.updateUI();
         this.showScreen("main");
@@ -129,6 +128,7 @@ class SabungeroGame {
                 this.battleSystem.battleAnimationManager.arenaBg.visible = false;
                 window.app.uiSystem.roosters.playerRooster.visible = true;
                 window.app.uiSystem.roosters.opponentRooster.visible = false;
+                window.app.uiSystem.roosters.playerRooster.scale.x = 1;
                 this.updateAllPositions();
                 this.idleSystem.startIdleLoop();
                 break;
@@ -139,6 +139,7 @@ class SabungeroGame {
                 this.battleSystem.battleAnimationManager.arenaBg.visible = false;
                 window.app.uiSystem.roosters.playerRooster.visible = true;
                 window.app.uiSystem.roosters.opponentRooster.visible = false;
+                window.app.uiSystem.roosters.playerRooster.scale.x = 1;
                 this.updateAllPositions();
                 this.learningSystem.showLearningMain();
                 break;
@@ -161,9 +162,9 @@ class SabungeroGame {
                 }
                 this.updateAllPositions();
                 // Always ensure player is positioned correctly
-                window.app.uiSystem.roosters.playerRooster.visible = true;
+                window.app.uiSystem.roosters.playerRooster.scale.x = BATTLE_FORMATIONS[this.battleSystem.battleAnimationManager.getBattleFormation()].playerPos[2];
+                window.app.uiSystem.roosters.opponentRooster.scale.x = BATTLE_FORMATIONS[this.battleSystem.battleAnimationManager.getBattleFormation()].opponentPos[2];
                 // Update roosters to ensure they're drawn with current data
-                window.app.uiSystem.roosters.updateRoosters();
                 break;
         }
         // Update roosters after screen switch
@@ -181,38 +182,49 @@ class SabungeroGame {
         }
     }
     // In your showAvatarCreation() method, update the avatar preview
-    showAvatarCreation() {
+    async showAvatarCreation() {
+        const roostersPngPath = [
+            "assets/roosters/idle/rooster1_spritesheet.png",
+            "assets/roosters/idle/rooster2_spritesheet.png",
+            "assets/roosters/idle/rooster3_spritesheet.png",
+            "assets/roosters/idle/rooster4_spritesheet.png"
+
+        ];
+        const accessoriesPngPath = [
+            "assets/accessories/idle/accessory1_spritesheet.png",
+            "assets/accessories/idle/accessory2_spritesheet.png",
+            "assets/accessories/idle/accessory3_spritesheet.png",
+            "assets/accessories/idle/accessory4_spritesheet.png"
+        ];
+        const jsonPath = "assets/maps/idle_spritesheet.json";
+
+        this.roostersPreview = await window.app.uiSystem.roosters.loadPreviews(roostersPngPath, jsonPath);
+        this.accessoriesPreview = await window.app.uiSystem.roosters.loadPreviews(accessoriesPngPath, jsonPath);
+        this.roostersPreviewDuplicate = await window.app.uiSystem.roosters.loadPreviews(roostersPngPath, jsonPath);
+        this.accessoriesPreviewDuplicate = await window.app.uiSystem.roosters.loadPreviews(accessoriesPngPath, jsonPath);
         return new Promise((resolve) => { // 👈 ADD THIS LINE
             const modal = document.getElementById('avatar-creation-modal');
             modal.style.display = 'flex';
             
-            // Define color options
-            this.avatarColors = [
-                { id: 1, main: 0xe74c3c, border: 0xc0392b, name: "Red" },
-                { id: 2, main: 0x3498db, border: 0x2980b9, name: "Blue" },
-                { id: 3, main: 0x2ecc71, border: 0x27ae60, name: "Green" },
-                { id: 4, main: 0xf39c12, border: 0xd35400, name: "Orange" },
-                { id: 5, main: 0x9b59b6, border: 0x8e44ad, name: "Purple" },
-                { id: 6, main: 0x1abc9c, border: 0x16a085, name: "Teal" },
-                { id: 7, main: 0xe67e22, border: 0xc0392b, name: "Carrot" },
-                { id: 8, main: 0x34495e, border: 0x2c3e50, name: "Dark" }
+            // Define avatar and accessory options
+             
+            this.avatars = [
+                { id: 1, sprite: this.roostersPreview[0], name: "Red" },
+                { id: 2, sprite: this.roostersPreview[1], name: "Pink" },
+                { id: 3, sprite: this.roostersPreview[2], name: "Black" },
+                { id: 4, sprite: this.roostersPreview[3], name: "White" }
             ];
             
-            this.borderColors = [
-                { id: 0, color: 0xc0392b, name: "Dark Red" },
-                { id: 1, color: 0x2980b9, name: "Dark Blue" },
-                { id: 2, color: 0x27ae60, name: "Dark Green" },
-                { id: 3, color: 0xd35400, name: "Dark Orange" },
-                { id: 4, color: 0x8e44ad, name: "Dark Purple" },
-                { id: 5, color: 0x16a085, name: "Dark Teal" },
-                { id: 6, color: 0xc0392b, name: "Maroon" },
-                { id: 7, color: 0x2c3e50, name: "Midnight" }
+            this.accessories = [
+                { id: 0, sprite: this.accessoriesPreview[0], name: "Crown" },
+                { id: 1, sprite: this.accessoriesPreview[1], name: "Helmet" },
+                { id: 2, sprite: this.accessoriesPreview[2], name: "Chain" },
+                { id: 3, sprite: this.accessoriesPreview[3], name: "Necklace" }
             ];
             
             // Initialize selections
             this.selectedAvatarIndex = 0;
-            this.selectedBorderIndex = 0;
-            
+            this.selectedAccessoryIndex = 0;
             this.updatePreview();
             
             // Event listeners for carousels
@@ -226,8 +238,8 @@ class SabungeroGame {
             
             document.getElementById('confirm-avatar').onclick = () => {
                 this.createPlayerWithAvatar(
-                    this.avatarColors[this.selectedAvatarIndex].id,
-                    this.borderColors[this.selectedBorderIndex].id
+                    this.avatars[this.selectedAvatarIndex].id,
+                    this.accessories[this.selectedAccessoryIndex].id
                 );
                 modal.style.display = 'none';
                 resolve(); // 👈 ADD THIS LINE - tells Promise it's done
@@ -237,32 +249,27 @@ class SabungeroGame {
     changeSelection(typeIndex, direction) {
         if (typeIndex === 0) {
             // Main color selection
-            this.selectedAvatarIndex = (this.selectedAvatarIndex + direction + this.avatarColors.length) % this.avatarColors.length;
+            this.selectedAvatarIndex = (this.selectedAvatarIndex + direction + this.avatars.length) % this.avatars.length;
         } else {
             // Border color selection
-            this.selectedBorderIndex = (this.selectedBorderIndex + direction + this.borderColors.length) % this.borderColors.length;
+            this.selectedAccessoryIndex = (this.selectedAccessoryIndex + direction + this.accessories.length) % this.accessories.length;
         }
         this.updatePreview();
     }
 
     updatePreview() {
-        const mainColor = this.avatarColors[this.selectedAvatarIndex];
-        const borderColor = this.borderColors[this.selectedBorderIndex];
-        
-        // Update combined preview
-        const combinedPreview = document.querySelector('.combined-preview-circle');
-        combinedPreview.style.backgroundColor = `#${mainColor.main.toString(16)}`;
-        combinedPreview.style.borderColor = `#${borderColor.color.toString(16)}`;
-        
-        // Update color displays
-        document.querySelector('.main-display').style.backgroundColor = `#${mainColor.main.toString(16)}`;
-        document.querySelector('.border-display').style.backgroundColor = `#${borderColor.color.toString(16)}`;
-        
+        document.getElementById('main-display').innerHTML = '';
+        document.getElementById('border-display').innerHTML = '';
+        document.getElementById('combined-preview-circle').innerHTML = '';
+        document.getElementById('main-display').appendChild(this.roostersPreview[this.selectedAvatarIndex]);
+        document.getElementById('border-display').appendChild(this.accessoriesPreview[this.selectedAccessoryIndex]);
+        document.getElementById('combined-preview-circle').appendChild(this.roostersPreviewDuplicate[this.selectedAvatarIndex]);
+        document.getElementById('combined-preview-circle').appendChild(this.accessoriesPreviewDuplicate[this.selectedAccessoryIndex]);
         // Update names
-        document.getElementById('main-color-name').textContent = mainColor.name;
-        document.getElementById('border-color-name').textContent = `${borderColor.name} Border`;
+        document.getElementById('main-color-name').textContent = this.avatars[this.selectedAvatarIndex].name;
+        document.getElementById('border-color-name').textContent = this.accessories[this.selectedAccessoryIndex].name;
     }
-    createPlayerWithAvatar(avatarId) {
+    createPlayerWithAvatar(avatarId, accessoryId) {
         const defaultStats = {
             level: 1,
             multiplier: 1.0,
@@ -281,7 +288,7 @@ class SabungeroGame {
             },
             appearance: {
                 avatarId: parseInt(avatarId),
-                accessoryId: 0,  // Start with no accessory
+                accessoryId: parseInt(accessoryId),  // Start with no accessory
                 glow: 0x000000   // No glow initially
             }
         };

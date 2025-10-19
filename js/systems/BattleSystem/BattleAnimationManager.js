@@ -100,10 +100,13 @@ class BattleAnimationManager{
         const opponentStartX = BATTLE_FORMATIONS[this.battleFormation].opponentPos[0];
         const opponentStartY = BATTLE_FORMATIONS[this.battleFormation].opponentPos[1];
 
-        const playerStopX = 0.5;
-        const playerStopY = 0.5;
-        const opponentStopX = 0.5;
-        const opponentStopY = 0.5;
+        const playerStopX = 0.5 - isBattleApproachAnimation*0.1;
+        const playerStopY = 0.5 - isBattleApproachAnimation*0.1;
+        const opponentStopX = 0.5 + isBattleApproachAnimation*0.1;
+        const opponentStopY = 0.5 + isBattleApproachAnimation*0.1;
+
+        window.app.uiSystem.roosters.playerRooster.scale.x = -BATTLE_FORMATIONS[this.battleFormation].playerPos[2];
+        window.app.uiSystem.roosters.opponentRooster.scale.x = -BATTLE_FORMATIONS[this.battleFormation].opponentPos[2];
 
         // Phase 1: Fly to touch positions SIMULTANEOUSLY
         this.stopJitterAnimation();
@@ -148,6 +151,8 @@ class BattleAnimationManager{
         const opponentTargetX = formation.opponentPos[0];
         const opponentTargetY = formation.opponentPos[1];
         
+        window.app.uiSystem.roosters.playerRooster.scale.x = -BATTLE_FORMATIONS[this.battleFormation].playerPos[2];
+        window.app.uiSystem.roosters.opponentRooster.scale.x = -BATTLE_FORMATIONS[this.battleFormation].opponentPos[2];
         // Phase 4: Return simultaneously
         await Promise.all([
             this.moveToPosition(window.app.uiSystem.roosters.playerRooster, playerStopX, playerStopY, playerTargetX, playerTargetY, attackDuration/2),

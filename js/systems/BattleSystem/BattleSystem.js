@@ -34,7 +34,7 @@ class BattleSystem{
             Object.assign(this.currentOpponent, opponentData);
 
             // Update roosters
-            window.app.uiSystem.roosters.updateRoosters();
+            window.app.uiSystem.roosters.updateSingleAvatar(false);
             
             // Show opponent with rank info
             window.app.uiSystem.roosters.opponentRooster.visible = true;
@@ -72,7 +72,7 @@ class BattleSystem{
         // Hide both buttons during battle
         document.getElementById('fight-btn').style.display = 'none';
         document.getElementById('battle-btn').style.display = 'none';
-        
+        window.app.uiSystem.roosters.updateRoosters(true);
         // Start the initial approach animation
         await this.battleAnimationManager.battleApproachAnimation();
         
@@ -195,7 +195,9 @@ class BattleSystem{
         this.showBattleResult(victory, playerDamage, opponentDamage, mmrChange);
         // Update UI
         window.app.uiSystem.updateUI();
-        
+        window.app.uiSystem.roosters.updateRoosters();
+        window.app.uiSystem.roosters.playerRooster.scale.x = BATTLE_FORMATIONS[this.battleAnimationManager.getBattleFormation()].playerPos[2];
+        window.app.uiSystem.roosters.opponentRooster.scale.x = BATTLE_FORMATIONS[this.battleAnimationManager.getBattleFormation()].opponentPos[2];
         // Hide opponent and show find button after delay
         setTimeout(() => {
             window.app.uiSystem.roosters.opponentRooster.visible = false;

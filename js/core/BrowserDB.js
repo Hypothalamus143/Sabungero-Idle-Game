@@ -254,8 +254,8 @@ class BrowserDB {
         
         // Random avatar and accessory, index-based glow
         const visualData = {
-            avatarId: Math.floor(Math.random() * 8) + 1,      // Random 1-8
-            accessoryId: Math.floor(Math.random() * 8),       // Random 0-7
+            avatarId: Math.floor(Math.random() * 4) + 1,      // Random 1-4
+            accessoryId: Math.floor(Math.random() * 4),       // Random 0-3
             glowId: opponentRank.tier                         // Index-based glow (0-7)
         };
         
