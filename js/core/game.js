@@ -89,7 +89,7 @@ class SabungeroGame {
             e.preventDefault();
         });
         window.addEventListener('beforeunload', () => {
-            savePlayerData();
+            this.savePlayerData();
         });
         window.addEventListener('resize', () => this.updateAllPositions());
     }
