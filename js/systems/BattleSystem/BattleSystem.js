@@ -141,14 +141,14 @@ class BattleSystem{
     updateRankFromMMR() {
         const mmr = this.playerStats.ranking.mmr;
         const rankVisuals = {
-            0: {rank: "Novice", avatarId: 1, accessoryId: 0, glow: 0x000000},
-            1000: {rank: "Bronze", avatarId: 1, accessoryId: 1, glow: 0xcd7f32},
-            1500: {rank: "Silver", avatarId: 2, accessoryId: 2, glow: 0xc0c0c0},
-            2000: {rank: "Gold", avatarId: 2, accessoryId: 3, glow: 0xffd700},
-            2500: {rank: "Platinum", avatarId: 3, accessoryId: 4, glow: 0xe5e4e2},
-            3000: {rank: "Diamond", avatarId: 3, accessoryId: 5, glow: 0xb9f2ff},
-            3500: {rank: "Master", avatarId: 4, accessoryId: 6, glow: 0xff00ff},
-            4000: {rank: "Grand Sabungero", avatarId: 4, accessoryId: 7, glow: 0xff0000}
+            0: {rank: "Novice", glow: 0x000000},
+            1000: {rank: "Bronze", glow: 0xcd7f32},
+            1500: {rank: "Silver", glow: 0xc0c0c0},
+            2000: {rank: "Gold", glow: 0xffd700},
+            2500: {rank: "Platinum", glow: 0xe5e4e2},
+            3000: {rank: "Diamond", glow: 0xb9f2ff},
+            3500: {rank: "Master", glow: 0xff00ff},
+            4000: {rank: "Grand Sabungero", glow: 0xff0000}
         };
         
         let newRank = rankVisuals[0];
@@ -157,13 +157,15 @@ class BattleSystem{
                 newRank = rankVisuals[threshold];
             }
         }
+        
         // Update player appearance if rank changed
         if (newRank.rank !== this.playerStats.ranking.rank) {
             this.playerStats.ranking.rank = newRank.rank;
             this.playerStats.ranking.rank_tier = Object.keys(rankVisuals).indexOf(Object.keys(rankVisuals).find(k => rankVisuals[k].rank === newRank.rank));
             
-            // Update appearance from the rank definition
-            this.playerStats.appearance = {...newRank};
+            // ✅ Only update glow, preserve avatarId and accessoryId
+            this.playerStats.appearance.glow = newRank.glow;
+            
             window.app.uiSystem.roosters.updateRoosters();
             
             // TODO: Send appearance update to backend when we have user accounts
@@ -171,7 +173,6 @@ class BattleSystem{
     }
     handleBattleEnd(victory, playerDamage, opponentDamage) {
         this.battleStates.isBattleActive = false;
-        
         // Stop battle loops
         clearInterval(this.battleInterval);
         this.battleAnimationManager.stopJitterAnimation();
