@@ -1,6 +1,7 @@
 class IdleSystem{
     constructor(playerStats){
         this.playerStats = playerStats;
+        this.hearts = new Hearts();
         this.init();
     }
     async init(){
@@ -49,6 +50,8 @@ class IdleSystem{
         this.idleInterval = setInterval(() => {
             if (window.app.uiSystem.activeKeys.size > 0) {
                 this.addIdleExperience();
+                this.hearts.spawnAroundPlayer(window.app.uiSystem.activeKeys.size);
+                this.hearts.startAnimation(1000);
             }
         }, 1000);
     }

@@ -51,7 +51,7 @@ class SabungeroGame {
         // Create empty rooster containers
 
         await window.app.uiSystem.roosters.createRoosterContainers();
-
+        await this.idleSystem.hearts.initialize();
         window.app.uiSystem.updateUI();
         this.showScreen("main");
 
