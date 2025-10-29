@@ -234,10 +234,8 @@ class BrowserDB {
         const opponentRank = this.getRankFromMMR(opponentMMR);
         
         // Calculate level based on MMR (example: 100 MMR = level 1, 2000 MMR = level 20)
-        const baseLevel = 1;
         const levelScale = 0.01; // Adjust this to control level progression
-        const opponentLevel = Math.max(1, baseLevel + Math.floor(opponentMMR * levelScale));
-        
+        const opponentLevel = Math.max(1, Math.floor(opponentMMR * levelScale));
         const opponentHp = opponentLevel * 100;
         const opponentDamage = opponentLevel;
         
