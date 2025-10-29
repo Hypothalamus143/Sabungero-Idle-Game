@@ -13,7 +13,6 @@ class LearningSystem{
     
     async init(){
         const savedKey = localStorage.getItem('gemini_api_key');
-            console.log(savedKey);
             if (savedKey) {
                 window.GEMINI_API_KEY = savedKey;
                 document.getElementById('api-key-input-modal').value = '*'.repeat(savedKey.length); // mask it

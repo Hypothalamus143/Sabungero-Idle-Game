@@ -45,10 +45,6 @@ class BattleEngine{
         if (playerWon && this.playerStats.ranking.win_streak >= 3) {
             mmrChange += Math.floor(this.playerStats.ranking.win_streak / 3) * 5;
         }
-        
-        console.log(`🎯 MMR Calc: Player ${playerMMR} vs Opponent ${opponentMMR}`);
-        console.log(`🎯 Expected: ${expectedScore.toFixed(2)}, Actual: ${actualScore}, Change: ${mmrChange}`);
-        
         return mmrChange;
     }
 }

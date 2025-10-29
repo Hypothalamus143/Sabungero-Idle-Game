@@ -21,7 +21,6 @@ class AIGenerated{
             const text = result?.response?.text?.();
 
             if (!text || !text.trim()) throw new Error("Empty Gemini response");
-            console.log(text);
             let content = null;
             if (contentType === "reading") {
                 content = { type: "reading", content: text };
@@ -128,7 +127,6 @@ class AIGenerated{
         }
     }
     async dummyGenerate(topic, contentType, text) {
-        console.log("🔁 Using Dummy Generator for:", topic, contentType);
         let content = null;
 
         if (contentType === "reading") {
@@ -251,10 +249,7 @@ class AIGenerated{
             const chunk = remaining.substring(0, CHUNK_SIZE);
             remaining = remaining.substring(CHUNK_SIZE);
 
-            console.log(`🧩 Generating Part ${part} (${chunk.length} chars)`);
-
             const data = await this.generate(chunk, this.currentContentType);
-            console.log(data);
 
             if (data.success) {
                 // ✅ Only add “(Part 1)” if there are *more* parts

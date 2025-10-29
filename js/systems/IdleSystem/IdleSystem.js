@@ -24,8 +24,6 @@ class IdleSystem{
         }
         
         window.app.uiSystem.updateUI();
-        console.log(`🎯 +${totalGain.toFixed(1)} XP (${window.app.uiSystem.activeKeys.size} keys × ${multiplierBonus}x multiplier)`);
-        console.log(`📊 XP: ${this.playerStats.experience.toFixed(1)} / ${expNeeded}`);
     }
     levelUp() {
         const currentExp = this.playerStats.experience;
@@ -34,9 +32,6 @@ class IdleSystem{
             this.playerStats.level++;
             this.playerStats.experience = currentExp - expNeeded; // Carry over excess XP
             this.playerStats.expNeeded = expNeeded * 2; // Multiply threshold by 2
-
-            console.log(`🎉 LEVEL UP! Now level ${this.playerStats.level}`);
-            console.log(`📊 New XP threshold: ${this.playerStats.expNeeded}`);
             window.app.uiSystem.roosters.updateRoosters();
         }
     }

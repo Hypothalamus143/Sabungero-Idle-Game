@@ -9,7 +9,7 @@ class Roosters{
         this.playerAvatarIdle = null;
         this.playerAccessoryIdle = null;
         this.playerAvatarRunning = null;
-        this.playerAccessoryRuning = null;
+        this.playerAccessoryRunning = null;
         this.init();
     }
     async init(){
@@ -70,30 +70,40 @@ class Roosters{
             "assets/roosters/running/rooster3_spritesheet.png",
             "assets/roosters/running/rooster4_spritesheet.png"
         ];
+        const accessoriesRunningPngPaths = [
+            "assets/accessories/running/accessory1_spritesheet.png",
+            "assets/accessories/running/accessory2_spritesheet.png",
+            "assets/accessories/running/accessory3_spritesheet.png",
+            "assets/accessories/running/accessory4_spritesheet.png"
+        ];
         const jsonIdlePath = "assets/maps/idle_spritesheet.json";
         const jsonRunningPath = "assets/maps/running_spritesheet.json";
+        const jsonAccessoryRunningPath = "assets/maps/running_accessories_spritesheet.json";
         this.roostersIdle = await this.loadAnimatedSprites(roostersIdlePngPaths, jsonIdlePath);
         this.accessoriesIdle = await this.loadAnimatedSprites(accessoriesIdlePngPaths, jsonIdlePath);
         this.roostersRunning = await this.loadAnimatedSprites(roostersRunningPngPaths, jsonRunningPath);
+        this.accessoriesRunning = await this.loadAnimatedSprites(accessoriesRunningPngPaths, jsonAccessoryRunningPath);
         this.playerAvatarIdle = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(roostersIdlePngPaths[this.playerStats.appearance.avatarId-1], jsonIdlePath));
         this.playerAccessoryIdle = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(accessoriesIdlePngPaths[this.playerStats.appearance.accessoryId], jsonIdlePath));
         this.playerAvatarRunning = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(roostersRunningPngPaths[this.playerStats.appearance.avatarId-1], jsonRunningPath));
+        this.playerAccessoryRunning = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(accessoriesRunningPngPaths[this.playerStats.appearance.accessoryId], jsonAccessoryRunningPath));
     }
 
     async updateSingleAvatar(isPlayer, isBattleActive=false) {
-        this.roostersIdle?.forEach(sprite => sprite?.stop());
-        this.roostersRunning?.forEach(sprite => sprite?.stop());
-        this.accessoriesIdle?.forEach(sprite => sprite?.stop());
         let rooster;
         let stats;
         let avatarSprite;
         let accessorySprite;    
         if(isPlayer){
+            this.playerAccessoryIdle.stop();
+            this.playerAvatarIdle.stop();
+            this.playerAvatarRunning.stop();
+            this.playerAccessoryRunning.stop();
             rooster = this.playerRooster;
             stats = this.playerStats;
             if(isBattleActive){
                 avatarSprite = this.playerAvatarRunning;
-                accessorySprite = null;
+                accessorySprite = this.playerAccessoryRunning;
             }
             else{
                 avatarSprite = this.playerAvatarIdle;
@@ -101,20 +111,21 @@ class Roosters{
             }
         }
         else{
+            this.roostersIdle?.forEach(sprite => sprite?.stop());
+            this.roostersRunning?.forEach(sprite => sprite?.stop());
+            this.accessoriesIdle?.forEach(sprite => sprite?.stop());
             rooster = this.opponentRooster;
             stats = this.currentOpponent;
             if(isBattleActive){
                 avatarSprite = this.roostersRunning[stats.appearance.avatarId-1];
-                accessorySprite = null;
+                accessorySprite = this.accessoriesRunning[stats.appearance.accessoryId];
             }
             else{
                 avatarSprite = this.roostersIdle[stats.appearance.avatarId-1];
                 accessorySprite = this.accessoriesIdle[stats.appearance.accessoryId];
             }
-            
-        }
+       }
         const level = stats.level;
-        const appearance = stats.appearance;
         const baseSize = 100;
         const growthFactor = 5;
         const size = baseSize + (level * growthFactor);
@@ -126,23 +137,17 @@ class Roosters{
         avatarSprite.width = size * 2;
         avatarSprite.height = size * 2;
         avatarSprite.animationSpeed = animationSpeed;
-        console.log(stats);
         
-        if(accessorySprite){
-            accessorySprite.anchor.set(0.5);
-            accessorySprite.width = size * 2;
-            accessorySprite.height = size * 2;
-            accessorySprite.animationSpeed = animationSpeed;
-            accessorySprite.gotoAndPlay(0);
-        }
+        accessorySprite.anchor.set(0.5);
+        accessorySprite.width = size * 2;
+        accessorySprite.height = size * 2;
+        accessorySprite.animationSpeed = animationSpeed;
         
-
         //Play and Add Simultaneously
-         
         avatarSprite.gotoAndPlay(0); // Reset to frame 0 and play
+        accessorySprite.gotoAndPlay(0);
         rooster.addChild(avatarSprite);
-        if(accessorySprite)
-            rooster.addChild(accessorySprite);    
+        rooster.addChild(accessorySprite);
     }
 
     async loadCustomSpritesheet(spritesheetImagePath, jsonDataPath) {
@@ -196,14 +201,12 @@ class Roosters{
                 animatedSprite.animationSpeed = 0.12;
                 
                 sprites[index] = animatedSprite;
-                console.log(`✅ Loaded sprite ${index}: ${pngPath}`);
             } catch (error) {
                 console.error(`❌ Failed to load sprite ${index}:`, error);
             }
         });
 
         await Promise.all(loadPromises);
-        console.log('🎉 All animated sprites loaded:', sprites.length);
         
         return sprites;
     }
@@ -249,7 +252,6 @@ class Roosters{
         });
         
         await Promise.all(loadPromises);
-        console.log('🎉 All preview roosters loaded:', previews.length);
         return previews;
     }
 

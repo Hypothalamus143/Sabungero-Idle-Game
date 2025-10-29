@@ -2,9 +2,11 @@ class BattleSystem{
     constructor(playerStats, currentOpponent){
         this.playerStats = playerStats;
         this.currentOpponent = currentOpponent;
+        this.damages = {};
         this.battleStates = {"isBattleActive":false, battleState:'idle'};
         this.battleEngine = new BattleEngine(playerStats, currentOpponent, this.battleStates);
-        this.battleAnimationManager = new BattleAnimationManager(playerStats, currentOpponent, this.battleStates);
+        this.battleAnimationManager = new BattleAnimationManager(playerStats, currentOpponent, this.battleStates, this.damages);
+        this.battleInterval = null;
         this.init();
     }
     async init() {
@@ -28,7 +30,6 @@ class BattleSystem{
         
         document.getElementById('battle-result').innerHTML = "";
         try {
-            console.log(this.playerStats);
 
             const opponentData = BrowserDB.generateOpponent(this.playerStats.level, this.playerStats.mmr);
             Object.assign(this.currentOpponent, opponentData);
@@ -82,54 +83,59 @@ class BattleSystem{
         console.log('⚔️ Battle started!');
     }
     startBattleLoop() {
-        this.battleInterval = setInterval(() => {
-            // Trigger attacks when in fighting state
-            if (this.battleStates.isBattleActive) {
-                this.damages = this.battleEngine.calculateBattle();
+        // Stop any existing battle loop first
+        this.stopBattleLoop();
+        
+        let lastAttackTime = 0;
+        const attackCooldown = 2000; // 2 seconds
+
+        // Store the function reference for proper removal
+        this.battleTickFunction = () => {
+            if (!this.battleStates.isBattleActive) return;
+            
+            const currentTime = performance.now();
+            
+            // Only attack every 2 seconds
+            if (currentTime - lastAttackTime >= attackCooldown) {
+                lastAttackTime = currentTime;
+                
+                Object.assign(this.damages, this.battleEngine.calculateBattle());
                 this.battleAnimationManager.attackAnimation(
-                this.damages.playerDamage, this.damages.opponentDamage
-            ).then(() => {
-                if (this.battleStates.isBattleActive) {
-                    this.applyDamage(this.damages.playerDamage, this.damages.opponentDamage);
-                    this.battleStates.battleState = 'fighting';
-                }
-            });
+                    this.damages.playerDamage, this.damages.opponentDamage
+                ).then(() => {
+                    if (this.battleStates.isBattleActive) {
+                        const battleOver = this.playerStats.hp <= 0 || this.currentOpponent.hp <= 0;
+                        const victory = this.currentOpponent.hp <= 0;
+                        if (battleOver) {
+                            this.handleBattleEnd(victory, this.damages.playerDamage, this.damages.opponentDamage);
+                        }
+                    }
+                });
             }
-        }, 1000);
-        // Start continuous jitter animation during fighting state
+        };
+        
+        // Add the function to ticker
+        window.app.ticker.add(this.battleTickFunction);
+        
         this.battleAnimationManager.startJitterAnimation();
     }
-    
-    applyDamage(playerDamage, opponentDamage) {
-        // Apply damage
-        this.currentOpponent.hp -= playerDamage;
-        this.playerStats.hp -= opponentDamage;
-        
-        // Update HP bars
-        this.updateBattleDisplay();
-        
-        // Check if battle is over
-        const battleOver = this.playerStats.hp <= 0 || this.currentOpponent.hp <= 0;
-        const victory = this.currentOpponent.hp <= 0;
-        
-        if (battleOver) {
-            this.handleBattleEnd(victory, playerDamage, opponentDamage);
+
+    stopBattleLoop() {
+        // Remove the battle ticker function
+        if (this.battleTickFunction) {
+            window.app.ticker.remove(this.battleTickFunction);
+            this.battleTickFunction = null;
         }
+        
+        // Also clear any legacy interval (safety)
+        if (this.battleInterval) {
+            clearInterval(this.battleInterval);
+            this.battleInterval = null;
+        }
+        
+        this.battleAnimationManager.stopJitterAnimation();
     }
 
-    updateBattleDisplay() {
-        // Update HP bars (always needed)
-        const playerHpPercent = (this.playerStats.hp / (this.playerStats.level * 100)) * 100;
-        const opponentHpPercent = (this.currentOpponent.hp / this.currentOpponent.max_hp) * 100;
-        
-        document.getElementById('player-hp-bar').style.width = `${Math.max(0, playerHpPercent)}%`;
-        document.getElementById('opponent-hp-bar').style.width = `${Math.max(0, opponentHpPercent)}%`;
-        document.getElementById('player-hp-text').textContent = `${Math.max(0, this.playerStats.hp)}/${this.playerStats.level * 100}`;
-        document.getElementById('opponent-hp-text').textContent = `${Math.max(0, this.currentOpponent.hp)}/${this.currentOpponent.max_hp}`;
-        
-        // REMOVE the battle result display logic from here
-        // The battle flow should handle displaying messages separately
-    }
     updateHPBars(opponentHP, opponentMaxHP, playerHP, playerMaxHP) {
         const playerHpPercent = (playerHP / playerMaxHP) * 100;
         const opponentHpPercent = (opponentHP / opponentMaxHP) * 100;
@@ -171,10 +177,10 @@ class BattleSystem{
             // TODO: Send appearance update to backend when we have user accounts
         }
     }
-    handleBattleEnd(victory, playerDamage, opponentDamage) {
+    async handleBattleEnd(victory, playerDamage, opponentDamage) {
         this.battleStates.isBattleActive = false;
+        this.stopBattleLoop();
         // Stop battle loops
-        clearInterval(this.battleInterval);
         this.battleAnimationManager.stopJitterAnimation();
         
         // Update MMR and ranking
@@ -199,12 +205,12 @@ class BattleSystem{
         window.app.uiSystem.roosters.updateRoosters();
         window.app.uiSystem.roosters.playerRooster.scale.x = BATTLE_FORMATIONS[this.battleAnimationManager.getBattleFormation()].playerPos[2];
         window.app.uiSystem.roosters.opponentRooster.scale.x = BATTLE_FORMATIONS[this.battleAnimationManager.getBattleFormation()].opponentPos[2];
+        
         // Hide opponent and show find button after delay
-        setTimeout(() => {
-            window.app.uiSystem.roosters.opponentRooster.visible = false;
-            document.getElementById('battle-btn').style.display = 'block';
-            document.getElementById('battle-btn').textContent = '⚔️ Find New Opponent';
-        }, 3000);
+        await this.battleAnimationManager.delay(3000);
+        window.app.uiSystem.roosters.opponentRooster.visible = false;
+        document.getElementById('battle-btn').style.display = 'block';
+        document.getElementById('battle-btn').textContent = '⚔️ Find New Opponent';
     }
 
     showBattleResult(victory, playerDamage, opponentDamage, mmrChange) {

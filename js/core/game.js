@@ -318,12 +318,8 @@ class SabungeroGame {
             window.app.uiSystem.roosters.opponentRooster.x = arenaX + (arenaWidth * BATTLE_FORMATIONS[this.battleSystem.battleAnimationManager.getBattleFormation()].opponentPos[0]);  // 70% into arena
             window.app.uiSystem.roosters.opponentRooster.y = arenaY + (arenaHeight * BATTLE_FORMATIONS[this.battleSystem.battleAnimationManager.getBattleFormation()].opponentPos[1]);   // Middle of arena
 
-            this.battleSystem.battleAnimationManager.centerSmokeScreen.clear(); 
-            this.battleSystem.battleAnimationManager.centerSmokeScreen.circle(window.app.screen.width / 2, window.app.screen.height / 2, 50);
-            this.battleSystem.battleAnimationManager.centerSmokeScreen.stroke({
-                width: 3,
-                color: 0xe74c3c
-            });
+            this.battleSystem.battleAnimationManager.centerSmokeScreen.x = window.app.screen.width / 2 - this.battleSystem.battleAnimationManager.centerSmokeScreen.width/2;
+            this.battleSystem.battleAnimationManager.centerSmokeScreen.y = window.app.screen.height / 2 - this.battleSystem.battleAnimationManager.centerSmokeScreen.height/2;
         }
         else{
             window.app.uiSystem.roosters.playerRooster.x = window.app.screen.width / 2; // Centered in coop

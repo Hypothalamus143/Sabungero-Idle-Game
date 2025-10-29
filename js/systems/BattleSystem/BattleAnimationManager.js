@@ -1,17 +1,18 @@
 class BattleAnimationManager{
-    constructor(playerStats, currentOpponent, battleStates){
+    constructor(playerStats, currentOpponent, battleStates, damages){
         this.arenaBg = null;
         this.centerSmokeScreen = null;
         this.battleFormation = 0;
         this.playerStats = playerStats;
         this.currentOpponent = currentOpponent;
         this.battleStates = battleStates;
+        this.damages = damages;
         this.init();
     }
     async init(){
 
     }
-    createArena() {
+    async createArena() {
         // Arena background (for battle screen)
         const arenaBGContainer = new PIXI.Container();
         this.arenaBg = new PIXI.Graphics();
@@ -33,21 +34,20 @@ class BattleAnimationManager{
         
         // Add arena FIRST, then circle on top
         window.app.stage.addChild(arenaBGContainer);
-        this.createSmokeScreen();
+        await this.createSmokeScreen();
     }
 
-    createSmokeScreen(){
-        // Arena center circle
+    async createSmokeScreen(){
+        const pngPath = "assets/smokescreen/battle_spritesheet.png";
+        const jsonPath = "assets/maps/smokescreen_spritesheet.json";
         const centerSmokeScreenContainer = new PIXI.Container();
-        this.centerSmokeScreen = new PIXI.Graphics();
-        centerSmokeScreenContainer.addChild(this.centerSmokeScreen);
-        this.centerSmokeScreen.circle(window.app.screen.width / 2, window.app.screen.height / 2, 50);
-        this.centerSmokeScreen.stroke({
-            width: 3,
-            color: 0xe74c3c
-        });
+        this.centerSmokeScreen = new PIXI.AnimatedSprite(await window.app.uiSystem.roosters.loadCustomSpritesheet(pngPath, jsonPath));
         this.centerSmokeScreen.visible = false; // Hidden by default
+        centerSmokeScreenContainer.addChild(this.centerSmokeScreen);
         window.app.stage.addChild(centerSmokeScreenContainer);
+        this.centerSmokeScreen.width = 400;
+        this.centerSmokeScreen.height = 400;
+        this.centerSmokeScreen.animationSpeed = 0.12;
     }
     startJitterAnimation() {
         const jitterLoop = () => {
@@ -89,9 +89,9 @@ class BattleAnimationManager{
         const isBattleApproachAnimation = opponentDamage == 0 && playerDamage == 0;
         let attackDuration;
         if(isBattleApproachAnimation)
-            attackDuration = 800;
+            attackDuration = 1000;
         else{
-            attackDuration = 400;
+            attackDuration = 1000;
             //await this.delay(100 * (Math.floor(Math.random() * 10))); work in progress
         } 
         // Store positions and start attack animation
@@ -128,14 +128,26 @@ class BattleAnimationManager{
             this.centerSmokeScreen.visible = true;
             window.app.uiSystem.roosters.playerRooster.visible = false;
             window.app.uiSystem.roosters.opponentRooster.visible = false;
-             document.getElementById('battle-result').innerHTML = `
+            this.centerSmokeScreen.play();
+            window.app.uiSystem.roosters.playerAvatarRunning.stop();
+            window.app.uiSystem.roosters.playerAccessoryRunning.stop();
+            window.app.uiSystem.roosters.roostersRunning[this.currentOpponent.appearance.avatarId-1].stop();
+            window.app.uiSystem.roosters.accessoriesRunning[this.currentOpponent.appearance.accessoryId].stop();
+            await this.delay(400);
+            document.getElementById('battle-result').innerHTML = `
                 <div class="battle-attack">
                     <p>💥 ATTACK!</p>
                     <p>You dealt: ${playerDamage} damage</p>
                     <p>Opponent dealt: ${opponentDamage} damage</p>
                 </div>
             `;
-            await this.delay(200);
+            this.applyDamage(this.damages.playerDamage, this.damages.opponentDamage);
+            await this.delay(400);
+            this.centerSmokeScreen.stop();
+            window.app.uiSystem.roosters.playerAvatarRunning.play();
+            window.app.uiSystem.roosters.playerAccessoryRunning.play();
+            window.app.uiSystem.roosters.roostersRunning[this.currentOpponent.appearance.avatarId-1].play();
+            window.app.uiSystem.roosters.accessoriesRunning[this.currentOpponent.appearance.accessoryId].play();
             this.centerSmokeScreen.visible = false;
             window.app.uiSystem.roosters.playerRooster.visible = true;
             window.app.uiSystem.roosters.opponentRooster.visible = true;
@@ -169,42 +181,82 @@ class BattleAnimationManager{
         }
         this.startJitterAnimation();
     }
-    moveToPosition(rooster, startX, startY, targetX, targetY, duration) {
-        
+    moveToPosition(rooster, startX, startY, targetX, targetY, durationMs) {
+        if (rooster.currentAnimation) {
+            window.app.ticker.remove(rooster.currentAnimation);
+        }
         return new Promise((resolve) => {
-            const startTime = Date.now();
+            const arenaX = (window.app.screen.width - this.arenaBg.width) / 2;
+            const arenaY = (window.app.screen.height - this.arenaBg.height) / 2;
+            const arenaWidth = this.arenaBg.width;
+            const arenaHeight = this.arenaBg.height;
+            
+            const startXFinal = arenaX + (arenaWidth * startX);
+            const startYFinal = arenaY + (arenaHeight * startY);
+            const targetXFinal = arenaX + (arenaWidth * targetX);
+            const targetYFinal = arenaY + (arenaHeight * targetY);
+            
+            const deltaFactor = window.app.ticker.deltaTime; // Get PIXI's delta time factor
+            let elapsedMs = 0;
+            
             const animate = () => {
-                const arenaX = (window.app.screen.width - this.arenaBg.width) / 2;
-                const arenaY = (window.app.screen.height - this.arenaBg.height) / 2;
-                const arenaWidth = this.arenaBg.width;
-                const arenaHeight = this.arenaBg.height;
-                const startXFinal = arenaX + (arenaWidth * startX);
-                const startYFinal = arenaY + (arenaHeight * startY);
-                const targetXFinal = arenaX + (arenaWidth * targetX);
-                const targetYFinal = arenaY + (arenaHeight * targetY);
-                const elapsed = Date.now() - startTime;
-                const progress = Math.min(elapsed / duration, 1);
+                elapsedMs += 16.67 * deltaFactor; // Convert to approximate milliseconds
                 
-                // Smooth easing
+                const progress = Math.min(elapsedMs / durationMs, 1);
                 const easeProgress = progress < 0.5 ? 
                     2 * progress * progress : 
                     1 - Math.pow(-2 * progress + 2, 2) / 2;
                 
-                rooster.x = startXFinal  + (targetXFinal - startXFinal) * easeProgress;
+                rooster.x = startXFinal + (targetXFinal - startXFinal) * easeProgress;
                 rooster.y = startYFinal + (targetYFinal - startYFinal) * easeProgress;
                 
                 if (progress < 1) {
-                    requestAnimationFrame(animate);
+                    // Continue
                 } else {
+                    window.app.ticker.remove(animate);
                     resolve();
                 }
             };
-            animate();
+            
+            window.app.ticker.add(animate);
         });
     }
+    applyDamage(playerDamage, opponentDamage) {
+        // Apply damage
+        this.currentOpponent.hp -= playerDamage;
+        this.playerStats.hp -= opponentDamage;
+        
+        // Update HP bars
+        this.updateBattleDisplay();
+    }
     // Helper function
-    delay(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
+    delay(milliseconds) {
+        return new Promise(resolve => {
+            const startTime = performance.now();
+            
+            const tick = () => {
+                const currentTime = performance.now();
+                if (currentTime - startTime >= milliseconds) {
+                    window.app.ticker.remove(tick);
+                    resolve();
+                }
+            };
+            
+            window.app.ticker.add(tick);
+        });
+    }
+    updateBattleDisplay() {
+        // Update HP bars (always needed)
+        const playerHpPercent = (this.playerStats.hp / (this.playerStats.level * 100)) * 100;
+        const opponentHpPercent = (this.currentOpponent.hp / this.currentOpponent.max_hp) * 100;
+        
+        document.getElementById('player-hp-bar').style.width = `${Math.max(0, playerHpPercent)}%`;
+        document.getElementById('opponent-hp-bar').style.width = `${Math.max(0, opponentHpPercent)}%`;
+        document.getElementById('player-hp-text').textContent = `${Math.max(0, this.playerStats.hp)}/${this.playerStats.level * 100}`;
+        document.getElementById('opponent-hp-text').textContent = `${Math.max(0, this.currentOpponent.hp)}/${this.currentOpponent.max_hp}`;
+        
+        // REMOVE the battle result display logic from here
+        // The battle flow should handle displaying messages separately
     }
     getBattleFormation(){
         return this.battleFormation;
