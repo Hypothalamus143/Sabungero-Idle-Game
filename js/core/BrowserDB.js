@@ -239,15 +239,18 @@ class BrowserDB {
         return Math.max(1, level);
     }
 
-    static generateOpponent(playerLevel, playerMMR = 1000) {
-        const opponentLevel = this.getOpponentLevel(playerLevel);
-        
-        // Calculate opponent MMR based on player MMR with some variance
+    static generateOpponent(playerMMR = 1000) {
+        // Calculate opponent MMR with some variance
         const mmrVariance = Math.floor(Math.random() * 201) - 100; // -100 to +100
         const opponentMMR = Math.max(100, playerMMR + mmrVariance);
         
         // Get opponent rank from MMR
         const opponentRank = this.getRankFromMMR(opponentMMR);
+        
+        // Calculate level based on MMR (example: 100 MMR = level 1, 2000 MMR = level 20)
+        const baseLevel = 1;
+        const levelScale = 0.01; // Adjust this to control level progression
+        const opponentLevel = Math.max(1, baseLevel + Math.floor(opponentMMR * levelScale));
         
         const opponentHp = opponentLevel * 100;
         const opponentDamage = opponentLevel;

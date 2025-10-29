@@ -285,7 +285,7 @@ class SabungeroGame {
                 strategy: { level: 1, progress: 0 }
             },
             ranking: {
-                mmr: 1000,
+                mmr: 100,
                 rank: "Novice",
                 rank_tier: 0,
                 win_streak: 0
