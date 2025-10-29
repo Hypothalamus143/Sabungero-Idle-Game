@@ -40,6 +40,8 @@ class SabungeroGame {
         } else {
            // Show avatar creation instead of auto-creating
             await this.showAvatarCreation();
+            document.getElementById('loading-screen').style.display = 'flex';
+            document.getElementById('game-container').style.display = 'none';
         }
         // Save default stats
         BrowserDB.savePlayerStats(this.playerStats);
@@ -54,8 +56,8 @@ class SabungeroGame {
         await this.idleSystem.hearts.initialize();
         window.app.uiSystem.updateUI();
         this.showScreen("main");
-
-        console.log("🎮 Sabungero Idle Game initialized!");
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('game-container').style.display = 'block';
     }
     initEventListeners() {
         // Navigation buttons
@@ -202,6 +204,8 @@ class SabungeroGame {
         this.accessoriesPreview = await window.app.uiSystem.roosters.loadPreviews(accessoriesPngPath, jsonPath);
         this.roostersPreviewDuplicate = await window.app.uiSystem.roosters.loadPreviews(roostersPngPath, jsonPath);
         this.accessoriesPreviewDuplicate = await window.app.uiSystem.roosters.loadPreviews(accessoriesPngPath, jsonPath);
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('game-container').style.display = 'block';
         return new Promise((resolve) => { // 👈 ADD THIS LINE
             const modal = document.getElementById('avatar-creation-modal');
             modal.style.display = 'flex';

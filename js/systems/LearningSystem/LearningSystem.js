@@ -159,6 +159,7 @@ class LearningSystem{
         document.getElementById('close-completion').addEventListener('click', () => {
             modal.style.display = 'none';
             window.app.uiSystem.updateUI();
+            document.getElementById('blur').classList.remove('blur-overlay');
         });
     }
     static async initializeDefaultContent() {

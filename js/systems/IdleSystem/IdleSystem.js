@@ -1,7 +1,7 @@
 class IdleSystem{
     constructor(playerStats){
         this.playerStats = playerStats;
-        this.hearts = new Hearts();
+        this.hearts = new Hearts(playerStats);
         this.init();
     }
     async init(){
@@ -35,6 +35,7 @@ class IdleSystem{
             this.playerStats.expNeeded = expNeeded * 2; // Multiply threshold by 2
             window.app.uiSystem.roosters.updateRoosters();
         }
+        this.addRoosterGlow();
     }
     startIdleLoop() {
         // Clear any existing interval first
@@ -42,7 +43,7 @@ class IdleSystem{
             clearInterval(this.idleInterval);
             this.idleInterval = null;  // ← ADD THIS LINE
         }
-        if (this.idleInterval) {
+        if (this.idleInterval) { //extra for safety
             clearInterval(this.idleInterval);
             this.idleInterval = null;  // ← ADD THIS LINE
         }
@@ -56,5 +57,52 @@ class IdleSystem{
         }, 1000);
     }
     
+    addRoosterGlow(duration = 1000) {
+        const rooster = window.app.uiSystem.roosters.playerRooster;
+        
+        // Create multiple glow rings for better effect
+        const outerGlow = this.createGlowRing(0xFFD700, 0.2, rooster.width * 0.8);
+        const innerGlow = this.createGlowRing(0xFFFF00, 0.3, rooster.width * 0.6);
+        
+        rooster.addChild(outerGlow);
+        rooster.addChild(innerGlow);
+        
+        this.animateGlowRings([outerGlow, innerGlow], duration);
+    }
 
+    createGlowRing(color, alpha, size) {
+        const glow = new PIXI.Graphics();
+        glow.beginFill(color, alpha);
+        glow.drawCircle(0, 0, size);
+        glow.endFill();
+        return glow;
+    }
+
+    animateGlowRings(glows, duration) {
+        const startTime = performance.now();
+        
+        const animate = (delta) => {
+            const elapsed = performance.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Pulsing scale and fade
+            const pulse = Math.sin(progress * Math.PI * 6) * 0.3 + 0.7;
+            const fade = 1 - progress;
+            
+            glows.forEach((glow, index) => {
+                const scale = pulse + (index * 0.1); // Stagger scales
+                glow.scale.set(scale);
+                glow.alpha = fade * (0.3 - (index * 0.1));
+            });
+            
+            if (progress >= 1) {
+                window.app.ticker.remove(animate);
+                glows.forEach(glow => {
+                    if (glow.parent) glow.parent.removeChild(glow);
+                });
+            }
+        };
+        
+        window.app.ticker.add(animate);
+    }
 }

@@ -1,9 +1,10 @@
 class Hearts {
-    constructor(maxSimultaneousHearts = 20) {
+    constructor(playerStats) {
+        this.playerStats = playerStats;
         this.heartTextures = [];
         this.heartPool = [];
         this.activeHearts = [];
-        this.poolSize = maxSimultaneousHearts;
+        this.poolSize = 20;
         this.heartAnimation = null;
     }
     
@@ -63,7 +64,7 @@ class Hearts {
         heart.x = x;
         heart.y = y;
         heart.alpha = 0.7 + Math.random() * 0.3;
-        heart.scale.set(0.1 + Math.random() * 0.2);
+        heart.scale.set(0.1 + Math.random() * (0.2 + 0.05 * this.playerStats.multiplier));
         
         // Movement properties
         heart.speedY = -1 - Math.random() * 2;
