@@ -25,6 +25,8 @@ class IdleSystem{
         }
         
         window.app.uiSystem.updateUI();
+        this.hearts.spawnAroundPlayer(window.app.uiSystem.activeKeys.size);
+        this.hearts.startAnimation(1000);
     }
     levelUp() {
         const currentExp = this.playerStats.experience;
@@ -51,8 +53,6 @@ class IdleSystem{
         this.idleInterval = setInterval(() => {
             if (window.app.uiSystem.activeKeys.size > 0) {
                 this.addIdleExperience();
-                this.hearts.spawnAroundPlayer(window.app.uiSystem.activeKeys.size);
-                this.hearts.startAnimation(1000);
             }
         }, 1000);
     }
