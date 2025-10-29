@@ -227,7 +227,7 @@ class BrowserDB {
     static generateOpponent(playerMMR) {
         console.log(playerMMR);
         // Calculate opponent MMR with some variance
-        const mmrVariance = Math.floor(Math.random() * 201) - 100; // -100 to +100
+        const mmrVariance = Math.floor(Math.random() * 601) - 300; // -300 to +300
         const opponentMMR = Math.max(100, playerMMR + mmrVariance);
         
         // Get opponent rank from MMR
