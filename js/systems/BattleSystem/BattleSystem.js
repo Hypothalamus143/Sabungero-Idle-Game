@@ -31,7 +31,7 @@ class BattleSystem{
         document.getElementById('battle-result').innerHTML = "";
         try {
 
-            const opponentData = BrowserDB.generateOpponent(this.playerStats.mmr);
+            const opponentData = BrowserDB.generateOpponent(this.playerStats.ranking.mmr);
             Object.assign(this.currentOpponent, opponentData);
 
             // Update roosters
