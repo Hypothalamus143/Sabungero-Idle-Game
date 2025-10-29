@@ -3,7 +3,7 @@
     height: 500px;
     display: flex;
     flex-direction: column;
-    overflow-y: hidden;
+    overflow-y: scroll;
     margin: 0 auto;
     scrollbar-width: thin; /* Firefox */
     scrollbar-color: #ffb94f transparent; /* thumb color + transparent track */
