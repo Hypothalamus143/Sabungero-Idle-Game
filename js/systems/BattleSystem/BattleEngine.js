@@ -22,29 +22,16 @@ class BattleEngine{
             
         }
     }
-    calculateMMRChange(playerWon, playerMMR, opponentMMR) {
-        const K = 32; // Maximum MMR change
+    calculateMMRChange(playerWon, playerLevel, opponentLevel) {
+        const levelDifference = opponentLevel - playerLevel;
         
-        // Calculate expected score (0-1)
-        const expectedScore = 1 / (1 + Math.pow(10, (opponentMMR - playerMMR) / 400));
-        
-        // Calculate actual score (1 for win, 0 for loss)
-        const actualScore = playerWon ? 1 : 0;
-        
-        // MMR change (can be positive or negative)
-        let mmrChange = Math.round(K * (actualScore - expectedScore));
-        
-        // Ensure minimum change magnitude
-        if (playerWon) {
-            mmrChange = Math.max(10, mmrChange); // Minimum +10 for win
-        } else {
-            mmrChange = Math.min(-10, mmrChange); // Minimum -10 for loss
-        }
-        
-        // Win streak bonus
-        if (playerWon && this.playerStats.ranking.win_streak >= 3) {
-            mmrChange += Math.floor(this.playerStats.ranking.win_streak / 3) * 5;
-        }
-        return mmrChange;
+        // Base rewards for winning
+        if (levelDifference >= 3) return playerWon ? 50 : -1;      // +50 / -1
+        if (levelDifference === 2) return playerWon ? 30 : -2;     // +30 / -2  
+        if (levelDifference === 1) return playerWon ? 20 : -5;     // +20 / -5
+        if (levelDifference === 0) return playerWon ? 10 : -10;    // +10 / -10
+        if (levelDifference === -1) return playerWon ? 5 : -20;    // +5 / -20
+        if (levelDifference === -2) return playerWon ? 2 : -30;    // +2 / -30
+        if (levelDifference <= -3) return playerWon ? 1 : -50;     // +1 / -50
     }
 }
