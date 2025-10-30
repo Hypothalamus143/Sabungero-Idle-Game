@@ -21,7 +21,7 @@ class BattleAnimationManager{
         const arenaHeight = 531;
 
         const arenaX = (window.app.screen.width - arenaWidth) / 2;
-        const arenaY = (window.app.screen.height - arenaHeight) / 2;
+        const arenaY = (window.app.screen.height);
 
         this.arenaBg.rect(
             arenaX,  // Center X
@@ -187,7 +187,7 @@ class BattleAnimationManager{
         }
         return new Promise((resolve) => {
             const arenaX = (window.app.screen.width - this.arenaBg.width) / 2;
-            const arenaY = (window.app.screen.height - this.arenaBg.height) / 2;
+            const arenaY = (window.app.screen.height * 0.4);
             const arenaWidth = this.arenaBg.width;
             const arenaHeight = this.arenaBg.height;
             

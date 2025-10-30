@@ -28,6 +28,7 @@ class SabungeroGame {
         this.learningSystem = new LearningSystem(this.playerStats);
         this.idleSystem = new IdleSystem(this.playerStats);
         this.init();
+
     }
     async init() {
         // Initialize SQL.js database first
@@ -51,13 +52,15 @@ class SabungeroGame {
         // Initialize event listeners first
         this.initEventListeners();
         // Create empty rooster containers
-
+        await window.app.uiSystem.preLoadBackgrounds();
         await window.app.uiSystem.roosters.createRoosterContainers();
         await this.idleSystem.hearts.initialize();
         window.app.uiSystem.updateUI();
         this.showScreen("main");
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('game-container').style.display = 'block';
+        this.scaling = new ScaleToFit(1920, 1080);
+        this.scaling.preventZoom();
     }
     initEventListeners() {
         // Navigation buttons
@@ -304,16 +307,15 @@ class SabungeroGame {
     }
 
     updateAllPositions(){
-        app.renderer.resize(screen.width, screen.height);
         if(document.getElementById('nav-arena').classList.contains('active')){
             const arenaWidth = this.battleSystem.battleAnimationManager.arenaBg.width;
             const arenaHeight = this.battleSystem.battleAnimationManager.arenaBg.height;
             this.battleSystem.battleAnimationManager.arenaBg.clear();
             const arenaX = (window.app.screen.width - arenaWidth) / 2;
-            const arenaY = (window.app.screen.height - arenaHeight) / 2;
+            const arenaY = (window.app.screen.height * 0.4);
 
             this.battleSystem.battleAnimationManager.arenaBg.rect(arenaX, arenaY, arenaWidth, arenaHeight);
-            this.battleSystem.battleAnimationManager.arenaBg.fill({"color":0x34495e});
+            this.battleSystem.battleAnimationManager.arenaBg.fill({color: 0x000000, alpha: 0});
 
             // Position roosters relative to arena
             window.app.uiSystem.roosters.playerRooster.x = arenaX + (arenaWidth * BATTLE_FORMATIONS[this.battleSystem.battleAnimationManager.getBattleFormation()].playerPos[0]);    // 30% into arena
@@ -322,8 +324,9 @@ class SabungeroGame {
             window.app.uiSystem.roosters.opponentRooster.x = arenaX + (arenaWidth * BATTLE_FORMATIONS[this.battleSystem.battleAnimationManager.getBattleFormation()].opponentPos[0]);  // 70% into arena
             window.app.uiSystem.roosters.opponentRooster.y = arenaY + (arenaHeight * BATTLE_FORMATIONS[this.battleSystem.battleAnimationManager.getBattleFormation()].opponentPos[1]);   // Middle of arena
 
+            //note to future self, do not hardcode next time
             this.battleSystem.battleAnimationManager.centerSmokeScreen.x = window.app.screen.width / 2 - this.battleSystem.battleAnimationManager.centerSmokeScreen.width/2;
-            this.battleSystem.battleAnimationManager.centerSmokeScreen.y = window.app.screen.height / 2 - this.battleSystem.battleAnimationManager.centerSmokeScreen.height/2;
+            this.battleSystem.battleAnimationManager.centerSmokeScreen.y = window.app.screen.height * 0.65 - this.battleSystem.battleAnimationManager.centerSmokeScreen.height/2;
         }
         else{
             window.app.uiSystem.roosters.playerRooster.x = window.app.screen.width / 2; // Centered in coop

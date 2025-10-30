@@ -32,6 +32,8 @@ class ScaleToFit {
         document.body.style.overflow = 'hidden';
         
         // Resize PIXI renderer once
+        window.app.canvas.width = 1920;
+        window.app.canvas.height = 1080;
         if (window.app?.renderer) {
             window.app.renderer.resize(this.targetWidth, this.targetHeight);
         }
@@ -74,7 +76,6 @@ class ScaleToFit {
 
 
 // Apply once and never listen for resizes
-scaling = new ScaleToFit(1920, 1080);
 
+// scaling = new ScaleToFit(1920, 1080);
 // Disable resize entirely
-scaling.preventZoom();
