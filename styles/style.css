@@ -44,33 +44,31 @@ body {
 
 .stats-panel {
     position: absolute;
-    top:2%;
-    left:5%;
+    top:10px;
+    left:-100px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     z-index: 100;
-    width: 60vw;
-    max-width:370px;
-    height:70vh;
-    max-height: 250px;
+    width: 380px;
+    height:250px;
 }
 
 .stats-panel .yellow{
     position: absolute;
-    top: 2%;
-    left: 2%;
-    width: 96%;
-    height: 96%;
+    top: 7px;
+    left: 8px;
+    width: 405px;
+    height: 275px;
     background-color: #e2b740;
 }
 
 .stats-panel .white{
     position: absolute;
-    top: 2.5%;
-    left: 2.5%;
-    width: 95.5%;
-    height: 95.5%;
+    top: 10px;
+    left: 10px;
+    width: 385px;
+    height: 255px;
     background-color: #fff9ea;
 }
 
@@ -78,17 +76,16 @@ body {
 
 .stats-content{
     position:absolute;
-    top:20%;
-    left:3%;
-    width:100%;
+    top:76px;
+    left:8px;
+    width:380px;
 }
 
 
 .stats-content p {
     gap:3px;
-    left:10%;
     display: inline;
-    width: 100%;
+    width: 380px;
     display: flex;
     flex-direction: row;
     color: black;
@@ -96,7 +93,7 @@ body {
 
 .stats-content .progress-bar {
     background-color:limegreen;
-    width:90%;
+    width:342px;
 }
 
 .stats-content .progress-fill{
@@ -110,19 +107,45 @@ body {
         text-shadow: 2px 2px 3px rgba(10, 10, 1, 5);
         color: #ffb94f;
         position: absolute;
-        bottom: 10%;
-        top:26.5%;
-        left: 52%;
-        width:100%;
-        transform: translate(-50%, -50%);
+        bottom: 38px;
+        top:10px;
+        left: 8px;
+        width:380px;
     }
 
-.battle-panel {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 300px;
-}
+    .battle-panel {
+        scrollbar-width: thin; /* Firefox */
+        scrollbar-color: #ffb94f transparent; /* thumb color + transparent track */
+        display: none;
+        position: absolute;
+        top: 0px;
+        right:-120px;
+        flex-direction: column;
+        width:400px;
+        height:710px;
+    }
+    
+    .battle-panel .yellow {
+        position: absolute;
+        top: 5px;
+        left: 10px;
+        width: 420px;
+        height: 735px;
+        background-color: #e2b740;
+    }
+    
+    .battle-panel .white {
+        display:flex;
+        flex-direction:column;
+        border:2px solid white;
+        gap:0;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 395px;
+        height: 710px;
+        background-color: #fff9ea;
+    }
 
 button {
     background-color: #a06041;
@@ -166,12 +189,12 @@ button {
     background: #34495e;
     border-radius: 10px;
     overflow: hidden;
-    width: 100%;
+    width: 370px;
     margin: 10px 0;
 }
 
 .progress-fill {
-    height: 100%;
+    height: 20px;
     background: #3498db;
     transition: width 0.3s ease;
     width: 0%;
@@ -179,7 +202,7 @@ button {
 .navbar {
     margin-top:30px;
     display: flex;
-    width:60%;
+    width:1200px;
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
@@ -197,6 +220,7 @@ button {
     border-radius: 25px;
     cursor: pointer;
     font-weight: bold;
+    font-size:13px;
     transition: all 0.3s ease;
     font-family: 'Press Start 2P', monospace;
     text-shadow: 2px 2px 4px rgba(5, 5, 1, 1);
@@ -274,3 +298,4 @@ button {
 #game-container {
     display: none; /* ← Hidden by default */
 }
+

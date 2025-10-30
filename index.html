@@ -133,38 +133,68 @@
             </div>
 
 
-            <!-- Battle Panel -->
-            <div class="panel battle-panel">
-                <h3>Arena Battle</h3>
-                <div id="battle-info">
-                    <p>Opponent: <span id="opponent-name">None</span></p>
-                    <p>Hold keys to power up your rooster!</p>
-                    <div id="key-indicators">
-                        <div class="key-count">
-                            Keys Pressed: <span id="active-keys-count">0</span>
+            <!--
+                
+                CHANGES: ALOT (LOST TRACK) BETTER IF I COPY PASTE NALANG HUHU SRRY
+                Battle Panel -->
+                <div class="panel battle-panel">
+
+                    <div class="yellow">
+                        <div class="white">
+                            <h3>BATTLE STATS</h3>
+                            <div id="battle-hp">
+    
+    
+                                <div class="hp-bar">
+                                    <label>Your HP:</label>
+                                    <div class="progress-bar">
+                                        <div id="player-hp-bar" class="progress-fill" style="width: 100%"></div>
+                                        <div class="lines">
+                                        </div>
+                                    </div>
+                                    <span id="player-hp-text">100/100</span>
+                                </div>
+    
+    
+                                <div class="hp-bar">
+                                    <label>
+                                        <p>Opponent: <span id="opponent-name">None</span></p>
+                                    </label>
+    
+                                    <div class="progress-bar">
+                                        <div id="opponent-hp-bar" class="progress-fill" style="width: 100%"></div>
+                                        <div class="lines">
+                                        </div>
+                                    </div>
+                                    <span id="opponent-hp-text">100/100</span>
+                                </div>
+    
+    
+                            </div>
+                            <div class="just-this-container">
+                                <p>Hold keys to power up your rooster!</p>
+    
+                                <div id="key-indicators">
+                                    <div class="key-count">
+                                        Keys Pressed: <span id="active-keys-count">0</span>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="battle-info-white">
+    
+                                <div id="battle-info">
+    
+    
+                                    <div id="battle-result"></div>
+                                    <div class="battle-buttons">
+                                   <button id="battle-btn">⚔️ Find Opponent</button> <button id="fight-btn" style="display: none;">🥊 Fight!</button> 
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <button id="battle-btn">⚔️ Find Opponent</button>
-                    <button id="fight-btn" style="display: none;">🥊 Fight!</button>
-                    <div id="battle-result"></div>
                 </div>
-                <div id="battle-hp">
-                    <div class="hp-bar">
-                        <label>Your HP:</label>
-                        <div class="progress-bar">
-                            <div id="player-hp-bar" class="progress-fill" style="width: 100%"></div>
-                        </div>
-                        <span id="player-hp-text">100/100</span>
-                    </div>
-                    <div class="hp-bar">
-                        <label>Opponent HP:</label>
-                        <div class="progress-bar">
-                            <div id="opponent-hp-bar" class="progress-fill" style="width: 100%"></div>
-                        </div>
-                        <span id="opponent-hp-text">100/100</span>
-                    </div>
-                </div>
-            </div>
 
 
             <!-- CHANGES FOR AI OPTIONS MODAL

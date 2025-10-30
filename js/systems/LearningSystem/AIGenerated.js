@@ -277,7 +277,7 @@ class AIGenerated{
         const contentDiv = document.getElementById('quest-content');
         
         contentDiv.innerHTML = `
-            <h3>✨ AI Generated: ${topic}</h3>
+            <h3 style="color:black">✨ AI Generated: ${topic}</h3>
         `;
     }
     async checkIfTopicExists(topic, contentType) {
