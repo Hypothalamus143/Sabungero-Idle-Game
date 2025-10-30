@@ -1,6 +1,8 @@
 html{
     width: 1920px;
     height: 1080px;
+    margin: 0;
+    padding: 0;
 }
 body {
     margin: 0;
@@ -22,11 +24,12 @@ body {
 
 #game-container {
     position: absolute;
+    padding:0px;
+    margin:0px;
     width: 1920px;
     height: 1080px;
     /* width: 100vw;
     height: 100vh; */
-    
 }
 
 #ui-overlay {
@@ -54,7 +57,7 @@ body {
 .stats-panel {
     position: absolute;
     top:10px;
-    left:-100px;
+    left: -50px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -80,8 +83,6 @@ body {
     height: 285px;
     background-color: #fff9ea;
 }
-
-
 
 .stats-content{
     position:absolute;
@@ -128,7 +129,7 @@ body {
         display: none;
         position: absolute;
         top: 0px;
-        right:-120px;
+        right:-50px;
         flex-direction: column;
         width:400px;
         height:710px;

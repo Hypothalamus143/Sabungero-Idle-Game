@@ -27,6 +27,7 @@ class SabungeroGame {
         this.battleSystem = new BattleSystem(this.playerStats, this.currentOpponent);
         this.learningSystem = new LearningSystem(this.playerStats);
         this.idleSystem = new IdleSystem(this.playerStats);
+        this.scaling = new ScaleToFit(1920, 1080);
         this.init();
 
     }
@@ -59,8 +60,7 @@ class SabungeroGame {
         this.showScreen("main");
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('game-container').style.display = 'block';
-        this.scaling = new ScaleToFit(1920, 1080);
-        this.scaling.preventZoom();
+        this.scaling.applyScale();
     }
     initEventListeners() {
         // Navigation buttons
@@ -209,6 +209,7 @@ class SabungeroGame {
         this.accessoriesPreviewDuplicate = await window.app.uiSystem.roosters.loadPreviews(accessoriesPngPath, jsonPath);
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('game-container').style.display = 'block';
+        this.scaling.applyScale();
         return new Promise((resolve) => { // 👈 ADD THIS LINE
             const modal = document.getElementById('avatar-creation-modal');
             modal.style.display = 'flex';

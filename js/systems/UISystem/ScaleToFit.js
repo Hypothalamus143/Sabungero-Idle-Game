@@ -9,13 +9,12 @@ class ScaleToFit {
         const screenWidth = window.innerWidth;
         const screenHeight = window.innerHeight;
         
-        // Calculate scale ratio
+        // Calculate scale ratios for each dimension independently
         const scaleX = screenWidth / this.targetWidth;
         const scaleY = screenHeight / this.targetHeight;
-        const scale = Math.min(scaleX, scaleY);
         
-        // Apply scale to the ENTIRE document
-        document.documentElement.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        // Apply independent scaling to the ENTIRE document
+        document.documentElement.style.transform = `translate(-50%, -50%) scale(${scaleX}, ${scaleY})`;
         document.documentElement.style.transformOrigin = 'center center';
         document.documentElement.style.position = 'fixed';
         document.documentElement.style.top = '50%';
@@ -32,13 +31,14 @@ class ScaleToFit {
         document.body.style.overflow = 'hidden';
         
         // Resize PIXI renderer once
-        window.app.canvas.width = 1920;
-        window.app.canvas.height = 1080;
         if (window.app?.renderer) {
+            window.app.canvas.width = this.targetWidth;
+            window.app.canvas.height = this.targetHeight;
             window.app.renderer.resize(this.targetWidth, this.targetHeight);
         }
         
-        console.log(`📐 Entire document scaled to: ${Math.round(scale * 100)}% (${this.targetWidth}x${this.targetHeight})`);
+        console.log(`📐 Entire document scaled independently: X=${Math.round(scaleX * 100)}% Y=${Math.round(scaleY * 100)}% (${this.targetWidth}x${this.targetHeight})`);
+        //this.preventZoom();
     }
     preventZoom() {
         // Keyboard zoom prevention
