@@ -38,7 +38,7 @@ class ScaleToFit {
         }
         
         console.log(`📐 Entire document scaled independently: X=${Math.round(scaleX * 100)}% Y=${Math.round(scaleY * 100)}% (${this.targetWidth}x${this.targetHeight})`);
-        //this.preventZoom();
+        this.preventZoom();
     }
     preventZoom() {
         // Keyboard zoom prevention
