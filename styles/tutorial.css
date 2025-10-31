@@ -3,10 +3,10 @@
     scrollbar-color: #ffb94f transparent; /* thumb color + transparent track */
     border-radius: 50px;
     position: relative;
-    width: 90vw;
+    width: 1728px;
     max-width: 800px;
-    height: 90vh;
-    max-height: 650vh;
+    height: 972px;
+    max-height: 7020px;
     overflow-y: auto;
     background-color: rgba(5, 5, 1, 0.4);
     padding: 1rem;
@@ -18,7 +18,7 @@
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-    width: 100%; /* ensure it uses full container width */
+    width: 1920; /* ensure it uses full container width */
 }
 
 .tutorial-step {
@@ -27,7 +27,7 @@
     align-items: center;
     padding: 1rem;
     border-radius: 10px;
-    width: 100%; /* fills the container width */
+    width: 1920; /* fills the container width */
     box-sizing: border-box;
 }
 
@@ -35,7 +35,7 @@
     border: none; /* removes the default 3D border */
     height: 2px; /* line thickness */
     background-color: #ffb94f; /* line color */
-    width: 80%; /* line width */
+    width: 1536; /* line width */
     margin: 0.5rem auto; /* space and centering */
     border-radius: 2px; /* smooth edges */
 }
