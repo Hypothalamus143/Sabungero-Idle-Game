@@ -93,6 +93,40 @@ class SabungeroGame {
             this.updateKeyIndicators();
             e.preventDefault();
         });
+        document.addEventListener('touchstart', (e) => {
+            if (this.learningSystem.inputFocused) return;
+            
+            // Add each new touch point
+            for (let touch of e.touches) {
+                const touchId = `touch-${touch.identifier}`;
+                window.app.uiSystem.activeKeys.add(touchId);
+            }
+            
+            this.keysPressedCount = e.touches.length;
+            this.lastKeyPressTime = Date.now();
+            this.updateKeyIndicators();
+            
+            // Add experience based on number of fingers
+            this.addIdleExperience();
+            
+            e.preventDefault();
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            e.preventDefault(); // Prevent scrolling
+        });
+
+        document.addEventListener('touchend', (e) => {
+            // Remove ended touches
+            for (let touch of e.changedTouches) {
+                const touchId = `touch-${touch.identifier}`;
+                window.app.uiSystem.activeKeys.delete(touchId);
+            }
+            
+            this.keysPressedCount = e.touches.length;
+            this.updateKeyIndicators();
+            e.preventDefault();
+        });
         window.addEventListener('beforeunload', () => {
             this.savePlayerData();
         });
@@ -130,10 +164,11 @@ class SabungeroGame {
                 statsPanel.style.display = 'block';
                 learningPanel.style.display = 'none';
                 battlePanel.style.display = 'none';
-                this.battleSystem.battleAnimationManager.arenaBg.visible = false;
                 window.app.uiSystem.roosters.playerRooster.visible = true;
                 window.app.uiSystem.roosters.opponentRooster.visible = false;
                 window.app.uiSystem.roosters.playerRooster.scale.x = 1;
+                window.app.uiSystem.sabunganBackground.visible = false;
+                window.app.uiSystem.sabunganBackground.stop();
                 this.updateAllPositions();
                 this.idleSystem.startIdleLoop();
                 break;
@@ -141,10 +176,11 @@ class SabungeroGame {
                 statsPanel.style.display = 'none';
                 learningPanel.style.display = 'block';
                 battlePanel.style.display = 'none';
-                this.battleSystem.battleAnimationManager.arenaBg.visible = false;
                 window.app.uiSystem.roosters.playerRooster.visible = true;
                 window.app.uiSystem.roosters.opponentRooster.visible = false;
                 window.app.uiSystem.roosters.playerRooster.scale.x = 1;
+                window.app.uiSystem.sabunganBackground.visible = false;
+                window.app.uiSystem.sabunganBackground.stop();
                 this.updateAllPositions();
                 this.learningSystem.showLearningMain();
                 break;
@@ -152,9 +188,10 @@ class SabungeroGame {
                 statsPanel.style.display = 'block';
                 learningPanel.style.display = 'none';
                 battlePanel.style.display = 'block';
-                this.battleSystem.battleAnimationManager.arenaBg.visible = true;
-                
-
+                window.app.uiSystem.sabunganBackground.visible = true;
+                window.app.uiSystem.sabunganBackground.play();
+                if(this.currentOpponent)
+                    window.app.uiSystem.roosters.opponentRooster.visible = true;
                 // Reset battle state when entering arena
                 if (this.battleSystem.battleStates.battleState !== 'fighting') {
                     this.battleSystem.battleStates.isBattleActive = false;

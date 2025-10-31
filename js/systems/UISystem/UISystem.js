@@ -5,21 +5,27 @@ class UISystem{
         this.roosters = new Roosters(playerStats, currentOpponent);
         this.activeKeys = new Set();
         this.sabunganBackground = null;
+        this.pugaranBackground = null;
         this.init();
     }
     async init(){
 
     }
     async preLoadBackgrounds(){
+        const pugaranBackgroundPngPath = "assets/backgrounds/pugaran_background.png";
         const sabuganBackgroundPngPath = "assets/backgrounds/sabungan_spritesheet.png";
         const jsonSabuganBackgroundPath = "assets/maps/sabungan_spritesheet.json";
+        this.pugaranBackground = new PIXI.Sprite(await PIXI.Assets.load(pugaranBackgroundPngPath));
+        this.pugaranBackground.width = 1920;
+        this.pugaranBackground.height = 1080;
+        this.pugaranBackground.visible = true;
+        window.app.stage.addChildAt(this.pugaranBackground, 0); // Bottom layer
         this.sabunganBackground = new PIXI.AnimatedSprite(await this.roosters.loadCustomSpritesheet(sabuganBackgroundPngPath, jsonSabuganBackgroundPath));
         this.sabunganBackground.width = window.app.screen.width;
         this.sabunganBackground.height = window.app.screen.height;
         this.sabunganBackground.animationSpeed = 0.1; // Slow animation for background
-        this.sabunganBackground.visible = true;
-        this.sabunganBackground.play();
-        window.stageContainer.addChildAt(this.sabunganBackground, 0);
+        this.sabunganBackground.visible = false;
+        window.stageContainer.addChildAt(this.sabunganBackground, 1);
     }
     updateUI() {
         document.getElementById('player-level').textContent = this.playerStats.level;
