@@ -1,6 +1,6 @@
 class AssetManager {
-    constructor() {
-        this.root = null;
+    constructor(root = null) {
+        this.root = root;
         this.downloadQueue = [];
         this.downloadedAssets = new Set();
         this.init();
@@ -120,7 +120,7 @@ class AssetManager {
     return [
         // HTML and Core Files
         { url: './index.html', filename: 'index.html' },
-        
+        { url: './manifest.json', filename: 'manifest.json' },
         // CSS Files
         { url: './styles/style.css', filename: 'style.css' },
         { url: './styles/battlePanel.css', filename: 'battlePanel.css' },
@@ -132,6 +132,7 @@ class AssetManager {
         { url: './styles/quests/reading.css', filename: 'reading.css' },
         
         // JavaScript Files
+        { url: './js/core/AssetManager.js', filename: 'AssetManager.js' },
         { url: './js/core/game.js', filename: 'game.js' },
         { url: './js/core/BrowserDB.js', filename: 'BrowserDB.js' },
         { url: './js/core/config.js', filename: 'config.js' },
@@ -258,4 +259,4 @@ class AssetManager {
 }
 
 // Global instance
-const assetManager = new AssetManager();
+const assetManager = new AssetManager(fileSystemRoot);

@@ -1,9 +1,7 @@
 const CACHE_NAME = 'sabungero-idle-game';
 const BOOTSTRAP_FILES = [
   '/',
-  '/index.html',
-  '/js/core/AssetManager.js',
-  '/manifest.json'
+  '/index.html'
 ];
 
 self.addEventListener('install', event => {
@@ -19,9 +17,7 @@ self.addEventListener('fetch', event => {
   
   // For critical files: always try network first, then cache
   if (event.request.url.includes('/index.html') || 
-      event.request.url === self.location.origin + '/' ||
-      event.request.url.includes('/manifest.json') ||
-      event.request.url.includes('/js/core/AssetManager.js')) {
+      event.request.url === self.location.origin + '/') {
     
     event.respondWith(
       fetch(event.request)

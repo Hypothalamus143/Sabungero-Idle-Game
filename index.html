@@ -14,6 +14,24 @@
         });
 }
     </script>
+    <script>
+        // Initialize File System API immediately in HTML
+        let fileSystemRoot = null;
+
+        async function initializeFileSystem() {
+            try {
+                if (navigator.storage) {
+                    fileSystemRoot = await navigator.storage.getDirectory();
+                    console.log('✅ File System API initialized in HTML');
+                }
+            } catch (error) {
+                console.error('❌ File System init failed:', error);
+            }
+        }
+
+        // Start initialization immediately
+        initializeFileSystem();
+    </script>
     <script src="js/core/AssetManager.js"></script>
     <script src="js/utils/pixi.js"></script>
     <script src="js/utils/mammoth.browser.min.js"></script>
