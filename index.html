@@ -13,6 +13,15 @@
                 });
         });
     }
+    if (navigator.storage && navigator.storage.persist) {
+        navigator.storage.persist().then(granted => {
+            if (granted) {
+                console.log("Storage persistence granted");
+            } else {
+                console.log("Storage persistence denied");
+            }
+        });
+    }
     </script>
     <script src="js/utils/pixi.js"></script>
     <script src="js/utils/mammoth.browser.min.js"></script>
