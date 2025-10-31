@@ -94,39 +94,39 @@ class SabungeroGame {
             e.preventDefault();
         });
         // Remove e.preventDefault() and use passive events
-        // document.addEventListener('touchstart', (e) => {
-        //     if (this.learningSystem.inputFocused) return;
+        document.addEventListener('touchstart', (e) => {
+            if (this.learningSystem.inputFocused) return;
             
-        //     // Add each new touch point
-        //     for (let touch of e.touches) {
-        //         const touchId = `touch-${touch.identifier}`;
-        //         window.app.uiSystem.activeKeys.add(touchId);
-        //     }
+            // Add each new touch point
+            for (let touch of e.touches) {
+                const touchId = `touch-${touch.identifier}`;
+                window.app.uiSystem.activeKeys.add(touchId);
+            }
             
-        //     this.keysPressedCount = e.touches.length;
-        //     this.lastKeyPressTime = Date.now();
-        //     this.updateKeyIndicators();
+            this.keysPressedCount = e.touches.length;
+            this.lastKeyPressTime = Date.now();
+            this.updateKeyIndicators();
             
-        //     this.addIdleExperience();
+            this.addIdleExperience();
             
-        //     // REMOVE THIS: e.preventDefault();
-        // }, { passive: true }); // Add passive: true
+            // REMOVE THIS: e.preventDefault();
+        }, { passive: true }); // Add passive: true
 
-        // document.addEventListener('touchend', (e) => {
-        //     // Remove ended touches
-        //     for (let touch of e.changedTouches) {
-        //         const touchId = `touch-${touch.identifier}`;
-        //         window.app.uiSystem.activeKeys.delete(touchId);
-        //     }
+        document.addEventListener('touchend', (e) => {
+            // Remove ended touches
+            for (let touch of e.changedTouches) {
+                const touchId = `touch-${touch.identifier}`;
+                window.app.uiSystem.activeKeys.delete(touchId);
+            }
             
-        //     this.keysPressedCount = e.touches.length;
-        //     this.updateKeyIndicators();
+            this.keysPressedCount = e.touches.length;
+            this.updateKeyIndicators();
             
-        //     // REMOVE THIS: e.preventDefault();
-        // }, { passive: true }); // Add passive: true
-        // window.addEventListener('beforeunload', () => {
-        //     this.savePlayerData();
-        // });
+            // REMOVE THIS: e.preventDefault();
+        }, { passive: true }); // Add passive: true
+        window.addEventListener('beforeunload', () => {
+            this.savePlayerData();
+        });
         window.addEventListener('resize', () => this.updateAllPositions());
     }
     
