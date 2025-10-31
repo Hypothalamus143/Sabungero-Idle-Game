@@ -61,6 +61,7 @@ class AssetManager {
         }
 
         console.log(`Download complete: ${successCount} successful, ${failCount} failed`);
+        alert("Download Complete!");
         localStorage.setItem('assets-downloaded', 'true');
         return { success: successCount, failed: failCount };
     }
