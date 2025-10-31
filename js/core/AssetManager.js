@@ -45,10 +45,6 @@ class AssetManager {
     async downloadAllAssets() {
         console.log('Starting full asset download...');
         alert('Starting full asset download...');
-        // Clear existing files first
-        await this.clearAllAssets(true);
-        
-        await this.updateCachedFiles();
 
         const assets = this.getAllGameAssets();
         let successCount = 0;
@@ -216,12 +212,10 @@ class AssetManager {
         { url: './assets/maps/smokescreen_spritesheet.json', filename: 'smokescreen_map.json' }
     ];
 }
-    async clearAllAssets(overwrite = false) {
-        if(!overwrite){
-            if(!confirm('Are you sure you want to delete downloaded assets? \n(You cannot run this offline anymore)'))
-                return;
-            alert("Now deleting...");
-        }
+    async clearAllAssets() {
+        if(!confirm('Are you sure you want to delete downloaded assets? \n(You cannot run this offline anymore)'))
+            return;
+        alert("Now deleting...");
         
         const cache = await caches.open('sabungero-idle-game');
         await cache.delete('/index.html');
@@ -258,32 +252,6 @@ class AssetManager {
             });
         } else {
             alert('📱 Not installable in this browser.\n\nTry:\n• Refresh page\n• Use browser menu\n• Use different browser');
-        }
-    }
-    async updateCachedFiles() {
-        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-            console.log('🔄 Updating cached files...');
-            
-            // List of files to update in service worker cache
-            const filesToUpdate = [
-                '/index.html',
-                '/js/core/AssetManager.js',
-                '/manifest.json'
-            ];
-            
-            // Fetch fresh versions and update cache
-            for (const file of filesToUpdate) {
-                try {
-                    const response = await fetch(file);
-                    if (response.ok) {
-                        const cache = await caches.open('bootstrap-v1');
-                        await cache.put(file, response);
-                        console.log('✅ Updated cache:', file);
-                    }
-                } catch (error) {
-                    console.log('❌ Failed to update:', file, error);
-                }
-            }
         }
     }
 }
