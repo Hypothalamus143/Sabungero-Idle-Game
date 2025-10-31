@@ -93,43 +93,40 @@ class SabungeroGame {
             this.updateKeyIndicators();
             e.preventDefault();
         });
-        document.addEventListener('touchstart', (e) => {
-            if (this.learningSystem.inputFocused) return;
+        // Remove e.preventDefault() and use passive events
+        // document.addEventListener('touchstart', (e) => {
+        //     if (this.learningSystem.inputFocused) return;
             
-            // Add each new touch point
-            for (let touch of e.touches) {
-                const touchId = `touch-${touch.identifier}`;
-                window.app.uiSystem.activeKeys.add(touchId);
-            }
+        //     // Add each new touch point
+        //     for (let touch of e.touches) {
+        //         const touchId = `touch-${touch.identifier}`;
+        //         window.app.uiSystem.activeKeys.add(touchId);
+        //     }
             
-            this.keysPressedCount = e.touches.length;
-            this.lastKeyPressTime = Date.now();
-            this.updateKeyIndicators();
+        //     this.keysPressedCount = e.touches.length;
+        //     this.lastKeyPressTime = Date.now();
+        //     this.updateKeyIndicators();
             
-            // Add experience based on number of fingers
-            this.addIdleExperience();
+        //     this.addIdleExperience();
             
-            e.preventDefault();
-        });
+        //     // REMOVE THIS: e.preventDefault();
+        // }, { passive: true }); // Add passive: true
 
-        document.addEventListener('touchmove', (e) => {
-            e.preventDefault(); // Prevent scrolling
-        });
-
-        document.addEventListener('touchend', (e) => {
-            // Remove ended touches
-            for (let touch of e.changedTouches) {
-                const touchId = `touch-${touch.identifier}`;
-                window.app.uiSystem.activeKeys.delete(touchId);
-            }
+        // document.addEventListener('touchend', (e) => {
+        //     // Remove ended touches
+        //     for (let touch of e.changedTouches) {
+        //         const touchId = `touch-${touch.identifier}`;
+        //         window.app.uiSystem.activeKeys.delete(touchId);
+        //     }
             
-            this.keysPressedCount = e.touches.length;
-            this.updateKeyIndicators();
-            e.preventDefault();
-        });
-        window.addEventListener('beforeunload', () => {
-            this.savePlayerData();
-        });
+        //     this.keysPressedCount = e.touches.length;
+        //     this.updateKeyIndicators();
+            
+        //     // REMOVE THIS: e.preventDefault();
+        // }, { passive: true }); // Add passive: true
+        // window.addEventListener('beforeunload', () => {
+        //     this.savePlayerData();
+        // });
         window.addEventListener('resize', () => this.updateAllPositions());
     }
     
