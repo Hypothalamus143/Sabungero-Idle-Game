@@ -13,8 +13,8 @@ class BattleEngine{
             // Calculate damage
             const minDamage = this.playerStats.level;
             const maxDamage = this.playerStats.level * (1 + window.app.uiSystem.activeKeys.size);
-            const playerDamage = Math.round(minDamage + Math.random() * (maxDamage - minDamage));
-            const opponentDamage = this.currentOpponent.level * (1 + Math.floor(Math.random() * 6));
+            const playerDamage = Math.round(minDamage + Math.random() * (maxDamage - minDamage)) * 3;
+            const opponentDamage = this.currentOpponent.level * (1 + Math.floor(Math.random() * 6)) * 3;
             
             this.battleStates.battleState = 'attacking';
             

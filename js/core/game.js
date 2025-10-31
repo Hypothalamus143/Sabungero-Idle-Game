@@ -60,6 +60,7 @@ class SabungeroGame {
         this.showScreen("main");
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('game-container').style.display = 'block';
+        this.showTutorial();
         this.scaling.applyScale();
     }
     initEventListeners() {
@@ -166,6 +167,9 @@ class SabungeroGame {
                 window.app.uiSystem.roosters.playerRooster.scale.x = 1;
                 window.app.uiSystem.sabunganBackground.visible = false;
                 window.app.uiSystem.sabunganBackground.stop();
+                window.app.uiSystem.pugaranMusic.pause();
+                window.app.uiSystem.sabunganMusic.pause();
+                window.app.uiSystem.pugaranMusic.play();
                 this.updateAllPositions();
                 this.idleSystem.startIdleLoop();
                 break;
@@ -178,6 +182,9 @@ class SabungeroGame {
                 window.app.uiSystem.roosters.playerRooster.scale.x = 1;
                 window.app.uiSystem.sabunganBackground.visible = false;
                 window.app.uiSystem.sabunganBackground.stop();
+                window.app.uiSystem.pugaranMusic.pause();
+                window.app.uiSystem.sabunganMusic.pause();
+                window.app.uiSystem.pugaranMusic.play();
                 this.updateAllPositions();
                 this.learningSystem.showLearningMain();
                 break;
@@ -187,6 +194,9 @@ class SabungeroGame {
                 battlePanel.style.display = 'block';
                 window.app.uiSystem.sabunganBackground.visible = true;
                 window.app.uiSystem.sabunganBackground.play();
+                window.app.uiSystem.pugaranMusic.pause();
+                window.app.uiSystem.sabunganMusic.pause();
+                window.app.uiSystem.sabunganMusic.play();
                 if(this.currentOpponent)
                     window.app.uiSystem.roosters.opponentRooster.visible = true;
                 // Reset battle state when entering arena
@@ -338,7 +348,6 @@ class SabungeroGame {
         BrowserDB.savePlayerStats(defaultStats);
         console.log('🎮 New player created with avatar:', avatarId);
         // ✅ Show tutorial instead of going straight to game
-        this.showTutorial();
     }
 
     updateAllPositions(){
@@ -365,7 +374,7 @@ class SabungeroGame {
         }
         else{
             window.app.uiSystem.roosters.playerRooster.x = window.app.screen.width / 2; // Centered in coop
-            window.app.uiSystem.roosters.playerRooster.y = window.app.screen.height / 2;
+            window.app.uiSystem.roosters.playerRooster.y = window.app.screen.height * 0.6;
         }
         this.scaling.applyScale();
     }
@@ -373,7 +382,7 @@ class SabungeroGame {
     showTutorial() {
         const modal = document.getElementById('tutorial-modal');
         modal.style.display = 'flex';
-        
+        document.getElementById('tutorial-content').scrollTop = 0;
         document.getElementById('start-playing').onclick = () => {
             modal.style.display = 'none';
             

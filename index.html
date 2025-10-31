@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Sabungero Idle Game</title>
-    <script src="https://pixijs.download/release/pixi.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+        <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('SW registered - will cache all files as they load');
+                });
+        });
+    }
+    </script>
+    <script src="js/utils/pixi.js"></script>
+    <script src="js/utils/mammoth.browser.min.js"></script>
+    <script src="js/utils/pdf.min.js"></script>
+    <script src="js/utils/howler.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <link rel="stylesheet" type="text/css" href="styles/avatarCreation.css">
 
@@ -318,9 +329,8 @@
     - removed emojis sa <p>-->
 
     <div id="tutorial-modal" class="modal" style="display: none;">
-        <div class="modal-content tutorial-content">
-
-            <div class="tutorial">
+        <div class="modal-content tutorial-content" id="tutorial-content">
+            <div class="tutorial" id="tutorial">
                 <h2>WELCOME TO SABUNGERO IDLE GAME!</h2>
                 <div class="tutorial-step">
                     <h3> YOUR MISSION</h3>

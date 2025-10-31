@@ -6,6 +6,10 @@ class UISystem{
         this.activeKeys = new Set();
         this.sabunganBackground = null;
         this.pugaranBackground = null;
+        this.pugaranMusic = null;
+        this.sabunganMusic = null;
+        this.smokeFightSound = null;
+        this.chickenFightSound = null;
         this.init();
     }
     async init(){
@@ -26,6 +30,33 @@ class UISystem{
         this.sabunganBackground.animationSpeed = 0.1; // Slow animation for background
         this.sabunganBackground.visible = false;
         window.stageContainer.addChildAt(this.sabunganBackground, 1);
+        await this.preLoadMusic();
+    }
+    async preLoadMusic(){
+        this.pugaranMusic = new Howl({
+            src: ['assets/music/pugaranBackgroundMusic.mp3'],
+            loop: true,
+            volume: 0.5,
+            preload: true
+            });
+        this.sabunganMusic = new Howl({
+            src: ['assets/music/sabunganBackgroundMusic.mp3'],
+            loop: true,
+            volume: 0.7,
+            preload: true
+            });
+        this.smokeFightSound = new Howl({
+            src: ['assets/music/smokeFight.mp3'],
+            loop: true,
+            volume: 0.8,
+            preload: true
+            });
+        this.chickenFightSound = new Howl({
+            src: ['assets/music/chickenFight.mp3'],
+            loop: true,
+            volume: 0.4,
+            preload: true
+            });
     }
     updateUI() {
         document.getElementById('player-level').textContent = this.playerStats.level;

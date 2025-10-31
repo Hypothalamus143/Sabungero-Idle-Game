@@ -75,8 +75,8 @@ class BattleSystem{
         document.getElementById('battle-btn').style.display = 'none';
         window.app.uiSystem.roosters.updateRoosters(true);
         // Start the initial approach animation
+        window.app.uiSystem.chickenFightSound.play();
         await this.battleAnimationManager.battleApproachAnimation();
-        
         // After animation completes, start the battle loop
         this.battleAnimationManager.battleState = 'fighting';
         this.startBattleLoop();
@@ -180,6 +180,7 @@ class BattleSystem{
     async handleBattleEnd(victory, playerDamage, opponentDamage) {
         this.battleStates.isBattleActive = false;
         this.stopBattleLoop();
+        window.app.uiSystem.chickenFightSound.pause();
         // Stop battle loops
         this.battleAnimationManager.stopJitterAnimation();
         
@@ -208,7 +209,6 @@ class BattleSystem{
         
         // Hide opponent and show find button after delay
         await this.battleAnimationManager.delay(3000);
-        window.app.uiSystem.roosters.opponentRooster.visible = false;
         document.getElementById('battle-btn').style.display = 'block';
         document.getElementById('battle-btn').textContent = '⚔️ Find New Opponent';
     }
