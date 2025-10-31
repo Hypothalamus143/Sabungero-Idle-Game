@@ -4,25 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sabungero Idle Game</title>
-        <script>
+    <link rel="manifest" href="/manifest.json">
+    <script>
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => {
-                    console.log('SW registered - will cache all files as they load');
-                });
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+        .then(registration => {
+            console.log('✅ SW registered successfully:', registration);
+            // Refresh the page to activate it
         });
-    }
-    if (navigator.storage && navigator.storage.persist) {
-        navigator.storage.persist().then(granted => {
-            if (granted) {
-                console.log("Storage persistence granted");
-            } else {
-                console.log("Storage persistence denied");
-            }
-        });
-    }
+}
     </script>
+    <script src="js/core/AssetManager.js"></script>
     <script src="js/utils/pixi.js"></script>
     <script src="js/utils/mammoth.browser.min.js"></script>
     <script src="js/utils/pdf.min.js"></script>
@@ -41,12 +33,18 @@
     <link rel="stylesheet" type="text/css" href="styles/quests/quiz.css">
 
 </head>
+<!-- Simple Control Panel -->
+<div id="control-panel" style="position: fixed; top: 10px; left: 10px; z-index: 10000; background: rgba(0,0,0,0.9); padding: 10px; border-radius: 8px; border: 2px solid #ffb94f;">
+    <button onclick="assetManager.downloadAllAssets()" style="display: block; margin: 5px 0; padding: 8px 12px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px;">📥 Download Latest Assets</button>
+    <button onclick="assetManager.clearAllAssets()" style="display: block; margin: 5px 0; padding: 8px 12px; background: #ff4444; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px;">🗑️ Clear Assets</button>
+    <button onclick="assetManager.installPWA()" style="display: block; margin: 5px 0; padding: 8px 12px; background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px;">📱 Install App</button>
+</div>
 <body>
 
     <!--NEW!!!: UI CHANGES: added invisible container for responsiveness (ata T.T)-->
 
     <!--NAVBAR CHANGES:
-        - capslock ra ang words
+        - capslock ra ang
         -->
 
 <div id="loading-screen" class="loading-screen">
@@ -61,7 +59,7 @@
     <div id="ui-overlay">
         <div class="navbar">
             <button id="nav-main" class="nav-btn active">🏠 PUGARAN</button>
-            <button id="nav-quests" class="nav-btn" ">📚 SKWELAHAN</button>
+            <button id="nav-quests" class="nav-btn">📚 SKWELAHAN</button>
             <button id="nav-arena" class="nav-btn">⚔️ SABUNGAN</button>
         </div>
 
