@@ -1,3 +1,6 @@
+* {
+    touch-action: manipulation; /* Apply to all elements */
+}
 html{
     width: 1920px;
     height: 1080px;
