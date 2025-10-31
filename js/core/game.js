@@ -370,6 +370,7 @@ class SabungeroGame {
             window.app.uiSystem.roosters.playerRooster.x = window.app.screen.width / 2; // Centered in coop
             window.app.uiSystem.roosters.playerRooster.y = window.app.screen.height / 2;
         }
+        this.scaling.applyScale();
     }
 
     showTutorial() {
