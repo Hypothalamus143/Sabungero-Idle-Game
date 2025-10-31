@@ -6,6 +6,7 @@
     <title>Sabungero Idle Game</title>
     <link rel="manifest" href="/manifest.json">
     <script>
+    alert();
     if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js', { scope: './' })
         .then(registration => {
