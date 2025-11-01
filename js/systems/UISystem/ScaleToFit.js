@@ -34,7 +34,8 @@ class ScaleToFit {
         if (window.app?.renderer) {
             window.app.canvas.width = this.targetWidth;
             window.app.canvas.height = this.targetHeight;
-            window.app.renderer.resize(this.targetWidth, this.targetHeight);
+            window.app.renderer.resize(this.targetWidth/10, this.targetHeight/10);
+            window.app.renderer.resolution = 10;
         }
         
         console.log(`📐 Entire document scaled independently: X=${Math.round(scaleX * 100)}% Y=${Math.round(scaleY * 100)}% (${this.targetWidth}x${this.targetHeight})`);
