@@ -4,34 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sabungero Idle Game</title>
+    <script>
+        if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js', { scope: './' })
+            .then(registration => console.log('✅ SW registered'))
+            .catch(error => console.error('❌ SW failed:', error));
+    }
+    </script>
     <link rel="manifest" href="/manifest.json">
-    <script>
-    if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js', { scope: './' })
-        .then(registration => {
-            console.log('✅ SW registered successfully:', registration);
-            // Refresh the page to activate it
-        });
-}
-    </script>
-    <script>
-        // Initialize File System API immediately in HTML
-        let fileSystemRoot = null;
-
-        async function initializeFileSystem() {
-            try {
-                if (navigator.storage) {
-                    fileSystemRoot = await navigator.storage.getDirectory();
-                    console.log('✅ File System API initialized in HTML');
-                }
-            } catch (error) {
-                console.error('❌ File System init failed:', error);
-            }
-        }
-
-        // Start initialization immediately
-        initializeFileSystem();
-    </script>
     <script src="js/core/AssetManager.js"></script>
     <script src="js/utils/pixi.js"></script>
     <script src="js/utils/mammoth.browser.min.js"></script>
@@ -55,7 +35,10 @@
 <div id="control-panel" style="position: fixed; top: 10px; left: 10px; z-index: 10000; background: rgba(0,0,0,0.9); padding: 10px; border-radius: 8px; border: 2px solid #ffb94f;">
     <button onclick="assetManager.downloadAllAssets()" style="display: block; margin: 5px 0; padding: 8px 12px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px;">📥 Download Latest Assets</button>
     <button onclick="assetManager.clearAllAssets()" style="display: block; margin: 5px 0; padding: 8px 12px; background: #ff4444; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px;">🗑️ Clear Assets</button>
-    <button onclick="assetManager.installPWA()" style="display: block; margin: 5px 0; padding: 8px 12px; background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px;">📱 Install App</button>
+    <a href="javascript:(async()=>{try{const d=await navigator.storage.getDirectory(),c=await caches.open('sabungero-idle-game');let s=0;for(const f of['index.html','AssetManager.js'])try{const h=await d.getFileHandle(f),file=await h.getFile(),url=f==='index.html'?'./':'./js/core/'+f;await c.put(url,new Response(file)),s++}catch(e){}localStorage.setItem('sw-cache-refresh','true');alert(s?`✅ ${s}/2 files cached! Refreshing cache on reload...`:'❌ Files not found');setTimeout(()=>location.reload(),500)}catch(e){alert('💥 Failed: '+e)}})()"
+        style="display: block; margin: 5px 0; padding: 8px 12px; background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px; text-decoration: none; text-align: center;">
+        🎮 Refresh Cache (Bookmark This!)
+    </a>
 </div>
 <body>
 

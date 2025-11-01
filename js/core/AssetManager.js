@@ -27,6 +27,16 @@ class AssetManager {
             // Scan for already downloaded assets
             await this.scanExistingAssets();
             
+            // SMART CACHE: Only refresh if flag is set
+            if (localStorage.getItem('sw-cache-refresh') === 'true') {
+                console.log('🔄 Cache refresh requested, updating...');
+                await this.cacheAllForServiceWorker();
+                localStorage.removeItem('sw-cache-refresh'); // Clear flag
+                console.log('✅ Cache refresh complete');
+                location.reload();
+            } else {
+                console.log('✅ Cache is current, skipping refresh');
+                }
             
         } catch (error) {
             console.error('AssetManager init failed:', error);
@@ -41,29 +51,77 @@ class AssetManager {
             }
         }
     }
-
     async downloadAllAssets() {
-        console.log('Starting full asset download...');
         alert('Starting full asset download...');
-
         const assets = this.getAllGameAssets();
         let successCount = 0;
-        let failCount = 0;
-
         for (const asset of assets) {
             try {
+                // 1. Download to File System API
                 await this.downloadAsset(asset.url, asset.filename);
                 successCount++;
+                
+                // 2. ALSO cache for Service Worker
+                await this.cacheAssetForSW(asset.url,asset.filename);
+                
             } catch (error) {
                 console.error('Failed to download:', asset.url, error);
-                failCount++;
             }
         }
 
-        console.log(`Download complete: ${successCount} successful, ${failCount} failed`);
-        alert("Download Complete!");
+        console.log(`Download complete: ${successCount} successful`);
+        alert("Download complete!");
         localStorage.setItem('assets-downloaded', 'true');
-        return { success: successCount, failed: failCount };
+        return successCount;
+    }
+
+    async cacheAssetForSW(url, filename) {
+        try {
+            if (this.isAssetDownloaded(filename)) {
+                // Get file directly from File System API
+                const fileHandle = await this.root.getFileHandle(filename);
+                const file = await fileHandle.getFile();
+                
+                // Determine content type
+                let contentType = 'application/octet-stream';
+                if (filename.endsWith('.js')) contentType = 'application/javascript';
+                else if (filename.endsWith('.css')) contentType = 'text/css';
+                else if (filename.endsWith('.html')) contentType = 'text/html';
+                else if (filename.endsWith('.png')) contentType = 'image/png';
+                else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) contentType = 'image/jpeg';
+                else if (filename.endsWith('.mp3')) contentType = 'audio/mpeg';
+                else if (filename.endsWith('.json')) contentType = 'application/json';
+                
+                // Create response with actual file content
+                const response = new Response(file, {
+                    headers: { 'Content-Type': contentType }
+                });
+                
+                const cache = await caches.open('sabungero-idle-game');
+                await cache.put(url, response);
+                
+                console.log(`✅ Cached: ${filename} as ${contentType}`);
+                return true;
+            }
+        } catch (error) {
+            console.warn(`Could not cache ${url}:`, error);
+        }
+        return false;
+    }
+
+    async cacheAllForServiceWorker() {
+        console.log('🔄 Caching all assets for Service Worker...');
+        const assets = this.getAllGameAssets();
+        let cachedCount = 0;
+
+        for (const asset of assets) {
+            if (await this.cacheAssetForSW(asset.url, asset.filename)) {
+                cachedCount++;
+            }
+        }
+
+        console.log(`✅ ${cachedCount} assets cached for Service Worker`);
+        return cachedCount;
     }
 
     async downloadAsset(url, filename) {
@@ -119,7 +177,8 @@ class AssetManager {
     getAllGameAssets() {
     return [
         // HTML and Core Files
-        { url: './index.html', filename: 'index.html' },
+        { url: './', filename: 'index.html' },
+        { url: './sw.js', filename: 'sw.js' },
         { url: './manifest.json', filename: 'manifest.json' },
         // CSS Files
         { url: './styles/style.css', filename: 'style.css' },
@@ -219,8 +278,11 @@ class AssetManager {
             return;
         alert("Now deleting...");
         
-        const cache = await caches.open('sabungero-idle-game');
-        await cache.delete('/index.html');
+        // In console:
+        await caches.keys().then(cacheNames => {
+            cacheNames.forEach(cacheName => caches.delete(cacheName));
+        });
+        console.log('✅ All caches cleared');
             try {
             let deletedCount = 0;
             
@@ -259,4 +321,4 @@ class AssetManager {
 }
 
 // Global instance
-const assetManager = new AssetManager(fileSystemRoot);
+const assetManager = new AssetManager();
