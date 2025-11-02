@@ -210,6 +210,8 @@ class SabungeroGame {
                     this.battleSystem.battleStates.battleState = 'idle';
                 }
                 this.updateAllPositions();
+                this.playerStats.hp = this.playerStats.level * 100;
+                this.battleSystem.updateHPBars(this.currentOpponent.hp ? this.currentOpponent.hp : 100, this.currentOpponent.hp ? this.currentOpponent.hp : 100, this.playerStats.hp, this.playerStats.hp);
                 // Always ensure player is positioned correctly
                 window.app.uiSystem.roosters.playerRooster.scale.x = BATTLE_FORMATIONS[this.battleSystem.battleAnimationManager.getBattleFormation()].playerPos[2];
                 window.app.uiSystem.roosters.opponentRooster.scale.x = BATTLE_FORMATIONS[this.battleSystem.battleAnimationManager.getBattleFormation()].opponentPos[2];

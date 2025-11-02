@@ -22,8 +22,8 @@ class BattleEngine{
             
         }
     }
-    calculateMMRChange(playerWon, playerLevel, opponentLevel) {
-        const levelDifference = opponentLevel - playerLevel;
+    calculateMMRChange(playerWon, playerMMR, opponentMMR) {
+        const levelDifference = Math.floor((opponentMMR - playerMMR)/100);
         
         // Base rewards for winning
         if (levelDifference >= 3) return playerWon ? 50 : -1;      // +50 / -1

@@ -202,6 +202,7 @@ class BattleSystem{
         // Show battle result
         this.showBattleResult(victory, playerDamage, opponentDamage, mmrChange);
         // Update UI
+        BrowserDB.savePlayerStats(this.playerStats);
         window.app.uiSystem.updateUI();
         window.app.uiSystem.roosters.updateRoosters();
         window.app.uiSystem.roosters.playerRooster.scale.x = BATTLE_FORMATIONS[this.battleAnimationManager.getBattleFormation()].playerPos[2];
