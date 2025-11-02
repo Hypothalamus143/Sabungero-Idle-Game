@@ -23,7 +23,7 @@ class IdleSystem{
         if (this.playerStats.experience >= expNeeded) {
             this.levelUp();
         }
-        
+        BrowserDB.savePlayerStats(this.playerStats);
         window.app.uiSystem.updateUI();
         this.hearts.spawnAroundPlayer(window.app.uiSystem.activeKeys.size);
         this.hearts.startAnimation(1000);

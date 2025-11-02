@@ -33,12 +33,8 @@
 </head>
 <!-- Simple Control Panel -->
 <div id="control-panel" style="position: fixed; top: 10px; left: 10px; z-index: 10000; background: rgba(0,0,0,0.9); padding: 10px; border-radius: 8px; border: 2px solid #ffb94f;">
-    <button onclick="assetManager.downloadAllAssets()" style="display: block; margin: 5px 0; padding: 8px 12px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px;">📥 Download Latest Assets</button>
+    <button onclick="assetManager.cacheAllForServiceWorker()" style="display: block; margin: 5px 0; padding: 8px 12px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px;">📥 Download Assets</button>
     <button onclick="assetManager.clearAllAssets()" style="display: block; margin: 5px 0; padding: 8px 12px; background: #ff4444; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px;">🗑️ Clear Assets</button>
-    <a href="javascript:(async()=>{try{const d=await navigator.storage.getDirectory(),c=await caches.open('sabungero-idle-game');let s=0;for(const f of['index.html','AssetManager.js'])try{const h=await d.getFileHandle(f),file=await h.getFile(),url=f==='index.html'?'./':'./js/core/'+f;await c.put(url,new Response(file)),s++}catch(e){}localStorage.setItem('sw-cache-refresh','true');alert(s?`✅ ${s}/2 files cached! Refreshing cache on reload...`:'❌ Files not found');setTimeout(()=>location.reload(),500)}catch(e){alert('💥 Failed: '+e)}})()"
-        style="display: block; margin: 5px 0; padding: 8px 12px; background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px; text-decoration: none; text-align: center;">
-        🎮 Refresh Cache (Bookmark This!)
-    </a>
 </div>
 <body>
 
@@ -47,7 +43,6 @@
     <!--NAVBAR CHANGES:
         - capslock ra ang
         -->
-
 <div id="loading-screen" class="loading-screen">
     <div class="loading-content">
         <h2>Sabungero Idle Game</h2>
@@ -63,7 +58,11 @@
             <button id="nav-quests" class="nav-btn">📚 SKWELAHAN</button>
             <button id="nav-arena" class="nav-btn">⚔️ SABUNGAN</button>
         </div>
-
+<h1 class="advice" > If you are seeing this, refresh cache! or Connect to internet!</h1>
+<h3 class="advice">Why this happens</h3>
+<p class="advice">This game is trying to use as less cache as possible when not used so that phones or devices with less storage will be able to run as smooth as possible! Note that refreshing cache
+    will only work if the assets were downloaded beforehand!
+</p>       
         <div class="invisible-container">
 
 

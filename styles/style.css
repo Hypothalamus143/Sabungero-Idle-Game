@@ -1,6 +1,9 @@
 * {
     touch-action: manipulation; /* Apply to all elements */
 }
+.advice{
+    display:none;
+}
 html{
     width: 1920px;
     height: 1080px;
