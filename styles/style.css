@@ -1,9 +1,6 @@
 * {
     touch-action: manipulation; /* Apply to all elements */
 }
-.advice{
-    display:none;
-}
 html{
     width: 1920px;
     height: 1080px;
@@ -155,7 +152,7 @@ input, textarea {
         right:-50px;
         flex-direction: column;
         width:400px;
-        height:710px;
+        height:750px;
     }
     
     .battle-panel .yellow {
@@ -163,7 +160,7 @@ input, textarea {
         top: 5px;
         left: 10px;
         width: 420px;
-        height: 735px;
+        height: 775px;
         background-color: #e2b740;
     }
     
@@ -176,7 +173,7 @@ input, textarea {
         top: 10px;
         left: 10px;
         width: 395px;
-        height: 710px;
+        height: 750px;
         background-color: #fff9ea;
     }
 
@@ -235,7 +232,7 @@ button {
 .navbar {
     margin-top:30px;
     display: flex;
-    width:1200px;
+    width:1100px;
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
@@ -258,16 +255,21 @@ button {
     font-family: 'Press Start 2P', monospace;
     text-shadow: 2px 2px 4px rgba(5, 5, 1, 1);
     padding: 1em 2em;
-    box-shadow: inset 2px 2px 4px #ffbf5e, 2px 2px 0 #000, /* extra “pixel” edges */
+    box-shadow: inset 4px 3px 5px #ffbf5e, 2px 2px 0 #000, /* extra “pixel” edges */
     4px 4px 0 #000;
 }
 
     .nav-btn.active {
-        background-color:white; /* Red color to show it's active */
+        background: white;
+        box-shadow: inset 4px 3px 5px gray, 2px 2px 0 #000, /* extra �pixel� edges */
+        4px 4px 0 #000;
     }
 
 .nav-btn:hover:not(.active) {
-        background: white;
+    background: white;
+    box-shadow: inset 4px 3px 5px gray, 2px 2px 0 #000, /* extra �pixel� edges */
+    4px 4px 0 #000;
+
 }
 
 .invisible-container {
