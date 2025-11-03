@@ -81,17 +81,20 @@
     border-radius: 25px;
     cursor: pointer;
     font-weight: bold;
-    transition: all 0.3s ease;
     font-family: 'Press Start 2P', monospace;
     text-shadow: 2px 2px 4px rgba(5, 5, 1, 1);
     padding: 1em 2em;
-    box-shadow: inset 2px 2px 4px #ffbf5e, 2px 2px 0 #000, /* extra “pixel” edges */
+    box-shadow: inset 4px 3px 5px #ffbf5e, 2px 2px 0 #000, /* extra “pixel” edges */
     4px 4px 0 #000;
     font-size:1.3em;
 }
 
 .confirm-btn-tutorial:hover{
-    background:white;
+    transition: 0.2s ease-in;
+    width:405px;
+    background: white;
+    box-shadow: inset 4px 3px 5px gray, 2px 2px 0 #000, /* extra �pixel� edges */
+    4px 4px 0 #000;
     
 }
 
