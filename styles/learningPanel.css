@@ -34,8 +34,8 @@
     scrollbar-color: #ffb94f transparent; /* thumb color + transparent track */
     position: absolute;
     top: 150px;
-    left: 320px;
-    width: 1200px;
+    left: 335px;
+    width: 1150px;
     height: 680px;
     background-color: #a06041;
     border: 2px solid #555;
@@ -54,7 +54,7 @@
     position: absolute;
     top: 15px;
     left: 13px;
-    width: 1170px;
+    width: 1120px;
     height: 650px;
     background-color: #e2b740;
 }
@@ -66,7 +66,7 @@
     position: absolute;
     top:15px;
     left: 13px;
-    width: 1145px;
+    width: 1095px;
     height: 625px;
     background-color: #fff9ea;
     gap:20px;
@@ -136,12 +136,14 @@
     margin-top: 5px;
     margin-bottom: 0px;
     flex: 0 0 auto;
-    width: 700px;
+    width: 600px;
+    margin-left:50px;
     height:auto;
     max-height:290px;
     background-color: #a06041;
     overflow: auto;
     border: 2px solid #6e3f29;
+    align-self:center;
 }
 
 
@@ -154,20 +156,19 @@
 .content-tabs {
     flex: 0.3;
     display: flex;
-    gap: 5px;
+    gap:25px;
     margin-top:10px;
     margin-bottom:0;
     padding: 5px;
-    width: 900px;
+    width: 800px;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
 
 .tab-btn {
-
     line-height:1.5;
-    flex: 0 1 250px;
+    flex: 0 1 220px;
     color: #ffb94f;
     background: #a06041;
     border: 3px solid #534a40;
@@ -177,17 +178,23 @@
     transition: all 0.3s ease;
     font-family: 'Press Start 2P', monospace;
     text-shadow: 2px 2px 4px rgba(5, 5, 1, 1);
-    box-shadow: inset 2px 2px 4px #ffbf5e, 2px 2px 0 #000, /* extra “pixel” edges */
+    box-shadow: inset 4px 3px 5px #ffbf5e, 2px 2px 0 #000, /* extra “pixel” edges */
     4px 4px 0 #000;
     padding: 4px 10px;
 }
 
 .tab-btn.active {
     background: white;
+    box-shadow: inset 4px 3px 5px gray, 2px 2px 0 #000, /* extra �pixel� edges */
+    4px 4px 0 #000;
+
 }
 
 .tab-btn:hover:not(.active) {
     background: white;
+        box-shadow: inset 4px 3px 5px gray, 2px 2px 0 #000, /* extra �pixel� edges */
+        4px 4px 0 #000;
+
 }
 
 /* Search Section */
@@ -291,7 +298,7 @@
     transition: all 0.3s ease;
     font-family: 'Press Start 2P', monospace;
     text-shadow: 2px 2px 4px rgba(5, 5, 1, 1);
-    box-shadow: inset 2px 2px 4px #ffbf5e, 2px 2px 0 #000, /* extra “pixel” edges */
+    box-shadow: inset 4px 3px 5px #ffbf5e, 2px 2px 0 #000, /* extra “pixel” edges */
     4px 4px 0 #000;
     padding: 5px 5px;
     vertical-align: middle;
@@ -301,6 +308,9 @@
 
 #generate-similar:hover {
     background: white;
+        box-shadow: inset 4px 3px 5px gray, 2px 2px 0 #000, /* extra �pixel� edges */
+        4px 4px 0 #000;
+
 }
 
 #generate-btn {
