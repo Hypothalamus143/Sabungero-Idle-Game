@@ -40,7 +40,6 @@
     flex: 0 1 auto;
     color: #ffb94f;
     background: #a06041;
-    padding: 10px 20px;
     border: 3px solid #534a40;
     border-radius: 25px;
     cursor: pointer;
@@ -50,19 +49,21 @@
     font-family: 'Press Start 2P', monospace;
     text-shadow: 2px 2px 4px rgba(5, 5, 1, 1);
     padding: 10px 15px;
-    box-shadow: inset 2px 2px 4px #ffbf5e, 2px 2px 0 #000, /* extra �pixel� edges */
+    box-shadow: inset 4px 3px 5px #ffbf5e, 2px 2px 0 #000, /* extra �pixel� edges */
     4px 4px 0 #000;
 }
 
 #battle-info #battle-btn:hover:not(.active) {
     background: white;
+        box-shadow: inset 4px 3px 5px gray, 2px 2px 0 #000, /* extra �pixel� edges */
+        4px 4px 0 #000;
+
 }
 
 #battle-info #fight-btn {
     flex: 0 1 auto;
     color: #ffb94f;
     background: #a06041;
-    padding: 10px 20px;
     border: 3px solid #534a40;
     border-radius: 25px;
     cursor: pointer;
@@ -72,12 +73,15 @@
     font-family: 'Press Start 2P', monospace;
     text-shadow: 2px 2px 4px rgba(5, 5, 1, 1);
     padding: 10px 15px;
-    box-shadow: inset 2px 2px 4px #ffbf5e, 2px 2px 0 #000, /* extra �pixel� edges */
+    box-shadow: inset 4px 3px 5px #ffbf5e, 2px 2px 0 #000, /* extra �pixel� edges */
     4px 4px 0 #000;
 }
 
 #battle-info #fight-btn:hover:not(.active) {
     background: white;
+        box-shadow: inset 4px 3px 5px gray, 2px 2px 0 #000, /* extra �pixel� edges */
+        4px 4px 0 #000;
+
 }
 
 
@@ -241,12 +245,15 @@
     text-align: center;
     background: #34495e;
     padding: 15px;
+    padding-top:25px;
+    padding-bottom:25px;
     width:330px;
     border-radius: 5px;
     margin: 10px 0;
     background-color: #e2b740;
     flex:0;
-
+    margin-top:40px;
+    margin-bottom:40px;
     box-shadow: 5px 5px 10px rgba(160, 96, 65, 0.7);
 }
 .battle-choice-buttons {
