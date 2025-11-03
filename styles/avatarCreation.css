@@ -1,7 +1,7 @@
 /* Add to your existing CSS */
 .modal {
     position: fixed;
-    top: 0px;
+    top: -2px;
   left: -13px;
   width: 2200px;
   height: 1200px;
@@ -17,7 +17,8 @@
     position: relative;
     background-color: #a06041;
     border: 0.8vh solid #534a40;
-    top:0px;
+    top:-55px;
+    left:-140px;
     padding: 40px;
     width: 1600px;
     height: 1000px;
