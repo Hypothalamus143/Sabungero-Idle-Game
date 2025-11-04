@@ -87,7 +87,7 @@ class BattleSystem{
         this.stopBattleLoop();
         
         let lastAttackTime = 0;
-        const attackCooldown = 2000; // 2 seconds
+        const attackCooldown = 2200; // 2 seconds
 
         // Store the function reference for proper removal
         this.battleTickFunction = () => {

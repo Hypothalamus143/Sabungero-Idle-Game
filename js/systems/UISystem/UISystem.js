@@ -87,6 +87,12 @@ class UISystem{
             volume: 0.4,
             preload: true
             });
+        this.takeDamageSound = new Howl({
+            src: ['assets/music/takeDamage.mp3'],
+            loop: false,
+            volume: 2,
+            preload: true
+            });
         
     }
     updateUI() {

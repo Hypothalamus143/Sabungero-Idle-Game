@@ -172,6 +172,10 @@ class AssetManager {
         { url: './assets/music/pugaranBackgroundMusic.mp3', filename: 'pugaran_music.mp3' },
         { url: './assets/music/smokeFight.mp3', filename: 'smokefight_music.mp3' },
         { url: './assets/music/chickenFight.mp3', filename: 'chickenfight_music.mp3' },
+        { url: './assets/music/singleHeart.mp3', filename: 'singleHeart.mp3' },
+        { url: './assets/music/doubleHeart.mp3', filename: 'cdoubleHeart.mp3' },
+        { url: './assets/music/levelUp.mp3', filename: 'levelUp.mp3' },
+        { url: './assets/music/takeDamage.mp3', filename: 'takeDamage.mp3' },
         
         // JSON Maps/Data
         { url: './assets/maps/sabungan_spritesheet.json', filename: 'sabungan_map.json' },
