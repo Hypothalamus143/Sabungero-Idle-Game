@@ -270,10 +270,10 @@ class SabungeroGame {
             ];
             
             this.accessories = [
-                { id: 0, sprite: this.accessoriesPreview[0], name: "Crown" },
-                { id: 1, sprite: this.accessoriesPreview[1], name: "Helmet" },
-                { id: 2, sprite: this.accessoriesPreview[2], name: "Chain" },
-                { id: 3, sprite: this.accessoriesPreview[3], name: "Necklace" }
+                { id: 0, sprite: this.accessoriesPreview[0], name: "Sinulog Crown" },
+                { id: 1, sprite: this.accessoriesPreview[1], name: "Habalhabal Helmet" },
+                { id: 2, sprite: this.accessoriesPreview[2], name: "Chicharon Bag" },
+                { id: 3, sprite: this.accessoriesPreview[3], name: "Dried Mango Necklace" }
             ];
             
             // Initialize selections

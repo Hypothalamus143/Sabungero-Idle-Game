@@ -142,7 +142,7 @@ class LearningSystem{
     static completeLearningQuest(playerStats, contentType, category) {
         // Increase multiplier
         playerStats.multiplier += 1;
-        BrowserDB.savePlayerStats(this.playerStats);
+        BrowserDB.savePlayerStats(playerStats);
         // Show success message
         const modal = document.getElementById('quest-modal');
         const contentDiv = document.getElementById('quest-content');
