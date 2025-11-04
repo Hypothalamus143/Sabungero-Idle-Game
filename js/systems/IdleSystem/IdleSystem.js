@@ -27,6 +27,10 @@ class IdleSystem{
         window.app.uiSystem.updateUI();
         this.hearts.spawnAroundPlayer(window.app.uiSystem.activeKeys.size);
         this.hearts.startAnimation(1000);
+        if(window.app.uiSystem.activeKeys.size == 1)
+            window.app.uiSystem.singleHeartSound.play();
+        else
+            window.app.uiSystem.doubleHeartSound.play();
     }
     levelUp() {
         const currentExp = this.playerStats.experience;
@@ -54,10 +58,6 @@ class IdleSystem{
         this.idleInterval = setInterval(() => {
             if (window.app.uiSystem.activeKeys.size > 0) {
                 this.addIdleExperience();
-                if(window.app.uiSystem.activeKeys.size == 1)
-                    window.app.uiSystem.singleHeartSound.play();
-                else
-                    window.app.uiSystem.doubleHeartSound.play();
             }
         }, 1000);
     }
