@@ -57,6 +57,37 @@ class UISystem{
             volume: 0.4,
             preload: true
             });
+        this.singleHeartSound = new Howl({
+            src: ['assets/music/chickenFight.mp3'],
+            loop: true,
+            volume: 0.4,
+            preload: true
+            });
+        this.singleHeartSound = new Howl({
+            src: ['assets/music/singleHeart.mp3'],
+            loop: false,
+            volume: 0.4,
+            preload: true
+            });
+        this.doubleHeartSound = new Howl({
+            src: ['assets/music/doubleHeart.mp3'],
+            loop: false,
+            volume: 0.4,
+            preload: true
+            });
+        this.tripleHeartSound = new Howl({
+            src: ['assets/music/tripleHeart.mp3'],
+            loop: false,
+            volume: 0.4,
+            preload: true
+            });
+        this.levelUpSound = new Howl({
+            src: ['assets/music/levelUp.mp3'],
+            loop: false,
+            volume: 0.4,
+            preload: true
+            });
+        
     }
     updateUI() {
         document.getElementById('player-level').textContent = this.playerStats.level;

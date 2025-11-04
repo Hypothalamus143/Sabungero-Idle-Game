@@ -37,6 +37,7 @@ class IdleSystem{
             this.playerStats.expNeeded = expNeeded * 2; // Multiply threshold by 2
             window.app.uiSystem.roosters.updateRoosters();
         }
+        window.app.uiSystem.levelUpSound.play();
         this.addRoosterGlow();
     }
     startIdleLoop() {
@@ -53,11 +54,15 @@ class IdleSystem{
         this.idleInterval = setInterval(() => {
             if (window.app.uiSystem.activeKeys.size > 0) {
                 this.addIdleExperience();
+                if(window.app.uiSystem.activeKeys.size == 1)
+                    window.app.uiSystem.singleHeartSound.play();
+                else
+                    window.app.uiSystem.doubleHeartSound.play();
             }
         }, 1000);
     }
     
-    addRoosterGlow(duration = 1000) {
+    addRoosterGlow(duration = 2000) {
         const rooster = window.app.uiSystem.roosters.playerRooster;
         
         // Create multiple glow rings for better effect
