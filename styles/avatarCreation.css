@@ -1,4 +1,4 @@
-/* Add to your existing CSS */
+﻿/* Add to your existing CSS */
 .modal {
     position: fixed;
     top: -2px;
@@ -358,7 +358,7 @@
 .preview-names {
     position:absolute;
     bottom:40px;
-    left:280px;
+    left:228px;
     width: 200px; /* Match canvas width */
     text-align: center;
     padding: 8px;
@@ -367,6 +367,7 @@
     background-color:#a06041;
     box-shadow:5px 5px 10px rgba(160, 96, 65, 0.7);
     border-radius:10px;
+    width:300px;
 }
 
 

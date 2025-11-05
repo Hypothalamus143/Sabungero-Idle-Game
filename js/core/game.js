@@ -263,10 +263,10 @@ class SabungeroGame {
             // Define avatar and accessory options
              
             this.avatars = [
-                { id: 1, sprite: this.roostersPreview[0], name: "Red" },
-                { id: 2, sprite: this.roostersPreview[1], name: "Pink" },
-                { id: 3, sprite: this.roostersPreview[2], name: "Black" },
-                { id: 4, sprite: this.roostersPreview[3], name: "White" }
+                { id: 1, sprite: this.roostersPreview[0], name: "Sugbo" },
+                { id: 2, sprite: this.roostersPreview[1], name: "Yuta" },
+                { id: 3, sprite: this.roostersPreview[2], name: "Kalag" },
+                { id: 4, sprite: this.roostersPreview[3], name: "Maktan" }
             ];
             
             this.accessories = [
