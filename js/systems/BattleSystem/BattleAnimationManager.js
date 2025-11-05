@@ -133,7 +133,9 @@ class BattleAnimationManager{
             window.app.uiSystem.roosters.playerAccessoryRunning.stop();
             window.app.uiSystem.roosters.roostersRunning[this.currentOpponent.appearance.avatarId-1].stop();
             window.app.uiSystem.roosters.accessoriesRunning[this.currentOpponent.appearance.accessoryId].stop();
+            window.app.uiSystem.sabunganMusic.pause();
             window.app.uiSystem.smokeFightSound.play();
+            
             await this.delay(400);
             document.getElementById('battle-result').innerHTML = `
                 <div class="battle-attack">
@@ -143,9 +145,11 @@ class BattleAnimationManager{
                 </div>
             `;
             this.applyDamage(this.damages.playerDamage, this.damages.opponentDamage);
+            //window.app.uiSystem.takeDamageSound.play();
             await this.delay(400);
             this.centerSmokeScreen.stop();
             window.app.uiSystem.smokeFightSound.pause();
+            window.app.uiSystem.sabunganMusic.play();
             window.app.uiSystem.roosters.playerAvatarRunning.play();
             window.app.uiSystem.roosters.playerAccessoryRunning.play();
             window.app.uiSystem.roosters.roostersRunning[this.currentOpponent.appearance.avatarId-1].play();

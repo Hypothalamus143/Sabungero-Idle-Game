@@ -27,6 +27,10 @@ class IdleSystem{
         window.app.uiSystem.updateUI();
         this.hearts.spawnAroundPlayer(window.app.uiSystem.activeKeys.size);
         this.hearts.startAnimation(1000);
+        if(window.app.uiSystem.activeKeys.size == 1)
+            window.app.uiSystem.singleHeartSound.play();
+        else
+            window.app.uiSystem.doubleHeartSound.play();
     }
     levelUp() {
         const currentExp = this.playerStats.experience;
@@ -37,6 +41,7 @@ class IdleSystem{
             this.playerStats.expNeeded = expNeeded * 2; // Multiply threshold by 2
             window.app.uiSystem.roosters.updateRoosters();
         }
+        window.app.uiSystem.levelUpSound.play();
         this.addRoosterGlow();
     }
     startIdleLoop() {
@@ -57,7 +62,7 @@ class IdleSystem{
         }, 1000);
     }
     
-    addRoosterGlow(duration = 1000) {
+    addRoosterGlow(duration = 2000) {
         const rooster = window.app.uiSystem.roosters.playerRooster;
         
         // Create multiple glow rings for better effect
