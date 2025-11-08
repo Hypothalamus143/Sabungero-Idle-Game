@@ -39,10 +39,14 @@ class SabungeroGame {
         BrowserDB.load();
         // Load player stats from BrowserDB instead of backend
         const savedStats = BrowserDB.loadPlayerStats();
+        document.getElementById('game-container').appendChild(window.app.canvas);
         if (savedStats) {
             Object.assign(this.playerStats, savedStats)
         } else {
-           // Show avatar creation instead of auto-creating
+            const cutscene = new VideoCutscene('assets/cutscenes/intro.mp4');
+            await cutscene.play(); // Shows loading → preloads → plays → cleans up
+            document.getElementById('loading-screen').style.display = 'flex';
+            document.getElementById('game-container').style.display = 'none';
             await this.showAvatarCreation();
             document.getElementById('loading-screen').style.display = 'flex';
             document.getElementById('game-container').style.display = 'none';
@@ -50,7 +54,6 @@ class SabungeroGame {
         // Save default stats
         BrowserDB.savePlayerStats(this.playerStats);
         this.learningSystem.initializeDefaultContent();
-        document.getElementById('game-container').appendChild(window.app.canvas);
         
         // Initialize event listeners first
         this.initEventListeners();
@@ -80,7 +83,11 @@ class SabungeroGame {
         document.getElementById('nav-arena').addEventListener('click', () => {
             this.showScreen('arena');
         });
-    
+        
+        document.getElementById('play-cutscene-btn').addEventListener('click', async () => {
+            const cutscene = new VideoCutscene('assets/cutscenes/intro.mp4');
+            await cutscene.play(); // Shows loading → preloads → plays → cleans up
+        });
         // Keyboard listener for idle gains
         document.addEventListener('keydown', (e) => {
             if (this.learningSystem.inputFocused) return;
@@ -131,7 +138,7 @@ class SabungeroGame {
             // REMOVE THIS: e.preventDefault();
         }, { passive: true }); // Add passive: true
         window.addEventListener('beforeunload', () => {
-            this.savePlayerData();
+            //this.savePlayerData();
         });
         window.addEventListener('resize', () => this.updateAllPositions());
     }

@@ -74,10 +74,31 @@
     transition: 0.2s ease-in;
 }
 
-.voice-assets-container.active {
+.play-cutscene{
+    background-color: blue !important;
+}
+
+.play-cutscene-container.active {
   width: 200px; /* stays expanded */
 }
 
+.play-cutscene-container {
+    position:absolute;
+    top:145px;
+    width:55px;
+    overflow:hidden;
+    transition: 0.2s ease-out;
+    box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.play-cutscene-container:hover{
+    width:203px;
+    transition: 0.2s ease-in;
+}
+
+.play-cutscene-container.active {
+  width: 200px; /* stays expanded */
+}
 
 
 #control-panel .icon{
@@ -389,7 +410,7 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
+    z-index: 10001;
     font-family: Arial, sans-serif;
 }
 
