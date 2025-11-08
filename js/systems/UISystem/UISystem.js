@@ -100,7 +100,18 @@ class UISystem{
             volume: 2,
             preload: true
             });
-        
+        this.questComplete = new Howl({
+            src: ['assets/music/questComplete.mp3'],
+            loop: false,
+            volume: 1,
+            preload: true
+            });
+        this.roosterEating = new Howl({
+            src: ['assets/music/roosterEating.mp3'],
+            loop: false,
+            volume: 1,
+            preload: true
+            });
     }
     updateUI() {
         document.getElementById('player-level').textContent = this.playerStats.level;

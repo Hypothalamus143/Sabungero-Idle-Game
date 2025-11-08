@@ -143,6 +143,7 @@ class LearningSystem{
         // Increase multiplier
         playerStats.multiplier += 1;
         BrowserDB.savePlayerStats(playerStats);
+        window.app.uiSystem.questComplete.play();
         // Show success message
         const modal = document.getElementById('quest-modal');
         const contentDiv = document.getElementById('quest-content');

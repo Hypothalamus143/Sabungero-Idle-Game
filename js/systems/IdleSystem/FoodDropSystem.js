@@ -58,17 +58,6 @@ class FoodDropSystem{
             const id = sprite.id;
             const type = this.playerStats.drops[id]["type"];
             this.playerStats.rooster_multiplier += window.app.uiSystem.dropTextures[type]["multiplier"];
-            // const modal = document.getElementById('quest-modal');
-            // modal.style.display = 'flex';
-            // const contentDiv = document.getElementById('quest-content');
-            
-            // contentDiv.innerHTML = `
-            //     <div class="completion-message">
-            //         <h3>Your rooster ate the ${type}!</h3>
-            //         <h1 style="color:black">It'll now grow faster!</h1>
-            //         <p>Its multiplier increased by ${parseInt(window.app.uiSystem.dropTextures[type]["multiplier"])}!</p>
-            //     </div>
-            // `;
             delete this.dropSprites[id];
             delete this.playerStats.drops[id];
             sprite.destroy({
@@ -78,6 +67,7 @@ class FoodDropSystem{
         });
         window.app.uiSystem.updateUI();
         BrowserDB.savePlayerStats(this.playerStats);
+        window.app.uiSystem.roosterEating.play()
         }
     }
     intersects(spriteA, spriteB, collisionScale = 0.5) {
