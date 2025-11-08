@@ -141,6 +141,8 @@ class SabungeroGame {
         if (this.battleSystem.battleStates.isBattleActive) {
             return;
         }
+        if(document.getElementById('voice-button').classList.contains('recording'))
+            return;
         // First, stop any existing idle loop
         if (this.idleInterval) {
             clearInterval(this.idleInterval);

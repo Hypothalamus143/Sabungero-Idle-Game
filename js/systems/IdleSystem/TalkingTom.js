@@ -19,7 +19,8 @@ class TalkingTom{
 
     async startFixedRecording() {
         if (this.isRecording) return;
-        
+        if(!document.getElementById('nav-main').classList.contains('active'))
+            return;
         // Disable button during recording and playback
         this.button.disabled = true;
         this.button.classList.add('recording');
