@@ -191,10 +191,14 @@ class BattleSystem{
             this.playerStats.ranking.mmr += mmrChange;
             this.playerStats.ranking.win_streak++;
             const types= Object.keys(window.app.uiSystem.dropTextures);
-            const dropRate = Object.values(window.app.uiSystem.dropTextures);
+            types.sort((a, b) => {
+                return window.app.uiSystem.dropTextures[a].dropRate - 
+                    window.app.uiSystem.dropTextures[b].dropRate;
+            });
             let type = null;
+            console.log(types);
             for(let i = 0; i < types.length; i++){
-                if(Math.random() < dropRate[i]["dropRate"]){
+                if(Math.random() < window.app.uiSystem.dropTextures[types[i]]["dropRate"]){
                     type = types[i];
                     break;
                 }
@@ -213,7 +217,7 @@ class BattleSystem{
                 `;
             const id = (parseInt(Object.keys(this.playerStats.drops).pop() || "0") + 1).toString();
                 
-                const position = [Math.random() * window.app.screen.width, Math.random() * window.app.screen.height];
+                const position = [Math.random() * window.app.screen.width, Math.random() * (window.app.screen.height/4)];
                 this.playerStats.drops[id] = {"type":type, "position":position};
                 const sprite = this.foodDropSystem.addDrop(id, this.playerStats.drops[id]);
                 sprite.visible = false;
