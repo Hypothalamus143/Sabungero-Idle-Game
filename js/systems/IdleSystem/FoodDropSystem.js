@@ -68,6 +68,12 @@ class FoodDropSystem{
         window.app.uiSystem.updateUI();
         BrowserDB.savePlayerStats(this.playerStats);
         window.app.uiSystem.roosterEating.play()
+        window.app.uiSystem.roosters.updateSingleAvatar(true, "talking");
+        // Play after 1000ms (1 second)
+        setTimeout(() => {
+            window.app.uiSystem.roosters.updateSingleAvatar(true);
+        }, 1000);
+
         }
     }
     intersects(spriteA, spriteB, collisionScale = 0.5) {
