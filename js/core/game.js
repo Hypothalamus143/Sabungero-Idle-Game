@@ -42,6 +42,7 @@ class SabungeroGame {
         document.getElementById('game-container').appendChild(window.app.canvas);
         if (savedStats) {
             Object.assign(this.playerStats, savedStats)
+            this.battleSystem.updateRankFromMMR();
         } else {
             const cutscene = new VideoCutscene('assets/cutscenes/intro.mp4');
             await cutscene.play(); // Shows loading → preloads → plays → cleans up
@@ -357,7 +358,7 @@ class SabungeroGame {
             drops: {},
             ranking: {
                 mmr: 100,
-                rank: "Novice",
+                rank: "Bag-o",
                 rank_tier: 0,
                 win_streak: 0
             },

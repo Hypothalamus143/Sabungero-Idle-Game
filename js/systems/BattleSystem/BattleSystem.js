@@ -148,14 +148,14 @@ class BattleSystem{
     updateRankFromMMR() {
         const mmr = this.playerStats.ranking.mmr;
         const rankVisuals = {
-            0: {rank: "Novice", glow: 0x000000},
-            500: {rank: "Bronze", glow: 0xcd7f32},        // Level 5
-            1000: {rank: "Silver", glow: 0xc0c0c0},       // Level 10
-            1500: {rank: "Gold", glow: 0xffd700},         // Level 15
-            2000: {rank: "Platinum", glow: 0xe5e4e2},     // Level 20
-            2500: {rank: "Diamond", glow: 0xb9f2ff},      // Level 25
-            3000: {rank: "Master", glow: 0xff00ff},       // Level 30
-            3500: {rank: "Grand Sabungero", glow: 0xff0000} // Level 35
+            0: {rank: "Bag-o", glow: 0x000000},
+            500: {rank: "Manokero", glow: 0xcd7f32},        // Level 5
+            1000: {rank: "Manejador", glow: 0xc0c0c0},       // Level 10
+            1500: {rank: "Haciendero", glow: 0xffd700},         // Level 15
+            2000: {rank: "Don", glow: 0xe5e4e2},     // Level 20
+            2500: {rank: "Agalon", glow: 0xb9f2ff},      // Level 25
+            3000: {rank: "Hari", glow: 0xff00ff},       // Level 30
+            3500: {rank: "Sabungero Grande", glow: 0xff0000} // Level 35
         };
         
         let newRank = rankVisuals[0];

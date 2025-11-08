@@ -220,14 +220,14 @@ class BrowserDB {
     }
     static getRankFromMMR(mmr) {
         const RANKING_TIERS = [
-            {"name": "Novice", "min_mmr": 0, "tier": 0},
-            {"name": "Bronze", "min_mmr": 500, "tier": 1},
-            {"name": "Silver", "min_mmr": 1000, "tier": 2},
-            {"name": "Gold", "min_mmr": 1500, "tier": 3},
-            {"name": "Platinum", "min_mmr": 2000, "tier": 4},
-            {"name": "Diamond", "min_mmr": 2500, "tier": 5},
-            {"name": "Master", "min_mmr": 3000, "tier": 6},
-            {"name": "Grand Sabungero", "min_mmr": 3500, "tier": 7}
+            {"name": "Bag-o", "min_mmr": 0, "tier": 0},
+            {"name": "Manokero", "min_mmr": 500, "tier": 1},
+            {"name": "Manejador", "min_mmr": 1000, "tier": 2},
+            {"name": "Haciendero", "min_mmr": 1500, "tier": 3},
+            {"name": "Don", "min_mmr": 2000, "tier": 4},
+            {"name": "Agalon", "min_mmr": 2500, "tier": 5},
+            {"name": "Hari", "min_mmr": 3000, "tier": 6},
+            {"name": "Sabungero Grande", "min_mmr": 3500, "tier": 7}
         ];
         
         // Find the highest tier the MMR qualifies for
