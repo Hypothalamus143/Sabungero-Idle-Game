@@ -27,6 +27,7 @@ class SabungeroGame {
         this.foodDropSystem = new FoodDropSystem(this.playerStats);
         this.battleSystem = new BattleSystem(this.playerStats, this.currentOpponent, this.foodDropSystem);
         this.learningSystem = new LearningSystem(this.playerStats);
+        this.talkingTom = new TalkingTom();
         this.idleSystem = new IdleSystem(this.playerStats);
         this.scaling = new ScaleToFit(1920, 1080);
         this.init();
