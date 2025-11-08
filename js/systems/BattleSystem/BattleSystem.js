@@ -217,7 +217,7 @@ class BattleSystem{
                 `;
             const id = (parseInt(Object.keys(this.playerStats.drops).pop() || "0") + 1).toString();
                 
-                const position = [Math.random() * window.app.screen.width, Math.random() * (window.app.screen.height * 0.25) + 0.75];
+                const position = [Math.random() * window.app.screen.width * 0.6 + window.app.screen.width * 0.2, Math.random() * (window.app.screen.height * 0.125) + (window.app.screen.height * 0.75)];
                 this.playerStats.drops[id] = {"type":type, "position":position};
                 const sprite = this.foodDropSystem.addDrop(id, this.playerStats.drops[id]);
                 sprite.visible = false;
