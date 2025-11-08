@@ -122,6 +122,7 @@ class AssetManager {
         { url: './js/systems/IdleSystem/IdleSystem.js', filename: 'IdleSystem.js' },
         { url: './js/systems/IdleSystem/Hearts.js', filename: 'Hearts.js' },
         { url: './js/systems/IdleSystem/FoodDropSystem.js', filename: 'FoodDropSystem.js' },
+        { url: './js/systems/IdleSystem/TalkingTom.js', filename: 'TalkingTom.js' },
         { url: './js/systems/PlayerSystem/RankManager.js', filename: 'RankManager.js' },
         { url: './js/systems/PlayerSystem/ExperienceManager.js', filename: 'ExperienceManager.js' },
         { url: './js/systems/PlayerSystem/AppearanceManager.js', filename: 'AppearanceManager.js' },

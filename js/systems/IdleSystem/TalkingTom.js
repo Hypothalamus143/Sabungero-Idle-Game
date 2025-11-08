@@ -7,7 +7,7 @@ class TalkingTom{
         this.currentSound = null;
         
         this.button = document.getElementById('voice-button');
-        this.button.addEventListener('click', () => this.toggleRecording());
+        this.button.addEventListener('click', () => this.startFixedRecording());
         
         // Initialize Howler (optional but good practice)
         if (typeof Howl !== 'undefined') {
@@ -15,12 +15,23 @@ class TalkingTom{
         }
     }
 
-    async toggleRecording() {
-        if (!this.isRecording) {
-            await this.startRecording();
-        } else {
-            await this.stopAndPlay();
-        }
+    async startFixedRecording() {
+        if (this.isRecording) return;
+        
+        // Disable button during recording and playback
+        this.button.disabled = true;
+        this.button.textContent = '🎤 Talking...';
+        this.button.classList.add('recording');
+        
+        // Call the existing startRecording method
+        await this.startRecording();
+        
+        // Re-enable button after 10 seconds (5s recording + 5s playback)
+        setTimeout(() => {
+            this.button.disabled = false;
+            this.button.textContent = '🎤 Talk to your chicken!';
+            this.button.classList.remove('recording');
+        }, 10000);
     }
 
     async startRecording() {
@@ -44,7 +55,6 @@ class TalkingTom{
 
             this.mediaRecorder.start();
             this.isRecording = true;
-            this.button.textContent = '⏹️ Stop (3s)';
             this.button.classList.add('recording');
             
             // Auto-stop after 3 seconds (Talking Tom style)
@@ -108,10 +118,17 @@ class TalkingTom{
     cleanupPlayback(audioUrl) {
         URL.revokeObjectURL(audioUrl);
         this.button.classList.remove('playing');
-        this.button.textContent = '🎤 Press to Record';
         this.currentSound = null;
     }
     async playWithTruePitchShift(audioUrl) {
+        window.app.uiSystem.roosters.playerAvatarIdle.gotoAndStop(0);
+        window.app.uiSystem.roosters.playerAccessoryIdle.gotoAndStop(0);
+        // Play after 5000ms (5 seconds)
+        setTimeout(() => {
+            window.app.uiSystem.roosters.playerAvatarIdle.play();
+            window.app.uiSystem.roosters.playerAccessoryIdle.play();
+        }, 5000);
+
         this.button.classList.add('playing');
         this.button.textContent = '🎵 Playing...';
 
@@ -122,18 +139,27 @@ class TalkingTom{
             const arrayBuffer = await response.arrayBuffer();
             const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
-            // Create source
+            // Create all audio nodes
             const source = audioContext.createBufferSource();
+            const gainNode = audioContext.createGain();
+            const filter = audioContext.createBiquadFilter();
+            
+            // Configure nodes
             source.buffer = audioBuffer;
-            
-            // TRUE pitch shift without speed change
-            const pitchRatio = 2.0; // 50% higher pitch
-            
-            // Use detune for pitch shift (cents)
-            source.detune.value = 700; // +700 cents = ~50% higher pitch
+            source.detune.value = 700;    // Higher pitch
             source.playbackRate.value = 1.0; // Normal speed
             
-            source.connect(audioContext.destination);
+            //gainNode.gain.value = 1.8;    // 180% volume
+            gainNode.gain.value = 2.5;    // 250% volume (even louder!)
+            
+            filter.type = 'highpass';
+            filter.frequency.value = 300; // Make voice brighter
+            
+            // Connect: source → filter → gain → destination
+            source.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
             source.start();
             
             source.onended = () => {
