@@ -121,12 +121,10 @@ class TalkingTom{
         this.currentSound = null;
     }
     async playWithTruePitchShift(audioUrl) {
-        window.app.uiSystem.roosters.playerAvatarIdle.gotoAndStop(0);
-        window.app.uiSystem.roosters.playerAccessoryIdle.gotoAndStop(0);
+        window.app.uiSystem.roosters.updateSingleAvatar(true, "talking");
         // Play after 5000ms (5 seconds)
         setTimeout(() => {
-            window.app.uiSystem.roosters.playerAvatarIdle.play();
-            window.app.uiSystem.roosters.playerAccessoryIdle.play();
+            window.app.uiSystem.roosters.updateSingleAvatar(true);
         }, 5000);
 
         this.button.classList.add('playing');

@@ -34,18 +34,18 @@ class Roosters{
         await this.preLoadAnimatedSprites();
     }
 
-    updateRoosters(isBattleActive=false) {
+    updateRoosters(state="idle") {
         console.log('🔄 Updating all roosters');
         // Update player rooster
         if (this.playerStats && this.playerStats.appearance) {
-            this.updateSingleAvatar(true, isBattleActive);
+            this.updateSingleAvatar(true, state);
         } else {
             console.warn('❌ Player stats not loaded yet', 'player: ',this.playerStats, ' opponent:',this.currentOpponent);
         }
         
         // Update opponent rooster if we have one
         if (this.currentOpponent && this.currentOpponent.appearance) {
-            this.updateSingleAvatar(false, isBattleActive);
+            this.updateSingleAvatar(false, state);
         } else {
             console.warn('❌ Opponent stats not loaded yet', ' opponent:',this.currentOpponent);
         }
@@ -79,17 +79,23 @@ class Roosters{
         const jsonIdlePath = "assets/maps/idle_spritesheet.json";
         const jsonRunningPath = "assets/maps/running_spritesheet.json";
         const jsonAccessoryRunningPath = "assets/maps/running_accessories_spritesheet.json";
+        const jsonAvatarTalkingPath = "assets/maps/talking_spritesheet.json";
+        const jsonAccessoryTalkingPath = "assets/maps/talking_accessory.json"
         this.roostersIdle = await this.loadAnimatedSprites(roostersIdlePngPaths, jsonIdlePath);
         this.accessoriesIdle = await this.loadAnimatedSprites(accessoriesIdlePngPaths, jsonIdlePath);
         this.roostersRunning = await this.loadAnimatedSprites(roostersRunningPngPaths, jsonRunningPath);
         this.accessoriesRunning = await this.loadAnimatedSprites(accessoriesRunningPngPaths, jsonAccessoryRunningPath);
         this.playerAvatarIdle = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(roostersIdlePngPaths[this.playerStats.appearance.avatarId-1], jsonIdlePath));
+        this.playerAvatarTalking = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(roostersIdlePngPaths[this.playerStats.appearance.avatarId-1], jsonAvatarTalkingPath));
         this.playerAccessoryIdle = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(accessoriesIdlePngPaths[this.playerStats.appearance.accessoryId], jsonIdlePath));
+        this.playerAccessoryTalking = new PIXI.Sprite((await this.loadCustomSpritesheet(accessoriesIdlePngPaths[this.playerStats.appearance.accessoryId], jsonAccessoryTalkingPath))[0]);
         this.playerAvatarRunning = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(roostersRunningPngPaths[this.playerStats.appearance.avatarId-1], jsonRunningPath));
         this.playerAccessoryRunning = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(accessoriesRunningPngPaths[this.playerStats.appearance.accessoryId], jsonAccessoryRunningPath));
     }
 
-    async updateSingleAvatar(isPlayer, isBattleActive=false) {
+    async updateSingleAvatar(isPlayer, state="idle") {
+        if(state=="talking")
+            console.log(this.playerAccessoryTalking);
         let rooster;
         let stats;
         let avatarSprite;
@@ -97,13 +103,18 @@ class Roosters{
         if(isPlayer){
             this.playerAccessoryIdle.stop();
             this.playerAvatarIdle.stop();
+            this.playerAvatarTalking.stop();
             this.playerAvatarRunning.stop();
             this.playerAccessoryRunning.stop();
             rooster = this.playerRooster;
             stats = this.playerStats;
-            if(isBattleActive){
+            if(state=="battle"){
                 avatarSprite = this.playerAvatarRunning;
                 accessorySprite = this.playerAccessoryRunning;
+            }
+            else if(state == "talking"){
+                avatarSprite = this.playerAvatarTalking
+                accessorySprite = this.playerAccessoryTalking;
             }
             else{
                 avatarSprite = this.playerAvatarIdle;
@@ -116,7 +127,7 @@ class Roosters{
             this.accessoriesIdle?.forEach(sprite => sprite?.stop());
             rooster = this.opponentRooster;
             stats = this.currentOpponent;
-            if(isBattleActive){
+            if(state=="battle"){
                 avatarSprite = this.roostersRunning[stats.appearance.avatarId-1];
                 accessorySprite = this.accessoriesRunning[stats.appearance.accessoryId];
             }
@@ -141,13 +152,16 @@ class Roosters{
         accessorySprite.anchor.set(0.5);
         accessorySprite.width = size * 2;
         accessorySprite.height = size * 2;
-        accessorySprite.animationSpeed = animationSpeed;
+        if(state != "talking")
+            accessorySprite.animationSpeed = animationSpeed;
         
         //Play and Add Simultaneously
         avatarSprite.gotoAndPlay(0); // Reset to frame 0 and play
-        accessorySprite.gotoAndPlay(0);
+        if(state != "talking")
+            accessorySprite.gotoAndPlay(0);
         rooster.addChild(avatarSprite);
         rooster.addChild(accessorySprite);
+        accessorySprite.visibility = true;
     }
 
     async loadCustomSpritesheet(spritesheetImagePath, jsonDataPath) {

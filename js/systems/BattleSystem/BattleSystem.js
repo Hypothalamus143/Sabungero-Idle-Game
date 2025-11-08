@@ -74,7 +74,7 @@ class BattleSystem{
         // Hide both buttons during battle
         document.getElementById('fight-btn').style.display = 'none';
         document.getElementById('battle-btn').style.display = 'none';
-        window.app.uiSystem.roosters.updateRoosters(true);
+        window.app.uiSystem.roosters.updateRoosters("battle");
         // Start the initial approach animation
         window.app.uiSystem.chickenFightSound.play();
         await this.battleAnimationManager.battleApproachAnimation();
