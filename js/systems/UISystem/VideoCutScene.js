@@ -71,7 +71,7 @@ class VideoCutscene {
     
     async hideLoadingScreen() {
         if(!window.app.uiSystem.pugaranMusic){
-            document.querySelector('.loading-text').textContent = 'Click to Reminiscing!';
+            document.querySelector('.loading-text').textContent = 'Click to Reminisce!';
             document.querySelector('.spinner').style.display = "none";
             document.getElementById("loading-screen").style.cursor = "pointer";
             // Wait for user click to start video
