@@ -7,6 +7,8 @@ class TalkingTom{
         this.currentSound = null;
         
         this.button = document.getElementById('voice-button');
+        this.container = document.querySelector('.voice-assets-container'); // highlight ADDED (PLS CHECK HUHU)
+        this.textDiv = this.button.querySelector('.text'); // highlight - ADDED (PLS CHECK HUHU)
         this.button.addEventListener('click', () => this.startFixedRecording());
         
         // Initialize Howler (optional but good practice)
@@ -20,17 +22,18 @@ class TalkingTom{
         
         // Disable button during recording and playback
         this.button.disabled = true;
-        this.button.textContent = '🎤 Talking...';
         this.button.classList.add('recording');
-        
+        this.container.classList.add('active'); // highlight - ADDED (PLS CHECK HUHU)
+        if (this.textDiv) this.textDiv.textContent = " Talking..."; // highlight - ADDED (PLS CHECK HUHU)
         // Call the existing startRecording method
         await this.startRecording();
         
         // Re-enable button after 10 seconds (5s recording + 5s playback)
         setTimeout(() => {
             this.button.disabled = false;
-            this.button.textContent = '🎤 Talk to your chicken!';
             this.button.classList.remove('recording');
+            this.container.classList.remove('active'); // highlight - ADDED (PLS CHECK HUHU)
+            if (this.textDiv) this.textDiv.textContent = " Talk to your chicken!"; // highlight - ADDED (PLS CHECK HUHU)
         }, 10000);
     }
 
@@ -95,7 +98,7 @@ class TalkingTom{
 
     async playWithHowler(audioUrl) {
         this.button.classList.add('playing');
-        this.button.textContent = '🎵 Playing...';
+        if (this.textDiv) this.textDiv.textContent = " Playing..."; // highlight - ADDED (PLS CHECK HUHU)
 
         // Try Web Audio API first for true pitch shift
         if (window.AudioContext) {
@@ -128,7 +131,7 @@ class TalkingTom{
         }, 5000);
 
         this.button.classList.add('playing');
-        this.button.textContent = '🎵 Playing...';
+        if (this.textDiv) this.textDiv.textContent = " Playing..."; // highlight - ADDED (PLS CHECK HUHU)
 
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         

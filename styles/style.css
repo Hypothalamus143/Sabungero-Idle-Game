@@ -1,6 +1,103 @@
 * {
     touch-action: manipulation; /* Apply to all elements */
 }
+
+#control-panel{
+    position: fixed; 
+    top: 2px;
+    left: 3px; 
+    z-index: 10000; 
+    padding: 10px; 
+    padding-top:0px;
+    padding-bottom:5px;
+    border-radius: 8px; 
+    width:250px;
+    height:135px;
+    margin-top:0px;
+}
+
+#control-panel button{
+    background-color:red;
+    top:0px;
+    width:200px;
+    height:40px;
+    text-align:left;
+    padding-bottom:0px;
+    padding-top:0px;
+    margin:2px;
+    border-radius:0px;
+    box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.6);
+}
+
+.download-assets{
+    background-color:green !important;
+}
+
+.download-assets-container{
+    position:absolute;
+    width:55px;
+    overflow:hidden;
+    transition: 0.2s ease-out;
+    box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.download-assets-container:hover{
+    width:203px;
+    transition: 0.2s ease-in;
+}
+
+.clear-assets-container{
+    position:absolute;
+    top:50px;
+    width:55px;
+    overflow:hidden;
+    transition: 0.2s ease-out;
+    box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.clear-assets-container:hover{
+    width:203px;
+    transition: 0.2s ease-in;
+}
+
+.voice-assets-container {
+    position:absolute;
+    top:100px;
+    width:55px;
+    overflow:hidden;
+    transition: 0.2s ease-out;
+    box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.voice-assets-container:hover{
+    width:203px;
+    transition: 0.2s ease-in;
+}
+
+.voice-assets-container.active {
+  width: 200px; /* stays expanded */
+}
+
+
+
+#control-panel .icon{
+    position:absolute;
+    top:13px;
+    left: 20px;
+    width:20px;
+}
+#control-panel .text{
+    position:absolute;
+    top:13px;
+    left: 55px;
+    width:150px;
+}
+
+
+.voice-btn{
+    background-color:#a06041 !important;
+}
+
 html{
     width: 1920px;
     height: 1080px;
@@ -254,6 +351,7 @@ button:hover {
     padding: 1em 2em;
     box-shadow: inset 4px 3px 5px #ffbf5e, 2px 2px 0 #000, /* extra “pixel” edges */
     4px 4px 0 #000;
+    line-height:2;
 }
 
     .nav-btn.active {

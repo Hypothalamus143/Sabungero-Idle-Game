@@ -51,6 +51,7 @@
     padding: 10px 15px;
     box-shadow: inset 4px 3px 5px #ffbf5e, 2px 2px 0 #000, /* extra �pixel� edges */
     4px 4px 0 #000;
+    line-height:2.5;
 }
 
 #battle-info #battle-btn:hover:not(.active) {
@@ -75,6 +76,7 @@
     padding: 10px 15px;
     box-shadow: inset 4px 3px 5px #ffbf5e, 2px 2px 0 #000, /* extra �pixel� edges */
     4px 4px 0 #000;
+    line-height:2.5;
 }
 
 #battle-info #fight-btn:hover:not(.active) {
@@ -199,7 +201,7 @@
 }
 #battle-result{
     margin-top:15px;
-    margin-bottom:5px;;
+    margin-bottom:0px;;
     display:flex;
     flex-direction:column;
     justify-content:center;

@@ -167,7 +167,7 @@
 }
 
 .tab-btn {
-    line-height:1.5;
+    line-height:1.8;
     flex: 0 1 220px;
     color: #ffb94f;
     background: #a06041;
@@ -303,7 +303,7 @@
     padding: 5px 5px;
     vertical-align: middle;
     flex: 0 0 auto;
-    line-height:1.5;
+    line-height:1.8;
 }
 
 #generate-similar:hover {
