@@ -1,7 +1,8 @@
 class BattleSystem{
-    constructor(playerStats, currentOpponent){
+    constructor(playerStats, currentOpponent, foodDropSystem){
         this.playerStats = playerStats;
         this.currentOpponent = currentOpponent;
+        this.foodDropSystem = foodDropSystem;
         this.damages = {};
         this.battleStates = {"isBattleActive":false, battleState:'idle'};
         this.battleEngine = new BattleEngine(playerStats, currentOpponent, this.battleStates);
@@ -137,12 +138,12 @@ class BattleSystem{
     }
 
     updateHPBars(opponentHP, opponentMaxHP, playerHP, playerMaxHP) {
-        const playerHpPercent = (playerHP / playerMaxHP) * 100;
-        const opponentHpPercent = (opponentHP / opponentMaxHP) * 100;
+        const playerHpPercent = Math.max(0, playerHP) / playerMaxHP * 100;
+        const opponentHpPercent = Math.max(0, opponentHP) / opponentMaxHP * 100;
         document.getElementById('player-hp-bar').style.width = `${playerHpPercent}%`;
         document.getElementById('opponent-hp-bar').style.width = `${opponentHpPercent}%`;
         document.getElementById('player-hp-text').textContent = `${playerHP}/${playerMaxHP}`;
-        document.getElementById('opponent-hp-text').textContent = `${opponentHP}/${opponentMaxHP}`;
+        document.getElementById('opponent-hp-text').textContent = `${Math.max(0, opponentHP)}/${Math.max(0, opponentMaxHP)}`;
     }
     updateRankFromMMR() {
         const mmr = this.playerStats.ranking.mmr;
@@ -189,11 +190,39 @@ class BattleSystem{
         if (victory) {
             this.playerStats.ranking.mmr += mmrChange;
             this.playerStats.ranking.win_streak++;
+            const types= Object.keys(window.app.uiSystem.dropTextures);
+            const dropRate = Object.values(window.app.uiSystem.dropTextures);
+            let type = null;
+            for(let i = 0; i < types.length; i++){
+                if(Math.random() < dropRate[i]["dropRate"]){
+                    type = types[i];
+                    break;
+                }
+            }
+            if(type){
+                const modal = document.getElementById('quest-modal');
+                modal.style.display = 'flex';
+                const contentDiv = document.getElementById('quest-content');
+                
+                contentDiv.innerHTML = `
+                    <div class="completion-message">
+                        <h3>Your Opponent Ran Away in Tears!</h3>
+                        <h1 style="color:black">They dropped a ${window.app.uiSystem.dropTextures[type]["name"]}!</h1>
+                        <p>Feed it to your rooster in the Pugaran!</p>
+                    </div>
+                `;
+            const id = (parseInt(Object.keys(this.playerStats.drops).pop() || "0") + 1).toString();
+                
+                const position = [Math.random() * window.app.screen.width, Math.random() * window.app.screen.height];
+                this.playerStats.drops[id] = {"type":type, "position":position};
+                const sprite = this.foodDropSystem.addDrop(id, this.playerStats.drops[id]);
+                sprite.visible = false;
+            }
         } else {
             this.playerStats.ranking.mmr += mmrChange; // mmrChange is negative for losses
             this.playerStats.ranking.win_streak = 0;
         }
-        
+        console.log(this.playerStats.drops);
         // Ensure MMR doesn't go below minimum
         this.playerStats.ranking.mmr = Math.max(100, this.playerStats.ranking.mmr);
         // Update rank

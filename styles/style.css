@@ -62,7 +62,7 @@ input, textarea {
     left: 0;
     width: 1920px;
     height: 1080px;
-    /*pointer-events: none;*/
+    pointer-events: none;
     z-index: 0;
 }
 
@@ -71,7 +71,7 @@ input, textarea {
     background-color: #a06041;
     border: 5px solid #534a40;
     padding: 20px;
-    pointer-events: all;
+    pointer-events: auto;
 }
 
 .stats-panel {
@@ -83,7 +83,7 @@ input, textarea {
     gap: 10px;
     z-index: 100;
     width: 380px;
-    height:280px;
+    height:310px;
 }
 
 .stats-panel .yellow{
@@ -91,7 +91,7 @@ input, textarea {
     top: 7px;
     left: 8px;
     width: 405px;
-    height: 305px;
+    height: 335px;
     background-color: #e2b740;
 }
 
@@ -100,7 +100,7 @@ input, textarea {
     top: 10px;
     left: 10px;
     width: 385px;
-    height: 285px;
+    height: 315px;
     background-color: #fff9ea;
 }
 
@@ -131,51 +131,51 @@ input, textarea {
 }
 
 .stats-panel h3 {
-        font-size:1.4em;
-        position:absolute;
-        font-family: 'Press Start 2P', monospace;
-        text-shadow: 2px 2px 3px rgba(10, 10, 1, 5);
-        color: #ffb94f;
-        position: absolute;
-        bottom: 38px;
-        top:10px;
-        left: 8px;
-        width:380px;
-    }
+    font-size:1.4em;
+    position:absolute;
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 2px 2px 3px rgba(10, 10, 1, 5);
+    color: #ffb94f;
+    position: absolute;
+    bottom: 38px;
+    top:10px;
+    left: 8px;
+    width:380px;
+}
 
-    .battle-panel {
-        scrollbar-width: thin; /* Firefox */
-        scrollbar-color: #ffb94f transparent; /* thumb color + transparent track */
-        display: none;
-        position: absolute;
-        top: 0px;
-        right:-50px;
-        flex-direction: column;
-        width:400px;
-        height:750px;
-    }
-    
-    .battle-panel .yellow {
-        position: absolute;
-        top: 5px;
-        left: 10px;
-        width: 420px;
-        height: 775px;
-        background-color: #e2b740;
-    }
-    
-    .battle-panel .white {
-        display:flex;
-        flex-direction:column;
-        border:2px solid white;
-        gap:0;
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        width: 395px;
-        height: 750px;
-        background-color: #fff9ea;
-    }
+.battle-panel {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #ffb94f transparent; /* thumb color + transparent track */
+    display: none;
+    position: absolute;
+    top: 0px;
+    right:-50px;
+    flex-direction: column;
+    width:400px;
+    height:750px;
+}
+
+.battle-panel .yellow {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    width: 420px;
+    height: 775px;
+    background-color: #e2b740;
+}
+
+.battle-panel .white {
+    display:flex;
+    flex-direction:column;
+    border:2px solid white;
+    gap:0;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 395px;
+    height: 750px;
+    background-color: #fff9ea;
+}
 
 button {
     background-color: #a06041;
@@ -185,12 +185,12 @@ button {
     margin: 5px;
     border-radius: 5px;
     cursor: pointer;
-    pointer-events: all;
+    pointer-events: auto;
 }
 
-    button:hover {
-        background: #bf7856;
-    }
+button:hover {
+    background: #bf7856;
+}
 
 .key-indicator {
     display: inline-block;
@@ -210,9 +210,6 @@ button {
     background: #e74c3c;
     border-color: #c0392b;
 }
-
-
-
 
 .progress-bar {
     height: 20px;
@@ -331,6 +328,8 @@ button {
 }
 
 #game-container {
+    z-index: 0;
     display: none; /* ← Hidden by default */
+    pointer-events: auto;
 }
 

@@ -121,6 +121,7 @@ class AssetManager {
         // Other Systems
         { url: './js/systems/IdleSystem/IdleSystem.js', filename: 'IdleSystem.js' },
         { url: './js/systems/IdleSystem/Hearts.js', filename: 'Hearts.js' },
+        { url: './js/systems/IdleSystem/FoodDropSystem.js', filename: 'FoodDropSystem.js' },
         { url: './js/systems/PlayerSystem/RankManager.js', filename: 'RankManager.js' },
         { url: './js/systems/PlayerSystem/ExperienceManager.js', filename: 'ExperienceManager.js' },
         { url: './js/systems/PlayerSystem/AppearanceManager.js', filename: 'AppearanceManager.js' },
@@ -160,6 +161,11 @@ class AssetManager {
         { url: './assets/accessories/running/accessory3_spritesheet.png', filename: 'accessory3_running.png' },
         { url: './assets/accessories/running/accessory4_spritesheet.png', filename: 'accessory4_running.png' },
         
+        //Food
+        {url: './assets/drops/driedMango.png', filename: 'driedMango.png'},
+        {url: './assets/drops/lechon.png', filename: 'lechon.png'},
+        {url: './assets/drops/otap.png', filename: 'otap.png'},
+        {url: './assets/drops/puso.png', filename: 'puso.png'},
         // Backgrounds
         { url: './assets/backgrounds/sabungan_spritesheet.png', filename: 'sabungan_background.png' },
         { url: './assets/backgrounds/pugaran_background.png', filename: 'pugaran_background.png' },

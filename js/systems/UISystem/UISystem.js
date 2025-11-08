@@ -30,6 +30,19 @@ class UISystem{
         this.sabunganBackground.animationSpeed = 0.1; // Slow animation for background
         this.sabunganBackground.visible = false;
         window.stageContainer.addChildAt(this.sabunganBackground, 1);
+        const dropPaths = {
+            "lechon": {"path":"assets/drops/lechon.png", "name": "Lechon","dimensions":[600, 600], "multiplier":10, "dropRate": 0.02 * 5},
+            "driedMango": {"path":"assets/drops/driedMango.png", "name": "Dried Mango", "dimensions":[300, 300], "multiplier":5, "dropRate": 0.04 * 5},
+            "otap": {"path":"assets/drops/otap.png", "name": "Otap", "dimensions":[300, 300], "multiplier":3, "dropRate": 0.10 * 5},
+            "puso": {"path":"assets/drops/puso.png", "name": "Puso", "dimensions":[300, 300], "multiplier":1, "dropRate": 0.2 * 5}
+        };
+
+        this.dropTextures = {};
+
+        const loadPromises = Object.entries(dropPaths).map(async ([key, value]) => {
+            this.dropTextures[key] = {"texture": await PIXI.Assets.load(value["path"]), "name":value["name"],"dimensions": value["dimensions"], "multiplier":value["multiplier"], "dropRate": value["dropRate"]};
+        });
+        await Promise.all(loadPromises);
         await this.preLoadMusic();
     }
     async preLoadMusic(){
@@ -75,12 +88,6 @@ class UISystem{
             volume: 0.4,
             preload: true
             });
-        this.tripleHeartSound = new Howl({
-            src: ['assets/music/tripleHeart.mp3'],
-            loop: false,
-            volume: 0.4,
-            preload: true
-            });
         this.levelUpSound = new Howl({
             src: ['assets/music/levelUp.mp3'],
             loop: false,
@@ -98,6 +105,7 @@ class UISystem{
     updateUI() {
         document.getElementById('player-level').textContent = this.playerStats.level;
         document.getElementById('player-multiplier').textContent = this.playerStats.multiplier.toFixed(2);
+        document.getElementById('rooster-multiplier').textContent = this.playerStats.rooster_multiplier.toFixed(2);
         document.getElementById('player-exp').textContent = Math.floor(this.playerStats.experience);
         document.getElementById('exp-needed').textContent = this.playerStats.expNeeded;
         

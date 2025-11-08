@@ -86,11 +86,12 @@ class BrowserDB {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 level INTEGER DEFAULT 1,
                 multiplier REAL DEFAULT 1.0,
+                rooster_multiplier REAL DEFAULT 1.0,
                 experience INTEGER DEFAULT 0,
                 exp_needed INTEGER DEFAULT 100,
                 mmr INTEGER DEFAULT 1000,
                 win_streak INTEGER DEFAULT 0,
-                skills_json TEXT DEFAULT '{}',
+                drops TEXT DEFAULT '{}',
                 appearance_json TEXT DEFAULT '{}',
                 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
             );
@@ -155,6 +156,19 @@ class BrowserDB {
                 // Import the saved data into the existing database
                 this.db.close();
                 this.db = new this.db.constructor(data);
+                try{
+                    console.log(this.execute('SELECT drops FROM player_stats WHERE id = 1'));
+                }
+                catch(e){
+                    this.execute(`ALTER TABLE player_stats ADD COLUMN drops JSON DEFAULT '{}'`);
+                    this.execute("ALTER TABLE player_stats DROP COLUMN skills_json");
+                }
+                try{
+                    console.log(this.execute('SELECT rooster_multiplier FROM player_stats WHERE id = 1'));
+                }
+                catch(e){
+                    this.execute(`ALTER TABLE player_stats ADD COLUMN rooster_multiplier REAL DEFAULT 1.0`);
+                }
                 console.log('✅ Database loaded from localStorage!');
             }
         } catch (error) {
@@ -164,16 +178,17 @@ class BrowserDB {
     static savePlayerStats(stats) {
         this.execute(`
             INSERT OR REPLACE INTO player_stats 
-            (id, level, multiplier, experience, exp_needed, mmr, win_streak, skills_json, appearance_json)
-            VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?)
+            (id, level, multiplier,rooster_multiplier, experience, exp_needed, mmr, win_streak, drops, appearance_json)
+            VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `, [
             stats.level,
             stats.multiplier, 
+            stats.rooster_multiplier, 
             stats.experience,
             stats.expNeeded || 100,
             stats.ranking?.mmr || 1000,
             stats.ranking?.win_streak || 0,
-            JSON.stringify(stats.skills || {}),
+            JSON.stringify(stats.drops || {}),
             JSON.stringify(stats.appearance || {})
         ]);
         this.save(); // Persist to localStorage
@@ -188,9 +203,10 @@ class BrowserDB {
             return {
                 level: row.level,
                 multiplier: row.multiplier,
+                rooster_multiplier: row.rooster_multiplier,
                 experience: row.experience,
                 expNeeded: row.exp_needed,
-                skills: JSON.parse(row.skills_json),
+                drops: JSON.parse(row.drops), 
                 ranking: {
                     mmr: row.mmr,
                     rank: rankInfo.name,

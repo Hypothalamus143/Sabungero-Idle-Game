@@ -14,7 +14,7 @@ class IdleSystem{
         if(!document.getElementById('nav-main').classList.contains('active'))
             return;
         const baseGain = window.app.uiSystem.activeKeys.size;
-        const multiplierBonus = this.playerStats.multiplier;
+        const multiplierBonus = this.playerStats.multiplier * this.playerStats.rooster_multiplier;
         const totalGain = baseGain * multiplierBonus;
         
         this.playerStats.experience += totalGain;

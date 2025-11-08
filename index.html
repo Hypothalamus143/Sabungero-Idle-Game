@@ -77,7 +77,8 @@
                         <h3>SABUNGERO STATS</h3>
                         <div id="stats-content" class="stats-content">
                             <p>Level: <span id="player-level">1</span></p>
-                            <p>Multiplier: <span id="player-multiplier">1.0</span>x</p>
+                            <p>Sabungero Multiplier: <span id="player-multiplier">1.0</span>x</p>
+                            <p>Manok Multiplier: <span id="rooster-multiplier">1.0</span>x</p>
                             <p>Experience: <span id="player-exp">0</span>/<span id="exp-needed">100</span></p>
                             <div class="progress-bar">
                                 <div id="exp-bar" class="progress-fill" style="width: 0%"></div>
@@ -398,12 +399,14 @@
                 antialias: true
             });
             window.stageContainer = window.app.stage;
+            //window.app.renderer.addPlugin(PIXI.InteractionManager);
             document.getElementById("file-input").value = "";
         });
     </script>
     <script src="js/systems/UISystem/Roosters.js"></script>
     <script src="js/systems/UISystem/UISystem.js"></script>
     <script src="js/core/config.js"></script>
+    <script src="js/systems/IdleSystem/FoodDropSystem.js"></script>
     <script src="js/systems/BattleSystem/BattleEngine.js"></script>
     <script src="js/systems/BattleSystem/BattleAnimationManager.js"></script>
     <script src="js/systems/BattleSystem/BattleSystem.js"></script>

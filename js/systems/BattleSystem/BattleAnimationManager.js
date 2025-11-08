@@ -145,7 +145,7 @@ class BattleAnimationManager{
                 </div>
             `;
             this.applyDamage(this.damages.playerDamage, this.damages.opponentDamage);
-            //window.app.uiSystem.takeDamageSound.play();
+            window.app.uiSystem.takeDamageSound.play();
             await this.delay(400);
             this.centerSmokeScreen.stop();
             window.app.uiSystem.smokeFightSound.pause();

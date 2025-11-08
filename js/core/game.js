@@ -24,7 +24,8 @@ class SabungeroGame {
         this.keysPressedCount = 0;
         this.lastKeyPressTime = 0;
         window.app.uiSystem = new UISystem(this.playerStats, this.currentOpponent);
-        this.battleSystem = new BattleSystem(this.playerStats, this.currentOpponent);
+        this.foodDropSystem = new FoodDropSystem(this.playerStats);
+        this.battleSystem = new BattleSystem(this.playerStats, this.currentOpponent, this.foodDropSystem);
         this.learningSystem = new LearningSystem(this.playerStats);
         this.idleSystem = new IdleSystem(this.playerStats);
         this.scaling = new ScaleToFit(1920, 1080);
@@ -55,12 +56,15 @@ class SabungeroGame {
         // Create empty rooster containers
         await window.app.uiSystem.preLoadBackgrounds();
         await window.app.uiSystem.roosters.createRoosterContainers();
+        this.foodDropSystem.addDrops();
         await this.idleSystem.hearts.initialize();
         window.app.uiSystem.updateUI();
         this.showScreen("main");
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('game-container').style.display = 'block';
         this.showTutorial();
+        window.app.stage.eventMode = 'static';
+        window.app.stage.hitArea = window.app.screen;
         this.scaling.applyScale();
     }
     initEventListeners() {
@@ -85,7 +89,7 @@ class SabungeroGame {
                 this.lastKeyPressTime = Date.now();
                 this.updateKeyIndicators();
                 
-                // Add experience based on keys pressed and multiplierS
+                // Add experience based on keys pressed and multiplier
                 e.preventDefault();
             }
         });
@@ -171,6 +175,9 @@ class SabungeroGame {
                 window.app.uiSystem.sabunganMusic.pause();
                 window.app.uiSystem.pugaranMusic.play();
                 this.updateAllPositions();
+                Object.values(this.foodDropSystem.dropSprites).forEach(sprite=> {
+                    sprite.visible = true;
+                });
                 this.idleSystem.startIdleLoop();
                 break;
             case 'quests':
@@ -186,7 +193,11 @@ class SabungeroGame {
                 window.app.uiSystem.sabunganMusic.pause();
                 window.app.uiSystem.pugaranMusic.play();
                 this.updateAllPositions();
+                Object.values(this.foodDropSystem.dropSprites).forEach(sprite=> {
+                    sprite.visible = true;
+                });
                 this.learningSystem.showLearningMain();
+                
                 break;
             case 'arena':
                 statsPanel.style.display = 'block';
@@ -210,6 +221,9 @@ class SabungeroGame {
                     this.battleSystem.battleStates.battleState = 'idle';
                 }
                 this.updateAllPositions();
+                Object.values(this.foodDropSystem.dropSprites).forEach(sprite=> {
+                    sprite.visible = false;
+                });
                 this.playerStats.hp = this.playerStats.level * 100;
                 this.battleSystem.updateHPBars(this.currentOpponent.hp ? this.currentOpponent.hp : 100, this.currentOpponent.hp ? this.currentOpponent.hp : 100, this.playerStats.hp, this.playerStats.hp);
                 // Always ensure player is positioned correctly
@@ -327,13 +341,10 @@ class SabungeroGame {
         const defaultStats = {
             level: 1,
             multiplier: 1.0,
+            rooster_multiplier: 1.0,
             experience: 0,
             expNeeded: 100,
-            skills: {
-                knowledge: { level: 1, progress: 0 },
-                technique: { level: 1, progress: 0 },
-                strategy: { level: 1, progress: 0 }
-            },
+            drops: {},
             ranking: {
                 mmr: 100,
                 rank: "Novice",
@@ -380,7 +391,7 @@ class SabungeroGame {
         }
         this.scaling.applyScale();
     }
-
+    
     showTutorial() {
         const modal = document.getElementById('tutorial-modal');
         modal.style.display = 'flex';
