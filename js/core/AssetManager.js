@@ -182,6 +182,8 @@ class AssetManager {
         { url: './assets/music/doubleHeart.mp3', filename: 'cdoubleHeart.mp3' },
         { url: './assets/music/levelUp.mp3', filename: 'levelUp.mp3' },
         { url: './assets/music/takeDamage.mp3', filename: 'takeDamage.mp3' },
+        { url: './assets/music/questComplete.mp3', filename: 'questComplete.mp3' },
+        { url: './assets/music/roosterEating.mp3', filename: 'roosterEating.mp3' },
         
         // JSON Maps/Data
         { url: './assets/maps/sabungan_spritesheet.json', filename: 'sabungan_map.json' },
