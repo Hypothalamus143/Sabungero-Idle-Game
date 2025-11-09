@@ -268,17 +268,17 @@
                             <button id="save-api-key-modal">Save Key</button>
                         </div>
 
-                        <!-- Generate Content -->
-                        <div class="option-section">
-                            <label>Generate AI Content</label>
-                            <button id="generate-ai-now">Generate with AI</button>
-                        </div>
-
                         <!-- File Upload (for future use) -->
                         <div class="option-section">
                             <label>Add Source File (Optional)</label>
                             <input type="file" id="file-input" accept=".txt,.pdf,.docx">
-                            <p class="note">Supported: TXT, PDF, DOCX</p>
+                            <p class="note"><span id="file-name">No file selected</span> TXT, PDF, DOCX</p>
+                        </div>
+
+                         <!-- Generate Content -->
+                        <div class="option-section">
+                            <label>Generate AI Content</label>
+                            <button id="generate-ai-now">Generate with AI</button>
                         </div>
                     </div>
                 </div>
@@ -436,6 +436,10 @@
             //window.app.renderer.addPlugin(PIXI.InteractionManager);
             document.getElementById("file-input").value = "";
             document.getElementById('topic-search').value = "";
+            document.getElementById('file-input').addEventListener('change', function(e) {
+            const fileName = this.files[0] ? this.files[0].name : 'No file selected';
+                document.getElementById('file-name').textContent = fileName;
+            });
         });
     </script>
     <script src="js/systems/UISystem/Roosters.js"></script>

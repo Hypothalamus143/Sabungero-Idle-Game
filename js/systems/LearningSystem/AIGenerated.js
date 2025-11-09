@@ -231,7 +231,6 @@ class AIGenerated{
             return;
         }
         const text = await this.extractTextFromFile(document.getElementById('file-input').files[0]);
-        
         // Show loading state
         const modal = document.getElementById('quest-modal');
         const contentDiv = document.getElementById('quest-content');
