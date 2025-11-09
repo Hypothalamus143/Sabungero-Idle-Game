@@ -71,7 +71,7 @@ class AIGenerated{
     {"questions":[{"question":"","options":["A","B","C","D"],"correct_index":0,"explanation":""}]}
     `,
             reading: `
-    Write a concise 250-word educational article about:
+    Write a concise 500-word educational article about:
     ${topic}.
     `
         };
@@ -127,6 +127,8 @@ class AIGenerated{
         }
     }
     async dummyGenerate(topic, contentType, text) {
+        alert('Error');
+        return;
         let content = null;
 
         if (contentType === "reading") {
@@ -233,7 +235,7 @@ class AIGenerated{
         // Show loading state
         const modal = document.getElementById('quest-modal');
         const contentDiv = document.getElementById('quest-content');
-        contentDiv.innerHTML = '<div class="loading">✨ Generating content with AI...</div>';
+        contentDiv.innerHTML = '<div style="color:black" class="loading">✨ Generating content with AI...</div>';
         modal.style.display = 'block';
         
         let context;

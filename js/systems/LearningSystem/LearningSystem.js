@@ -120,6 +120,7 @@ class LearningSystem{
             });
             tab.classList.add('active');
             this.currentContentType = contentType;
+            
         }
         
         // Update display
@@ -130,9 +131,7 @@ class LearningSystem{
         
         // Restart search if there's text
         const searchTerm = document.getElementById('topic-search').value.trim();
-        if (searchTerm) {
-            this.contentSearch.searchTopics(searchTerm, 1, this.currentContentType);
-        }
+        this.contentSearch.searchTopics(searchTerm, 1, this.currentContentType);
     }
     static completeLearningQuest(playerStats, contentType, category) {
         // Increase multiplier

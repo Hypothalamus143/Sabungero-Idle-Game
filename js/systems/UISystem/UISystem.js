@@ -31,10 +31,10 @@ class UISystem{
         this.sabunganBackground.visible = false;
         window.stageContainer.addChildAt(this.sabunganBackground, 1);
         const dropPaths = {
-            "lechon": {"path":"assets/drops/lechon.png", "name": "Lechon","dimensions":[600, 600], "multiplier":10, "dropRate": 0.02 * 5},
-            "driedMango": {"path":"assets/drops/driedMango.png", "name": "Dried Mango", "dimensions":[300, 300], "multiplier":5, "dropRate": 0.04 * 5},
-            "otap": {"path":"assets/drops/otap.png", "name": "Otap", "dimensions":[300, 300], "multiplier":3, "dropRate": 0.10 * 5},
-            "puso": {"path":"assets/drops/puso.png", "name": "Puso", "dimensions":[300, 300], "multiplier":1, "dropRate": 0.2 * 5}
+            "lechon": {"path":"assets/drops/lechon.png", "name": "Lechon","dimensions":[600, 600], "multiplier":10, "dropRate": 0.02},
+            "driedMango": {"path":"assets/drops/driedMango.png", "name": "Dried Mango", "dimensions":[300, 300], "multiplier":5, "dropRate": 0.04},
+            "otap": {"path":"assets/drops/otap.png", "name": "Otap", "dimensions":[300, 300], "multiplier":3, "dropRate": 0.10},
+            "puso": {"path":"assets/drops/puso.png", "name": "Puso", "dimensions":[300, 300], "multiplier":1, "dropRate": 0.2}
         };
 
         this.dropTextures = {};

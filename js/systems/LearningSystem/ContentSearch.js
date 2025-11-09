@@ -14,7 +14,7 @@ class ContentSearch{
     async searchTopics(searchTerm, page = 1, currentContentType) {
         let results;
         let pagination;
-        if(searchTerm == ""){
+        if(searchTerm == "" && !currentContentType){
             results = await this.fetchLoreResults();
             pagination = {
                 current_page: page,
@@ -161,20 +161,20 @@ class ContentSearch{
                 resultItem.innerHTML = `
                     <span class="result-text">${displayText}</span>
                 `;
-                if(searchTerm != "")
+                if(searchTerm != "" && this.currentContentType)
                     resultItem.innerHTML +=  `<button class="delete-btn" data-content-type="${result.contentType}" data-category="${result.category}">🗑️ Delete</button>`;
                 container.appendChild(resultItem);
                 
                 // Add click event for learning
                 resultItem.querySelector('.result-text').addEventListener('click', () => {
-                    if(searchTerm == "")
+                    if(searchTerm == "" && !this.currentContentType)
                         this.startLearningQuest(result, true);
                     else
                         this.startLearningQuest(result);
                 });
                 
                 // Add click event for delete
-                if(searchTerm != ""){
+                if(searchTerm != "" && this.currentContentType){
                 resultItem.querySelector('.delete-btn').addEventListener('click', (e) => {
                     e.stopPropagation(); // Prevent triggering the learning quest
                     this.deleteContent(result.contentType, result.category);
