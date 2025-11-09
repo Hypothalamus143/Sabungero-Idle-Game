@@ -203,9 +203,9 @@ class AIGenerated{
     }
     async generateWithAI(currentContentType) {
         this.currentContentType = currentContentType;
-        const topic = document.getElementById('topic-search').value.trim();
+        const topic = document.getElementById('gemini-topic').value.trim();
         // Check if any tab is active
-        if (this.currentContentType === null) {
+        if (!this.currentContentType) {
             alert('Please select a content type first!');
             return;
         }

@@ -47,6 +47,12 @@ class LearningSystem{
         document.getElementById('api-key-input-modal').addEventListener('blur', () => {
             this.inputFocused = false;
         });
+        document.getElementById('gemini-topic').addEventListener('focus', () => {
+            this.inputFocused = true;
+        });
+        document.getElementById('gemini-topic').addEventListener('blur', () => {
+            this.inputFocused = false;
+        });
         document.getElementById('topic-search').addEventListener('input', (e) => {
             const term = e.target.value.trim();
             this.contentSearch.searchTopics(term, 1, this.currentContentType);
@@ -74,8 +80,9 @@ class LearningSystem{
         document.getElementById("generate-ai-now").addEventListener("click", async () => {
             // Close the modal first
             document.getElementById("ai-options-modal").style.display = "none";
-            await this.aiGenerated.generateWithAI(this.currentContentType);
-            this.contentSearch.searchTopics(document.getElementById('topic-search').value.trim(), 1, this.currentContentType);
+            const contentType = document.getElementById('study-mode').value
+            await this.aiGenerated.generateWithAI(contentType);
+            this.contentSearch.searchTopics(document.getElementById('topic-search').value.trim(), 1, contentType);
         });
         // Quest modal buttons
         document.getElementById('close-quest').addEventListener('click', () => {

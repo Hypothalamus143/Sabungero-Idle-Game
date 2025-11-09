@@ -440,7 +440,7 @@
     top:100px;
     position: relative;
     width: 500px;
-    height:500px;
+    height:650px;
     background: #a06041;
     border: 2px solid #555;
     border-radius: 10px;
@@ -458,7 +458,7 @@
     left:10px;
     top:10px;
     width:530px;
-    height:530px;
+    height:680px;
     border-radius:10px;
     display:flex;    
     flex-direction: column;

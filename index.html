@@ -261,6 +261,18 @@
                         <div class="ai-name-container">
                             <h2>AI TOOLS & SETTINGS</h2>
                         </div>
+                        <!-- Gemini Search-->
+                        <div class="option-section">
+                            <label>Search With Gemini</label>
+                            <input type="text" id="gemini-topic" placeholder="Queen City of the South">
+                            <label for="study-mode">Select Study Mode:</label>
+                            <select id="study-mode" name="study-mode">
+                                <option value="">-- Choose a mode --</option>
+                                <option value="reading">📖 Reading</option> 
+                                <option value="flashcards">🎴 Flashcards</option>
+                                <option value="quiz">❓ Quiz</option>
+                            </select>
+                        </div>
                         <!-- API Key Section -->
                         <div class="option-section">
                             <label for="api-key-input-modal"> Gemini API Key</label>
@@ -317,7 +329,7 @@
                     <div class="white">
 
 
-                        <h2>CREATE YOUR ROOSTER!</h2>
+                        <h2>CHOOSE YOUR ROOSTER!</h2>
 
                         <div class="showcase">
 
@@ -436,6 +448,8 @@
             //window.app.renderer.addPlugin(PIXI.InteractionManager);
             document.getElementById("file-input").value = "";
             document.getElementById('topic-search').value = "";
+            document.getElementById("study-mode").value = "";
+            document.getElementById('gemini-topic').value = "";
             document.getElementById('file-input').addEventListener('change', function(e) {
             const fileName = this.files[0] ? this.files[0].name : 'No file selected';
                 document.getElementById('file-name').textContent = fileName;
