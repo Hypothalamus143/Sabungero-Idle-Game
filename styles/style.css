@@ -58,12 +58,12 @@
     width:50px !important;
     height:50px !important;
     border-radius:1000px !important;
-    background-color:#ffb94f !important;
+    background-color:gainsboro !important;
     transition: 0.2s ease-in;
     font-size:20px;
     color:black;
     border:2px solid rgb(83, 74, 64);
-    box-shadow: inset 4px 3px 5px #ffbf5e, 2px 2px 0 #000, /* extra “pixel” edges */
+    box-shadow: inset 4px 3px 5px white, 2px 2px 0 #000, /* extra “pixel” edges */
     4px 4px 0 #000;
     text-align:left !important; 
     display: flex;               
@@ -72,8 +72,6 @@
     padding-left: 15px;  
     padding-top:-15px;      
 }
-
-
 
 .control-panel-toggle:hover{
     border-radius:1000px !important;

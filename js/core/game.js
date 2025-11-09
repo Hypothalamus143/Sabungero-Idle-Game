@@ -44,6 +44,7 @@ class SabungeroGame {
             Object.assign(this.playerStats, savedStats)
             this.battleSystem.updateRankFromMMR();
         } else {
+            this.scaling.applyScale();
             const cutscene = new VideoCutscene('assets/cutscenes/intro.mp4');
             await cutscene.play(); // Shows loading → preloads → plays → cleans up
             document.getElementById('loading-screen').style.display = 'flex';
