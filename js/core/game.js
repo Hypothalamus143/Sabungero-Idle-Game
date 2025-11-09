@@ -203,6 +203,8 @@ class SabungeroGame {
                 window.app.uiSystem.pugaranMusic.pause();
                 window.app.uiSystem.sabunganMusic.pause();
                 window.app.uiSystem.pugaranMusic.play();
+                const term = document.getElementById('topic-search').value.trim();
+                this.learningSystem.contentSearch.searchTopics(term, 1, this.learningSystem.currentContentType);
                 this.updateAllPositions();
                 Object.values(this.foodDropSystem.dropSprites).forEach(sprite=> {
                     sprite.visible = true;

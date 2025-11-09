@@ -6,7 +6,7 @@ class ReadingManager{
     async init(){
 
     }
-    showReadingContent(content, category) {
+    showReadingContent(content, category, lore = false) {
         const paragraphs = content.content.split('\n\n').filter(p => p.trim());
         const paragraphsPerPage = 2;
         const totalPages = Math.ceil(paragraphs.length / paragraphsPerPage);
@@ -39,7 +39,7 @@ class ReadingManager{
                         <button id="next-page" disabled>Next →</button>
                     </div>
                     <div class="reading-controls">
-                        <button id="mark-completed" 
+                       <button id="mark-completed" 
                                 ${currentPage === totalPages - 1 ? '' : 'style="display: none;"'}
                                 ${currentPage === totalPages - 1 && !timerActive ? '' : 'disabled'}>
                             ✅ Mark as Completed
@@ -48,6 +48,8 @@ class ReadingManager{
                 </div>
             `;
             document.getElementById('quest-content').innerHTML = html;
+            if(lore)
+                document.querySelector(".reading-controls").innerHTML = '';
             this.setupReadingEventListeners();
         };
         

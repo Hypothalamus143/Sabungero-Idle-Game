@@ -1,21 +1,38 @@
 class ContentSearch{
-    constructor(readingManager, flashcardsManager, quizManager, aiGenerated){
+    constructor(readingManager, flashcardsManager, quizManager, aiGenerated, playerStats){
         this.readingManager = readingManager;
         this.flashcardsManager = flashcardsManager;
         this.quizManager = quizManager;
         this.aiGenerated = aiGenerated;
+        this.playerStats = playerStats;
         this.init();
     }
     async init(){
-
+        this.response = await fetch('defaultContent/lore.json');
+        this.frameData = await this.response.json();
     }
     async searchTopics(searchTerm, page = 1, currentContentType) {
+        let results;
+        let pagination;
+        if(searchTerm == ""){
+            results = await this.fetchLoreResults();
+            pagination = {
+                current_page: page,
+                total_pages: 1,
+                total_items: 0,
+                items_per_page: 10,
+                has_next: false,
+                has_prev: false
+            };
+            this.showSearchResults(results, searchTerm, pagination);
+            return;
+        }
         this.currentContentType = currentContentType;
         console.log("🔍 Searching BrowserDB for:", searchTerm, "Active tab:", this.currentContentType, "Page:", page);
         
         try {
-            let results = [];
-            let pagination = {
+            results = [];
+            pagination = {
                 current_page: page,
                 total_pages: 1,
                 total_items: 0,
@@ -129,7 +146,6 @@ class ContentSearch{
 
     showSearchResults(results, searchTerm, pagination) {
         document.getElementById('search-results').style.display = 'block';
-        
         const container = document.getElementById('results-container');
         container.innerHTML = ''; // Always clear first
         
@@ -144,27 +160,40 @@ class ContentSearch{
                     
                 resultItem.innerHTML = `
                     <span class="result-text">${displayText}</span>
-                    <button class="delete-btn" data-content-type="${result.contentType}" data-category="${result.category}">🗑️ Delete</button>
                 `;
-                
+                if(searchTerm != "")
+                    resultItem.innerHTML +=  `<button class="delete-btn" data-content-type="${result.contentType}" data-category="${result.category}">🗑️ Delete</button>`;
                 container.appendChild(resultItem);
                 
                 // Add click event for learning
                 resultItem.querySelector('.result-text').addEventListener('click', () => {
-                    this.startLearningQuest(result);
+                    if(searchTerm == "")
+                        this.startLearningQuest(result, true);
+                    else
+                        this.startLearningQuest(result);
                 });
                 
                 // Add click event for delete
+                if(searchTerm != ""){
                 resultItem.querySelector('.delete-btn').addEventListener('click', (e) => {
                     e.stopPropagation(); // Prevent triggering the learning quest
                     this.deleteContent(result.contentType, result.category);
                 });
+                }
             });
         } else {
             container.innerHTML = '<p>No topics found.</p>';
         }
         
         this.addSearchPagination(pagination, searchTerm);
+    }
+    async fetchLoreResults(){
+        let results = [];
+        Object.keys(this.frameData).forEach(key => {
+            if(this.playerStats.ranking.mmr > this.frameData[key]["MMR"])
+                results.push({"category":key+" Lore", "contentType":"reading"});
+        });
+        return results;
     }
     async deleteContent(contentType, category) {
         if (!confirm(`Are you sure you want to delete "${category}" (${contentType})? This cannot be undone!`)) {
@@ -253,7 +282,11 @@ class ContentSearch{
             alert('Failed to delete content');
         }
     }
-    async startLearningQuest(result) {
+    async startLearningQuest(result, lore = false) {
+        if(lore){
+            this.readingManager.showReadingContent(this.frameData[this.playerStats.ranking.rank], result["category"], lore);
+            return;
+        }
         try {
             // Now we have the full result object with contentType and category
             const { contentType, category } = result;

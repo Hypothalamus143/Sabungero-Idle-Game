@@ -6,7 +6,7 @@ class LearningSystem{
         this.flashcardsManager = new FlashcardsManager(this.playerStats);
         this.quizManager = new QuizManager(this.playerStats);
         this.aiGenerated = new AIGenerated();
-        this.contentSearch = new ContentSearch(this.readingManager, this.flashcardsManager, this.quizManager, this.aiGenerated);
+        this.contentSearch = new ContentSearch(this.readingManager, this.flashcardsManager, this.quizManager, this.aiGenerated, this.playerStats);
         this.default_content = new DefaultContent();
         this.init();
     }
@@ -49,12 +49,7 @@ class LearningSystem{
         });
         document.getElementById('topic-search').addEventListener('input', (e) => {
             const term = e.target.value.trim();
-            if (term.length === 0) {
-                this.contentSearch.showSearchResults([], term, null);
-                document.getElementById('search-results').style.display = 'none';
-            } else {
-                this.contentSearch.searchTopics(term, 1, this.currentContentType);
-            }
+            this.contentSearch.searchTopics(term, 1, this.currentContentType);
         });
         //Learning Tab Buttons
         document.getElementById('tab-reading').addEventListener('click', () => {
