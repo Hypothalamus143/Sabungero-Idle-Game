@@ -88,6 +88,8 @@ class AssetManager {
         { url: './', filename: 'index.html' },
         { url: './sw.js', filename: 'sw.js' },
         { url: './manifest.json', filename: 'manifest.json' },
+        //Default Content
+        { url: './defaultContent/lore.json', filename: 'lore.json' },
         // CSS Files
         { url: './styles/style.css', filename: 'style.css' },
         { url: './styles/battlePanel.css', filename: 'battlePanel.css' },
@@ -129,6 +131,7 @@ class AssetManager {
         { url: './js/systems/UISystem/UISystem.js', filename: 'UISystem.js' },
         { url: './js/systems/UISystem/ScaleToFit.js', filename: 'ScaleToFit.js' },
         { url: './js/systems/UISystem/Roosters.js', filename: 'Roosters.js' },
+        { url: './js/systems/UISystem/VideoCutScene.js', filename: 'VideoCutScene.js' },
         
         // Utils
         { url: './js/utils/pixi.js', filename: 'pixi.js' },
@@ -170,6 +173,7 @@ class AssetManager {
         // Backgrounds
         { url: './assets/backgrounds/sabungan_spritesheet.png', filename: 'sabungan_background.png' },
         { url: './assets/backgrounds/pugaran_background.png', filename: 'pugaran_background.png' },
+        { url: './assets/backgrounds/chicken_shadow.png', filename: 'chicken_shadow.png' },
         
         // Smokescreen
         { url: './assets/smokescreen/battle_spritesheet.png', filename: 'smokescreen_battle.png' },
@@ -185,13 +189,15 @@ class AssetManager {
         { url: './assets/music/takeDamage.mp3', filename: 'takeDamage.mp3' },
         { url: './assets/music/questComplete.mp3', filename: 'questComplete.mp3' },
         { url: './assets/music/roosterEating.mp3', filename: 'roosterEating.mp3' },
-        
+        //Cutscenes 
+        { url: './assets/cutscenes/intro.mp4', filename: 'intro.mp4' },
         // JSON Maps/Data
         { url: './assets/maps/sabungan_spritesheet.json', filename: 'sabungan_map.json' },
         { url: './assets/maps/running_spritesheet.json', filename: 'running_map.json' },
         { url: './assets/maps/running_accessories_spritesheet.json', filename: 'running_accessories_map.json' },
         { url: './assets/maps/idle_spritesheet.json', filename: 'idle_map.json' },
-        { url: './assets/maps/smokescreen_spritesheet.json', filename: 'smokescreen_map.json' }
+        { url: './assets/maps/talking_accessory.json', filename: 'talking_accessory.json' },
+        { url: './assets/maps/talking_spritesheet.json', filename: 'talking_spritesheet.json' }
     ];
 }
     async clearAllAssets() {

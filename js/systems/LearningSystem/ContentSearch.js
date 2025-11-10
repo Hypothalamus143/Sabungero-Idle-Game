@@ -283,14 +283,14 @@ class ContentSearch{
         }
     }
     async startLearningQuest(result, lore = false) {
+        // Now we have the full result object with contentType and category
         if(lore){
-            this.readingManager.showReadingContent(this.frameData[this.playerStats.ranking.rank], result["category"], lore);
+            const categoryLore = result["category"].split(" ")[0];
+            this.readingManager.showReadingContent(this.frameData[categoryLore], result["category"], lore);
             return;
         }
+        const { contentType, category } = result;
         try {
-            // Now we have the full result object with contentType and category
-            const { contentType, category } = result;
-            
             // Use BrowserDB to get the actual content
             const content = this.getContentFromBrowserDB(contentType, category);
             document.getElementById('blur').classList.add('blur-overlay');

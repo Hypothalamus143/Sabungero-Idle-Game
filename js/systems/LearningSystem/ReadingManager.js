@@ -8,7 +8,9 @@ class ReadingManager{
     }
     showReadingContent(content, category, lore = false) {
         const paragraphs = content.content.split('\n\n').filter(p => p.trim());
-        const paragraphsPerPage = 2;
+        let paragraphsPerPage = 2;
+        if(lore)
+            paragraphsPerPage = 1;
         const totalPages = Math.ceil(paragraphs.length / paragraphsPerPage);
         let currentPage = 0;
         let timerActive = true;
