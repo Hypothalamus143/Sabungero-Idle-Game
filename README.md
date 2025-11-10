@@ -51,7 +51,7 @@ Put your training to the test and climb the ranks!
 1.  **Choose Your Rooster:** Pick your first feathered fighter in the **Pugaran**.
 2.  **Train and Feed:** Start holding keys to level up and find food to increase your multiplier.
 3.  **Visit the Skwelahan:** Boost your player multiplier by engaging with the learning modules.
-4.  **Enter the Sabungan:** Test your might in the arena, earn more food, and climb the leaderboards!
+4.  **Enter the Sabungan:** Test your might in the arena, earn more food, and climb your way to the top!
 5.  **Unlock the Story:** Your journey to becoming the Grand Sabungero holds a secret... what *really* happens after you were left behind?
 
 ---
