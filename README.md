@@ -65,3 +65,20 @@ This game supports user-provided Gemini API keys for generating dynamic content.
 ---
 
 **Ready to begin your legacy? Start playing now and show the world you're no loser!**
+
+---
+
+## 📄 ATTRIBUTION & CREDITS
+
+This game uses third-party assets under their respective licenses:
+
+### 🎵 Music
+- "Purity" by BigRicePiano - [YouTube Source](https://youtu.be/Lox_jyvBBEk?si=-fE1yKuhVmfCj4CV)
+- "Run" by Ross Bugden - [YouTube Source](https://youtu.be/Gsp3w9GD7-g?si=VQJJnRyxhOJvbDQF)  
+- "Fun On The Farm" - [YouTube Source](https://youtu.be/KQZ7kGVGcEg?si=VMRi80sFuOIITnKs)
+
+### 🎧 Sound Effects
+- Sound effects from Pixabay (Various creators)
+- Additional audio processing via CapCut
+
+*All music used under appropriate licenses for non-commercial/free game use.*

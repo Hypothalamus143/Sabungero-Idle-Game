@@ -301,7 +301,7 @@ class SabungeroGame {
                 { id: 0, sprite: this.accessoriesPreview[0], name: "Sinulog Crown" },
                 { id: 1, sprite: this.accessoriesPreview[1], name: "Habalhabal Helmet" },
                 { id: 2, sprite: this.accessoriesPreview[2], name: "Dried Mango Necklace" },
-                { id: 3, sprite: this.accessoriesPreview[3], name: "Chicharon Bag" }
+                { id: 3, sprite: this.accessoriesPreview[3], name: "Chicharon Charm" }
             ];
             
             // Initialize selections
