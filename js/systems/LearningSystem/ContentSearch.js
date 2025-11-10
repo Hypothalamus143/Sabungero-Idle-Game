@@ -14,6 +14,7 @@ class ContentSearch{
     async searchTopics(searchTerm, page = 1, currentContentType) {
         let results;
         let pagination;
+        this.currentContentType = currentContentType;
         if(searchTerm == "" && !currentContentType){
             results = await this.fetchLoreResults();
             pagination = {
@@ -27,7 +28,6 @@ class ContentSearch{
             this.showSearchResults(results, searchTerm, pagination);
             return;
         }
-        this.currentContentType = currentContentType;
         console.log("🔍 Searching BrowserDB for:", searchTerm, "Active tab:", this.currentContentType, "Page:", page);
         
         try {

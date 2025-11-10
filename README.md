@@ -70,6 +70,12 @@ This game supports user-provided Gemini API keys for generating dynamic content.
 
 ## 📄 ATTRIBUTION & CREDITS
 
+### 👥 **Development Team**
+- **John Prince Alonte** - [Senior Developer]
+- **Darryll Eral** - [Junior Developer]
+- **Raymundo Alcontin** - [Junior Developer/UI] 
+- **Zaki Almodiel** - [Graphic Design]
+
 This game uses third-party assets under their respective licenses:
 
 ### 🎵 Music
