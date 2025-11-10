@@ -24,8 +24,9 @@ This is your home base where you bond with and train your champion.
 Sharpen your mind to empower your rooster! A strong mind makes for a strong fighter.
 
 *   **📚 Learn to Earn:** Read articles, study with flashcards, or take quizzes to increase your *player's multiplier*, which boosts your overall progress.
-*   **🧠 AI-Powered Content:** Get a Gemini API key to generate endless Bisaya-related learning content on the fly!
+*   **🧠 AI-Powered Content:** Get a Gemini API key to generate endless learning content on the fly!
 *   **📄 Your Own Materials:** Upload your own files (text, PDFs) and let Gemini create custom reading materials, flashcards, and quizzes from them.
+*   **🏝️ Cebuano Content:** Enjoy some built in cebuano content!
 *   **📖 Unlock the Story:** Progress through the game to discover what happened after your ex left you!
 
 ### 3. **Sabungan (The Cockfight Arena)**
