@@ -10,6 +10,7 @@ class Roosters{
         this.playerAccessoryIdle = null;
         this.playerAvatarRunning = null;
         this.playerAccessoryRunning = null;
+        this.playerAvatarShadow = null;
         this.init();
     }
     async init(){
@@ -81,6 +82,7 @@ class Roosters{
         const jsonAccessoryRunningPath = "assets/maps/running_accessories_spritesheet.json";
         const jsonAvatarTalkingPath = "assets/maps/talking_spritesheet.json";
         const jsonAccessoryTalkingPath = "assets/maps/talking_accessory.json"
+        const shadowPngPath = "assets/backgrounds/chicken_shadow.png";
         this.roostersIdle = await this.loadAnimatedSprites(roostersIdlePngPaths, jsonIdlePath);
         this.accessoriesIdle = await this.loadAnimatedSprites(accessoriesIdlePngPaths, jsonIdlePath);
         this.roostersRunning = await this.loadAnimatedSprites(roostersRunningPngPaths, jsonRunningPath);
@@ -91,7 +93,8 @@ class Roosters{
         this.playerAccessoryTalking = new PIXI.Sprite((await this.loadCustomSpritesheet(accessoriesIdlePngPaths[this.playerStats.appearance.accessoryId], jsonAccessoryTalkingPath))[0]);
         this.playerAvatarRunning = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(roostersRunningPngPaths[this.playerStats.appearance.avatarId-1], jsonRunningPath));
         this.playerAccessoryRunning = new PIXI.AnimatedSprite(await this.loadCustomSpritesheet(accessoriesRunningPngPaths[this.playerStats.appearance.accessoryId], jsonAccessoryRunningPath));
-    }
+        this.playerAvatarShadow = new PIXI.Sprite(await PIXI.Assets.load(shadowPngPath));
+    }   
 
     async updateSingleAvatar(isPlayer, state="idle") {
         if(state=="talking")
@@ -99,7 +102,8 @@ class Roosters{
         let rooster;
         let stats;
         let avatarSprite;
-        let accessorySprite;    
+        let accessorySprite;
+        let avatarShadow;    
         if(isPlayer){
             this.playerAccessoryIdle.stop();
             this.playerAvatarIdle.stop();
@@ -119,6 +123,7 @@ class Roosters{
             else{
                 avatarSprite = this.playerAvatarIdle;
                 accessorySprite = this.playerAccessoryIdle;
+                avatarShadow = this.playerAvatarShadow;
             }
         }
         else{
@@ -152,6 +157,12 @@ class Roosters{
         accessorySprite.anchor.set(0.5);
         accessorySprite.width = size * 2;
         accessorySprite.height = size * 2;
+        if(state == "idle" && document.getElementById('nav-main').classList.contains('active')){
+            avatarShadow.anchor.set(0.5);
+            avatarShadow.width = size * 2;
+            avatarShadow.height = size*2;
+            rooster.addChild(avatarShadow);
+        }
         if(state != "talking")
             accessorySprite.animationSpeed = animationSpeed;
         
