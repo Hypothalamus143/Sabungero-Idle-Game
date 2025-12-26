@@ -119,6 +119,7 @@ class Roosters{
             else if(state == "talking"){
                 avatarSprite = this.playerAvatarTalking
                 accessorySprite = this.playerAccessoryTalking;
+                avatarShadow = this.playerAvatarShadow;
             }
             else{
                 avatarSprite = this.playerAvatarIdle;
@@ -157,7 +158,7 @@ class Roosters{
         accessorySprite.anchor.set(0.5);
         accessorySprite.width = size * 2;
         accessorySprite.height = size * 2;
-        if(state == "idle" && document.getElementById('nav-main').classList.contains('active')){
+        if(state != "battle" && document.getElementById('nav-main').classList.contains('active')){
             avatarShadow.anchor.set(0.5);
             avatarShadow.width = size * 2;
             avatarShadow.height = size*2;
